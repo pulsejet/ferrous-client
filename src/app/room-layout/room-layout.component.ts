@@ -269,49 +269,44 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     public allot() {
 
         /* Validate */
-        for (const room of this.rooms) {
-            if (room.selected) {
+        for (const room of this.rooms.filter(r => r.selected === true)) {
+            /* Status */
+            if (room.status !== 1) {
+                /* Show error */
+                this.snackBar.open('Non-allocable room ' + room.roomName, 'Dismiss', {
+                    duration: 2000,
+                });
+                console.log('Non-allocable room ' + room.roomName);
+                return;
+            }
 
-                /* Status */
-                if (room.status !== 1) {
-                    /* Show error */
-                    this.snackBar.open('Non-allocable room ' + room.roomName, 'Dismiss', {
-                        duration: 2000,
-                    });
-                    console.log('Non-allocable room ' + room.roomName);
-                    return;
-                }
+            /* Partial */
+            if ((room.partialallot || this.checkPartial(room)) &&
+                (!this.dataService.CheckValidNumber(room.partialsel, 1))) {
 
-                /* Partial */
-                if ((room.partialallot || this.checkPartial(room)) &&
-                    (!this.dataService.CheckValidNumber(room.partialsel, 1))) {
-
-                    /* Show error */
-                    this.snackBar.open('Invalid partial capacity for ' + room.roomName, 'Dismiss', {
-                        duration: 2000,
-                    });
-                    console.log('Invalid partial capacity for ' + room.roomName);
-                    return;
-                }
+                /* Show error */
+                this.snackBar.open('Invalid partial capacity for ' + room.roomName, 'Dismiss', {
+                    duration: 2000,
+                });
+                console.log('Invalid partial capacity for ' + room.roomName);
+                return;
             }
         }
 
-        for (const room of this.rooms) {
-            if (room.selected) {
-                this.dataService.AllotRoom(room).subscribe(result => {
-                    /* Add new allocation */
-                    room.roomAllocation.push(result);
+        for (const room of this.rooms.filter(r => r.selected === true)) {
+            this.dataService.AllotRoom(room).subscribe(result => {
+                /* Add new allocation */
+                room.roomAllocation.push(result);
 
-                    /* Unmark the room and update graphic */
-                    room.selected = false;
-                    this.assignRoom(room);
-                }, (): void => {
-                    /* Show error */
-                    this.snackBar.open('Allotment failed for ' + room.roomName, 'Dismiss', {
-                        duration: 2000,
-                    });
+                /* Unmark the room and update graphic */
+                room.selected = false;
+                this.assignRoom(room);
+            }, (): void => {
+                /* Show error */
+                this.snackBar.open('Allotment failed for ' + room.roomName, 'Dismiss', {
+                    duration: 2000,
                 });
-            }
+            });
         }
     }
 
