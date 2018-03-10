@@ -419,4 +419,26 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         return ('#room-' + room.location + '-' + room.roomName).replace(/\s+/, '');
     }
 
+    public hasUnmarkableRoomSelected(): boolean {
+        for (const room of this.rooms.filter(r => r.selected === true)) {
+            if (!this.dataService.CheckIfLink(room.links, 'mark')) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public hasUnallotableRoomSelected(): boolean {
+        for (const room of this.rooms.filter(r => r.selected === true)) {
+            if (!this.dataService.CheckIfLink(room.links, 'allot') ||
+                room.status !== 1 ||
+                ((room.partialallot || this.checkPartial(room)) &&
+                    (!this.dataService.CheckValidNumber(room.partialsel, 1)))
+                ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
