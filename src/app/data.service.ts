@@ -135,11 +135,11 @@ export class DataService {
      * Fire a link and return the result as an observable
      * @param link Link to fire
      * @param body Optional body to upload only for POST and PUT requests
+     * @param options Optional query or URL parameters to fill
      */
     FireLink<T>(link: Link, body: any = null, options: any = {}): Observable<T> {
         /* Fill in parameters */
-        const URITemplate = uriTemplates(link.href);
-        const URL = URITemplate.fill(options);
+        const URL = this.FillURITemplate(link, options).href;
 
         /* Use the correct verb */
         switch (link.method) {
@@ -154,6 +154,21 @@ export class DataService {
             default:
                 throw new Error('no method defined for ' + URL);
         }
+    }
+
+    /**
+     * Returns a copy of a Link with filled template fields
+     * @param link Link with URI template
+     * @param options Parameter data to fill
+     */
+    FillURITemplate(link: Link, options: any): Link {
+        /* A copy is returned to prevent modifying the original
+         * This is necessary since the template may be static
+         * e.g. in the API spec */
+        const newLink = { ... link };
+        const URITemplate = uriTemplates(link.href);
+        newLink.href = URITemplate.fill(options);
+        return newLink;
     }
 
     /* === Navigate - voids === */
