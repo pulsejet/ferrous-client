@@ -23,7 +23,7 @@ export class ContingentArrivalDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<ContingentArrivalDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private dataService: DataService) {
+        public dataService: DataService) {
         this.contingentArrivals = data['ca'];
         this.CLNo = data['clno'];
         this.links = data['links'];

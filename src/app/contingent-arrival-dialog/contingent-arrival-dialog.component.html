@@ -1,7 +1,7 @@
 ﻿<h1 mat-dialog-title>Contingent Arrival</h1>
 
 <div mat-dialog-content>
-    <div *ngIf="nContingentArrv"
+    <div *ngIf="nContingentArrv && dataService.CheckIfLink(this.links, 'create_contingent_arrival')"
          fxLayout.xs="column"
          fxLayoutGap="8px"
          fxLayoutGap.xs="3px"
