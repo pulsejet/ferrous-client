@@ -17,7 +17,8 @@
 </div>
 
 <div mat-dialog-actions>
-    <button mat-button (click)="confirmSelection()" color="primary">
+    <button mat-button (click)="confirmSelection()" color="primary"
+            *ngIf="dataService.CheckIfLink(room.links, 'update')">
         Save
     </button>
     <button mat-button (click)="dialogRef.close()">

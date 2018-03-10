@@ -15,7 +15,7 @@ export class RoomDialogComponent {
     constructor(
         public dialogRef: MatDialogRef<RoomDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private dataService: DataService) {
+        public dataService: DataService) {
         this.room = { ...data };
     }
 
