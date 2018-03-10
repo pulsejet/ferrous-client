@@ -1,6 +1,6 @@
 # Ferrous Client
 
-[![CircleCI](https://circleci.com/gh/pulsejet/Ferrous-Client.svg?style=shield&circle-token=04b5f18950081ad8bfbee4ffa3d443eea1419f91)](https://circleci.com/gh/pulsejet/Ferrous-Client)
+[![CircleCI](https://circleci.com/gh/pulsejet/ferrous-client.svg?style=shield&circle-token=04b5f18950081ad8bfbee4ffa3d443eea1419f91)](https://circleci.com/gh/pulsejet/Ferrous-Client)
 
 This is the recommended and supported client for Ferrous. **Before proceeding, it is recommended that you read the README for [Ferrous](https://github.com/pulsejet/ferrous)**
 
