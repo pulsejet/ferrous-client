@@ -284,10 +284,8 @@ export class DataService {
      */
     RoomGetPartialNo(room: Room): number {
         let count = 0;
-        for (const roomA of room.roomAllocation) {
-            if (roomA.partial != null) {
-                count += Number(roomA.partial);
-            }
+        for (const roomA of room.roomAllocation.filter(ra => ra.partial != null)) {
+            count += Number(roomA.partial);
         }
         return count;
     }
