@@ -235,19 +235,17 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param status Status to mark
      */
     public mark(status: number) {
-        for (const room of this.rooms) {
-            if (room.selected) {
-                this.dataService.MarkRoom(room, status).subscribe(() => {
-                    room.status = status;
-                    room.selected = false;
-                    this.assignRoom(room);
-                }, () => {
-                    /* Show error */
-                    this.snackBar.open('Mark failed for ' + room.roomName, 'Dismiss', {
-                        duration: 2000,
-                    });
+        for (const room of this.rooms.filter(r => r.selected === true)) {
+            this.dataService.MarkRoom(room, status).subscribe(() => {
+                room.status = status;
+                room.selected = false;
+                this.assignRoom(room);
+            }, () => {
+                /* Show error */
+                this.snackBar.open('Mark failed for ' + room.roomName, 'Dismiss', {
+                    duration: 2000,
                 });
-            }
+            });
         }
     }
 
