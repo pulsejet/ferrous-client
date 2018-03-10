@@ -45,6 +45,19 @@ export class DataService {
     }
 
     /**
+     * Check if link of given rel exists
+     * @param links Array of links
+     * @param rel Required rell
+     */
+    CheckIfLink(links: Link[], rel: string = 'self'): boolean {
+        const found = links.find(x => x.rel === rel);
+        if (found == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Get link from rel
      * @param links Array of links
      * @param rel Required rell
