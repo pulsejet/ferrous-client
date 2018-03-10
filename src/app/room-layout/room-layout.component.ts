@@ -423,10 +423,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     public hasUnallotableRoomSelected(): boolean {
         return this.rooms.filter(r => r.selected === true).some(room =>
             !this.dataService.CheckIfLink(room.links, 'allot') ||
-            room.status !== 1 ||
+            !this.canAllocate(room) ||
             ((room.partialallot || this.checkPartial(room)) &&
-                (!this.dataService.CheckValidNumber(room.partialsel, 1)) ||
-            room.roomAllocation.filter(ra => ra.partial === -1).length > 0)
+                (!this.dataService.CheckValidNumber(room.partialsel, 1)))
         );
     }
 }
