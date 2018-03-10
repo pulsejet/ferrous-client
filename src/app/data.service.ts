@@ -5,7 +5,7 @@ import { Contingent, RoomAllocation, Person, Room, Building, ContingentArrival, 
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 
-const SF_RoomLayouts_URL = '/roomTemplates/';
+const SF_RoomLayouts_URL = '/assets/room-templates/';
 
 let JSON_HEADERS = new HttpHeaders();
 JSON_HEADERS = JSON_HEADERS.set('Content-Type', 'application/json');
