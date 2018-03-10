@@ -29,7 +29,12 @@
                      class="xunk-room-card mat-elevation-z2">
                     <b>{{ room.location }} - {{ room.roomName }}</b> - <b>{{ roomA.contingentLeaderNo }}</b>
                     <ng-container *ngIf="roomA.partial > 0">(partial, {{roomA.partial}})</ng-container>
-                    <button class="xunk-room-button-icon" mat-icon-button color="warn" (click)="unallocateRoom(roomA, room);"><mat-icon>delete</mat-icon></button>
+                    <button class="xunk-room-button-icon"
+                            mat-icon-button color="warn"
+                            (click)="unallocateRoom(roomA, room);"
+                            *ngIf="dataService.CheckIfLink(roomA.links, 'delete')">
+                            <mat-icon>delete</mat-icon>
+                    </button>
                 </div>
             </ng-container>
         </ng-container>
