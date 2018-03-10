@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Contingent, RoomAllocation, Person, Room, Building, ContingentArrival, EnumContainer, Link } from './interfaces';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
+import * as uriTemplates from 'uri-templates';
 
 const SF_RoomLayouts_URL = '/assets/room-templates/';
 
@@ -135,18 +136,12 @@ export class DataService {
      * @param link Link to fire
      * @param body Optional body to upload only for POST and PUT requests
      */
-    FireLink<T>(link: Link, body: any = null, options: any = null): Observable<T> {
+    FireLink<T>(link: Link, body: any = null, options: any = {}): Observable<T> {
         /* Fill in parameters */
-        let URL = link.href;
-        if (options != null) {
-            for (const prop in options) {
-                if (options.hasOwnProperty(prop)) {
-                    URL = URL.replace('{' + prop + '}', options[prop]);
-                }
-            }
-        }
+        const URITemplate = uriTemplates(link.href);
+        const URL = URITemplate.fill(options);
 
-        /* Use the correct method */
+        /* Use the correct verb */
         switch (link.method) {
             case 'GET':
                 return this.http.get<T>(URL);
@@ -243,9 +238,8 @@ export class DataService {
      * @param status Status to mark
      */
     MarkRoom(room: Room, status: number): Observable<any> {
-        const link: Link = { ... this.GetLink(room.links, 'mark') };
-        link.href += '?status=' + status.toString();
-        return this.FireLink(link);
+        const link: Link = this.GetLink(room.links, 'mark');
+        return this.FireLink(link, null, {status: status});
     }
 
     /**
@@ -253,13 +247,12 @@ export class DataService {
      * @param room Room object
      */
     AllotRoom(room: Room): Observable<any> {
-        const link: Link = {... this.GetLink(room.links, 'allot') };
+        const link: Link = this.GetLink(room.links, 'allot');
         if (room.partialallot || this.RoomCheckPartial(room)) {
-            if (room.partialsel == null) { throw new Error('Partial number not set!'); }
-            link.href += '?partialno=' + room.partialsel;
+            return this.FireLink(link, null, {partialno: room.partialsel});
+        } else {
+            return this.FireLink(link);
         }
-
-        return this.FireLink(link);
     }
 
     /**
