@@ -58,10 +58,20 @@
         <div fxLayout
              fxLayoutGap="8px"
              class="xunk-max-200px-desktop">
+
             <ng-container *ngIf="!editing">
-                <button fxFlex mat-raised-button color="primary" (click)="edit();"> Edit </button>
-                <button mat-button color="warn" (click)="delete();"> Delete </button>
+                <button fxFlex mat-raised-button color="primary"
+                        (click)="edit();"
+                        *ngIf="person.links && dataService.CheckIfLink(person.links, 'update')">
+                    Edit
+                </button>
+                <button mat-button color="warn"
+                        (click)="delete();"
+                        *ngIf="person.links && dataService.CheckIfLink(person.links, 'delete')">
+                    Delete
+                </button>
             </ng-container>
+
             <ng-container *ngIf="editing">
                 <button fxFlex mat-raised-button color="primary" (click)="save();">Save</button>
                 <button mat-raised-button color="accent" (click)="edit();">Cancel</button>
@@ -69,7 +79,8 @@
         </div>
         <button class="xunk-max-200px-desktop" 
                 mat-raised-button color="primary" 
-                (click)="this.dataService.NavigateContingentDetails(this.dataService.GetLink(person.links, 'contingent'));">
+                (click)="this.dataService.NavigateContingentDetails(this.dataService.GetLink(person.links, 'contingent'));"
+                *ngIf="person.links && dataService.CheckIfLink(person.links, 'contingent')">
         Open Contingent
         </button>
     </div>
