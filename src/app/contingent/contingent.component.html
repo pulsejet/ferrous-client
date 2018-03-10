@@ -14,7 +14,8 @@
     <!-- Create record button -->
     <button mat-icon-button color="primary"
             (click)="openNewRecord()"
-            class="xunk-table-button-margin">
+            class="xunk-table-button-margin"
+            *ngIf="links && dataService.CheckIfLink(links, 'create')">
         <mat-icon>add</mat-icon>
     </button>
 </div>
