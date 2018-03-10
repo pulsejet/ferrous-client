@@ -19,7 +19,7 @@ export class PersonComponent {
     /** constructor for PersonComponent */
     constructor(
         private titleService: Title,
-        private dataService: DataService) {
+        public dataService: DataService) {
 
         this.titleService.setTitle('People');
 

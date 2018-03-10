@@ -20,7 +20,7 @@ export class ContingentComponent {
 
     /** constructor for ContingentComponent */
     constructor(
-        private dataService: DataService,
+        public dataService: DataService,
         private titleService: Title ) {
 
         this.titleService.setTitle('Contingents');
