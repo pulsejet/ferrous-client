@@ -210,9 +210,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** Update graphics for all rooms */
     public assignRooms() {
-        for (const room of this.rooms) {
-            this.assignRoom(room);
-        }
+        this.rooms.forEach(room => this.assignRoom(room));
     }
 
     /**
@@ -235,7 +233,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param status Status to mark
      */
     public mark(status: number) {
-        for (const room of this.rooms.filter(r => r.selected === true)) {
+        this.rooms.filter(r => r.selected === true).forEach(room => {
             this.dataService.MarkRoom(room, status).subscribe(() => {
                 room.status = status;
                 room.selected = false;
@@ -246,7 +244,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                     duration: 2000,
                 });
             });
-        }
+        });
     }
 
     /**
@@ -291,7 +289,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             }
         }
 
-        for (const room of this.rooms.filter(r => r.selected === true)) {
+        this.rooms.filter(r => r.selected === true).forEach(room => {
             this.dataService.AllotRoom(room).subscribe(result => {
                 /* Add new allocation */
                 room.roomAllocation.push(result);
@@ -305,7 +303,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                     duration: 2000,
                 });
             });
-        }
+        });
     }
 
     /** Check if room is full */
