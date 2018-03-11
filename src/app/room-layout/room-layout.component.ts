@@ -128,13 +128,13 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                 const newrooms = result.room as Room[];
                 let index = 0;
 
-                for (const room of newrooms) {
+                newrooms.forEach(room => {
                     const oldroom = this.rooms[index];
                     room.selected = oldroom.selected;
                     room.partialallot = oldroom.partialallot;
                     room.partialsel = oldroom.partialsel;
                     index += Number(1);
-                }
+                });
 
                 this.rooms = newrooms;
             }
@@ -158,7 +158,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         if (this.roomsInited) { return; }
 
         const self = this;
-        for (const room of this.rooms) {
+        this.rooms.forEach(room => {
             /* Find the room by HTML id */
             const ctrl = this.getRoomId(room);
             const index = self.rooms.indexOf(room);
@@ -174,7 +174,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                 return false;
             });
 
-        }
+        });
 
         /* Mark initialization done */
         this.roomsInited = true;
@@ -334,7 +334,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         let filled = 0;                 /* Number of people currently in room   */
 
         /* Fill up local data */
-        for (const roomA of room.roomAllocation) {
+        room.roomAllocation.forEach(roomA => {
             if (roomA.contingentLeaderNo === this.clno) {
                 containsThis = true;
             } else {
@@ -346,7 +346,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             } else {
                 filled += Number(roomA.partial);
             }
-        }
+        });
 
         /* Assign classes */
         if (filled < room.capacity) {
