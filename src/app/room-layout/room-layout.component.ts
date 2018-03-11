@@ -72,7 +72,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             this.dataService.GetLink(this.dataService.GetAPISpec(), 'building_websocket').href
         );
 
-        /* Mark pending update on event 'updated' */
+        /* Reload room on updated event */
         this.hubConnection.on('updated', rid => {
             const index = this.rooms.findIndex(room => room.roomId === rid);
             console.log('Update for room ' + this.rooms[index].roomName);
@@ -82,7 +82,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             });
         });
 
-        /* Start the connection */
+        /* Join the group for the building */
         this.hubConnection.start()
             .then(() => {
                 this.hubConnection.invoke(
@@ -98,7 +98,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        /* Unsubscribe if connected */
+        /* Kill the hub connection */
         if (this.hubConnection) {
             this.hubConnection.stop();
         }
