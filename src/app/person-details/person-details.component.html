@@ -4,7 +4,7 @@
 </div>
 
 <!-- Body -->
-<div *ngIf="person">
+<ng-container *ngIf="person">
     <div class="row" [hidden]="editing">
         <div class="col-8 col-md-3"><b>MI No:</b></div>
         <div class="col-4 col-md-9"> {{ person.mino }} </div>
@@ -84,4 +84,4 @@
         Open Contingent
         </button>
     </div>
-</div>
+</ng-container>
