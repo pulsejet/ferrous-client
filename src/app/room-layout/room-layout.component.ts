@@ -67,8 +67,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        /* Connect to the websocket   *
-         * TODO: Use HATEOAS for this */
+        /* Connect to the websocket */
         this.hubConnection = new HubConnection(
             this.dataService.GetLink(this.dataService.GetAPISpec(), 'building_websocket').href
         );
