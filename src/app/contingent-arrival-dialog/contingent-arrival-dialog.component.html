@@ -34,7 +34,7 @@
         </mat-select>
     </mat-form-field>
     
-    <div *ngIf="chosenEntry !=-1 " [@slideInOut]>
+    <div *ngIf="chosenEntry !=-1 ">
         &nbsp; Alloted Capacity: {{ getAllotedCapacity(contingentArrivals[chosenEntry]) }}
         <button mat-icon-button color="warn" (click)="deleteArrival(chosenEntry);"><mat-icon>delete</mat-icon></button>
     </div>
