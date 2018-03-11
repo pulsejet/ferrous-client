@@ -2,10 +2,12 @@
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ContingentArrival, Link } from '../interfaces';
 import { DataService } from '../data.service';
+import { SlideInOutAnimation } from '../animations';
 
 @Component({
     selector: 'app-contingent-arrival-dialog',
-    templateUrl: './contingent-arrival-dialog.component.html'
+    templateUrl: './contingent-arrival-dialog.component.html',
+    animations: [SlideInOutAnimation],
 })
 export class ContingentArrivalDialogComponent {
     /** Id of old chosen entry */

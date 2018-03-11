@@ -34,10 +34,10 @@
         </mat-select>
     </mat-form-field>
     
-    <ng-container *ngIf="chosenEntry !=-1 ">
+    <div *ngIf="chosenEntry !=-1 " [@slideInOut]>
         &nbsp; Alloted Capacity: {{ getAllotedCapacity(contingentArrivals[chosenEntry]) }}
         <button mat-icon-button color="warn" (click)="deleteArrival(chosenEntry);"><mat-icon>delete</mat-icon></button>
-    </ng-container>
+    </div>
 </div>
 
 <div mat-dialog-actions>
