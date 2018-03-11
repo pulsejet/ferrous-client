@@ -35,10 +35,6 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     public marking = false;
     /** WebSocket connection for layout */
     private hubConnection: HubConnection;
-    /** Layout update Subscription */
-    private updateSubscription: Subscription;
-    /** Mark necessity of updation for next timer check */
-    private updateNeeded = false;
 
     public urlLink: Link;
     public links: Link[];
@@ -78,18 +74,14 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         );
 
         /* Mark pending update on event 'updated' */
-        this.hubConnection.on('updated', () => {
-            this.updateNeeded = true;
-        });
-
-        /* Timer checks for updates every 2 seconds */
-        this.updateSubscription = TimerObservable.create(0, 2000)
-            .subscribe(() => {
-                if (this.updateNeeded) {
-                    this.reloadRooms();
-                    this.updateNeeded = false;
-                }
+        this.hubConnection.on('updated', rid => {
+            const index = this.rooms.findIndex(room => room.roomId === rid);
+            console.log('Update for room ' + this.rooms[index].roomName);
+            this.dataService.FireLinkSelf(this.rooms[index].links).subscribe(result => {
+                this.rooms[index] = result as Room;
+                this.assignRoom(this.rooms[index]);
             });
+        });
 
         /* Start the connection */
         this.hubConnection.start()
@@ -108,38 +100,18 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         /* Unsubscribe if connected */
-        if (this.updateSubscription) {
-            this.updateSubscription.unsubscribe();
+        if (this.hubConnection) {
+            this.hubConnection.stop();
         }
     }
 
     /**
      * Reload all room data partially or fully
-     * @param fullReload true to fully reload data
      */
-    reloadRooms(fullReload: boolean = false) {
+    reloadRooms() {
         this.dataService.FireLink<Building>(this.urlLink).subscribe(result => {
             this.links = result.links;
-
-            if (!this.rooms || fullReload) {
-                /* Perform a full replace */
-                this.rooms = result.room;
-            } else {
-                /* Copy over all objects keeping properties created by the client   *
-                 * WARNING: This assumes that the number of rooms doesnt change.    */
-                const newrooms = result.room as Room[];
-                let index = 0;
-
-                newrooms.forEach(room => {
-                    const oldroom = this.rooms[index];
-                    room.selected = oldroom.selected;
-                    room.partialallot = oldroom.partialallot;
-                    room.partialsel = oldroom.partialsel;
-                    this.rooms[index] = room;
-                    this.assignRoom(this.rooms[index]);
-                    index += Number(1);
-                });
-            }
+            this.rooms = result.room;
 
             /* Assign other things */
             this.locFullname = result.locationFullName;
@@ -237,9 +209,6 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     public mark(status: number) {
         this.rooms.filter(r => r.selected === true).forEach(room => {
             this.dataService.MarkRoom(room, status).subscribe(() => {
-                room.status = status;
-                room.selected = false;
-                this.assignRoom(room);
             }, () => {
                 /* Show error */
                 this.snackBar.open('Mark failed for ' + room.roomName, 'Dismiss', {
@@ -293,12 +262,6 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
         this.rooms.filter(r => r.selected === true).forEach(room => {
             this.dataService.AllotRoom(room).subscribe(result => {
-                /* Add new allocation */
-                room.roomAllocation.push(result);
-
-                /* Unmark the room and update graphic */
-                room.selected = false;
-                this.assignRoom(room);
             }, (): void => {
                 /* Show error */
                 this.snackBar.open('Allotment failed for ' + room.roomName, 'Dismiss', {
