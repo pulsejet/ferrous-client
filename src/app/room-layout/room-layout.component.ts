@@ -131,12 +131,13 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                 let index = 0;
 
                 newrooms.forEach(room => {
-                    let oldroom = this.rooms[index];
+                    const oldroom = this.rooms[index];
                     room.selected = oldroom.selected;
                     room.partialallot = oldroom.partialallot;
                     room.partialsel = oldroom.partialsel;
+                    this.rooms[index] = room;
+                    this.assignRoom(this.rooms[index]);
                     index += Number(1);
-                    oldroom = room;
                 });
             }
 
