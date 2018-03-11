@@ -9,6 +9,7 @@ import { ContingentArrivalDialogComponent } from '../contingent-arrival-dialog/c
 import { MatDialog } from '@angular/material/dialog';
 import { PaginatorHelper } from '../helpers';
 
+
 /* Contingent Details Component */
 @Component({
     selector: 'app-contingent',
@@ -22,6 +23,7 @@ export class ContingentDetailsComponent {
     public initial_contingent: Contingent;
     /** Master Contingent object */
     public contingent: Contingent;
+    /** Link passed in the url, should refer to contingent self */
     public urlLink: Link;
     public links: Link[];
     paginatorHelper = new PaginatorHelper;

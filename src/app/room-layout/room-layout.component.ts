@@ -10,11 +10,13 @@ import { Subscription } from 'rxjs/Subscription';
 import { HubConnection } from '@aspnet/signalr';
 import * as $ from 'jquery';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { SlideInOutAnimation } from '../animations';
 
 /* Room layout component */
 @Component({
     selector: 'app-room-layout',
     templateUrl: './room-layout.component.html',
+    animations: [SlideInOutAnimation],
 })
 export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Master list of rooms */
@@ -129,14 +131,13 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                 let index = 0;
 
                 newrooms.forEach(room => {
-                    const oldroom = this.rooms[index];
+                    let oldroom = this.rooms[index];
                     room.selected = oldroom.selected;
                     room.partialallot = oldroom.partialallot;
                     room.partialsel = oldroom.partialsel;
                     index += Number(1);
+                    oldroom = room;
                 });
-
-                this.rooms = newrooms;
             }
 
             /* Assign other things */
