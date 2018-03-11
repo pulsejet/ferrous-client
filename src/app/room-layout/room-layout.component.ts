@@ -33,6 +33,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     @ViewChild('roomsLayout') roomsLayout: ElementRef;
     /** true if marking */
     public marking = false;
+    /** true if room updated snackbar is showing */
+    public roomUpdateSnackbarShowing = false;
     /** WebSocket connection for layout */
     private hubConnection: HubConnection;
 
@@ -75,10 +77,17 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         /* Reload room on updated event */
         this.hubConnection.on('updated', rid => {
             const index = this.rooms.findIndex(room => room.roomId === rid);
-            console.log('Update for room ' + this.rooms[index].roomName);
             this.dataService.FireLinkSelf(this.rooms[index].links).subscribe(result => {
                 this.rooms[index] = result as Room;
                 this.assignRoom(this.rooms[index]);
+
+                if (!this.roomUpdateSnackbarShowing) {
+                    this.snackBar.open('Room data updated', 'Dismiss', {
+                        duration: 2000,
+                    });
+                    this.roomUpdateSnackbarShowing = true;
+                    setTimeout(() => this.roomUpdateSnackbarShowing = false, 2000);
+                }
             });
         });
 
