@@ -10,11 +10,13 @@ import { Subscription } from 'rxjs/Subscription';
 import { HubConnection } from '@aspnet/signalr';
 import * as $ from 'jquery';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
+import { SlideInOutAnimation } from '../animations';
 
 /* Room layout component */
 @Component({
     selector: 'app-room-layout',
     templateUrl: './room-layout.component.html',
+    animations: [SlideInOutAnimation],
 })
 export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Master list of rooms */

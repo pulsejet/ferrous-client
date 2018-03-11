@@ -44,6 +44,7 @@
         <ng-container *ngFor="let room of rooms">
             <div *ngIf="room.selected && canAllocate(room)" 
                  class="xunk-room-card mat-elevation-z1"
+                 [@slideInOut]
                  (swiperight)="unselectRoom(room);">
                 <ng-container *ngIf="checkPartial(room) || room.partialallot">
                     <b>{{ room.location }} - {{ room.roomName }}</b> - {{ this.getCapacity(room) }} &nbsp;
