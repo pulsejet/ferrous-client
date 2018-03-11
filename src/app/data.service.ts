@@ -330,6 +330,16 @@ export class DataService {
     }
 
     /**
+     * Logs in the user with the provided credentials
+     * @param username Username
+     * @param password Password
+     */
+    Login(username: string, password: string): Observable<any> {
+        return this.FireLink(this.GetLink(this.GetAPISpec(), 'login'), null,
+                             {username: username, password: password});
+    }
+
+    /**
      * End the session
      */
     Logout(): Observable<any> {

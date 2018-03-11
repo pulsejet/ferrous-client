@@ -23,42 +23,35 @@ export class LoginComponent implements OnInit {
   continueLogin() {
     this.clearMessages();
 
-    const self = this;
-
-    if (self.username == null || self.username === '') {
-      self.usernameError = 'Username cannot be blank';
-      self.addFormError('#user_username');
-    } else if (self.password == null || self.password === '') {
-      self.passwordError = 'Password cannot be blank';
-      self.addFormError('#user_password');
+    if (this.username == null || this.username === '') {
+      this.usernameError = 'Username cannot be blank';
+      this.addFormError('#user_username');
+    } else if (this.password == null || this.password === '') {
+      this.passwordError = 'Password cannot be blank';
+      this.addFormError('#user_password');
     } else {
-      $.ajax({
-        type: 'get', url: '/api/login/login?username=' + self.username + '&password=' + self.password,
-            success: function (data, text) {
-                $('#dialog').removeClass('dialog-effect-in').removeClass('shakeit');
-                $('#dialog').addClass('dialog-effect-out');
-                $('#successful_login').addClass('active');
-                setTimeout(function() {
-                  self.dataService.RefreshAPISpec().subscribe(api => {
-                    self.dataService._API_SPEC = api;
-                    self.dataService.loggedIn = true;
-                  });
-
-                }, 300);
-            },
-            error: function (request, status, error) {
-                self.addFormError('#user_password');
-                self.passwordError = 'The password is invalid';
-            }
-        });
-      }
+      this.dataService.Login(this.username, this.password).subscribe(() => {
+        $('#dialog').removeClass('dialog-effect-in').removeClass('shakeit');
+        $('#dialog').addClass('dialog-effect-out');
+        $('#successful_login').addClass('active');
+        setTimeout(() => {
+          this.dataService.RefreshAPISpec().subscribe(api => {
+            this.dataService._API_SPEC = api;
+            this.dataService.loggedIn = true;
+          });
+        }, 300);
+      }, () => {
+        this.addFormError('#user_password');
+        this.passwordError = 'The password is invalid';
+      });
+    }
   }
 
   addFormError(formRow) {
     $(formRow).parents('.form-group').addClass('has-error');
     $('#dialog').removeClass('dialog-effect-in');
     $('#dialog').addClass('shakeit');
-    setTimeout(function() {
+    setTimeout(() => {
       $('#dialog').removeClass('shakeit');
     }, 300);
   }
