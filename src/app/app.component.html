@@ -27,7 +27,8 @@
                            [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
         <!-- Make sidenav stay when in desktop mode-->
         <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                     [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+                     [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+                     (swipeleft)="snav.close()">
             <mat-nav-list>
                 <app-nav-menu *ngIf="mobileQuery.matches" (click)="snav.toggle();"></app-nav-menu>
                 <app-nav-menu *ngIf="!mobileQuery.matches"></app-nav-menu>
@@ -39,6 +40,7 @@
             <div id="outlet-div">
                 <router-outlet></router-outlet>
             </div>
+            <div id="swipe-right-area" (swiperight)="snav.open()"></div>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>
