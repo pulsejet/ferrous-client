@@ -230,15 +230,6 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Unselects a room and updates the graphic
-     * @param room Room object
-     */
-    public unselectRoom(room: Room) {
-        room.selected = false;
-        this.assignRoom(room);
-    }
-
-    /**
      * Try to mark all selected rooms with status
      * @param status Status to mark
      */
