@@ -37,6 +37,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     public roomUpdateSnackbarShowing = false;
     /** WebSocket connection for layout */
     private hubConnection: HubConnection;
+    /** Set to false when deliberately disconnecting */
+    private connectWebsocket = true;
 
     public urlLink: Link;
     public links: Link[];
@@ -69,6 +71,15 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.connectWebsocket = true;
+        this.startBuildingHubConnection();
+    }
+
+    startBuildingHubConnection(): void {
+        if (!this.connectWebsocket) {
+            return;
+        }
+
         /* Connect to the websocket */
         this.hubConnection = new HubConnection(
             this.dataService.GetLink(this.dataService.GetAPISpec(), 'building_websocket').href
@@ -103,12 +114,23 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             })
             .catch(() => {
                 console.log('Error while establishing connection');
+                setTimeout(() => {
+                    this.startBuildingHubConnection();
+                }, 500);
             });
+
+        /* Reconnect if necessary */
+        this.hubConnection.onclose(() => {
+            setTimeout(() => {
+                this.startBuildingHubConnection();
+            }, 500);
+        });
     }
 
     ngOnDestroy() {
         /* Kill the hub connection */
         if (this.hubConnection) {
+            this.connectWebsocket = false;
             this.hubConnection.stop();
         }
     }
