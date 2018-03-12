@@ -147,9 +147,15 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Reload all room data partially or fully
+     * Reload all room data and restart websocket
      */
-    reloadRooms() {
+    reloadRooms(restartWebsock: boolean = false) {
+        if (restartWebsock && this.connectWebsocket && this.hubConnection) {
+            this.hubConnection.stop().then(() => {
+                this.hubConnection.start();
+            });
+        }
+
         this.dataService.FireLink<Building>(this.urlLink).subscribe(result => {
             this.links = result.links;
             this.rooms = result.room;
