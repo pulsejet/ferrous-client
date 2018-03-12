@@ -90,6 +90,11 @@
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
                     Mark Unavailable
             </button>
+            <button fxFlex="auto" (click)="openBill();"
+                    mat-raised-button color="primary"
+                    [disabled]="!dataService.CheckIfLink(links, 'bill')">
+                    Bill
+            </button>
         </div>
     </div>
 </div>

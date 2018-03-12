@@ -404,4 +404,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     public hasRoomsSelected(): boolean {
         return this.rooms.filter(r => r.selected === true).length > 0;
     }
+
+    /** Fires the bill link in a new tab */
+    public openBill() {
+        window.open(this.dataService.GetLink(this.links, 'bill').href, '_blank');
+    }
 }
