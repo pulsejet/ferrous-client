@@ -71,23 +71,23 @@
 
             <button fxFlex="auto" (click)="allot();"
                     mat-raised-button color="warn"
-                    [disabled]="hasUnallotableRoomSelected()">
+                    [disabled]="!hasRoomsSelected() || hasUnallotableRoomSelected()">
                     Allot Rooms
             </button>
 
             <button fxFlex="auto" (click)="mark(1);"
                     mat-raised-button color="primary"
-                    [disabled]="hasUnmarkableRoomSelected()">
+                    [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
                     Mark Available
             </button>
             <button fxFlex="auto" (click)="mark(4);"
                     mat-raised-button color="accent"
-                    [disabled]="hasUnmarkableRoomSelected()">
+                    [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
                     Mark Not Ready
             </button>
             <button fxFlex="auto" (click)="mark(0);"
                     mat-raised-button
-                    [disabled]="hasUnmarkableRoomSelected()">
+                    [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
                     Mark Unavailable
             </button>
         </div>

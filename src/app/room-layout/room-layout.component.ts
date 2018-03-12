@@ -399,4 +399,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                 (!this.dataService.CheckValidNumber(room.partialsel, 1)))
         );
     }
+
+    /** true if at least one room is selected */
+    public hasRoomsSelected(): boolean {
+        return this.rooms.filter(r => r.selected === true).length > 0;
+    }
 }
