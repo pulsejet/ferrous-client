@@ -1,0 +1,3 @@
+[submodule "src/assets/room-templates"]
+	path = src/assets/room-templates
+	url = https://github.com/pulsejet/iitb-templates.git
