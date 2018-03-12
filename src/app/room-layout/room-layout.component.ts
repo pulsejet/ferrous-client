@@ -129,8 +129,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         /* Kill the hub connection */
+        this.connectWebsocket = false;
         if (this.hubConnection) {
-            this.connectWebsocket = false;
             this.hubConnection.stop();
         }
     }
