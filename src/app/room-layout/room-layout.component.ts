@@ -392,11 +392,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param room Room object for local removal of allocation
      */
     public unallocateRoom(roomA: RoomAllocation, room: Room) {
-        this.dataService.UnallocateRoom(roomA).subscribe(() => {
-            const index = room.roomAllocation.indexOf(roomA, 0);
-            room.roomAllocation.splice(index, 1);
-            this.assignRoom(room);
-        });
+        this.dataService.UnallocateRoom(roomA).subscribe();
     }
 
     /**
