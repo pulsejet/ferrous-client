@@ -248,16 +248,6 @@ export class DataService {
     }
 
     /**
-     * Mark a room with a given status
-     * @param room Room object
-     * @param status Status to mark
-     */
-    MarkRoom(room: Room, status: number): Observable<any> {
-        const link: Link = this.GetLink(room.links, 'mark');
-        return this.FireLink(link, null, {status: status});
-    }
-
-    /**
      * Allot a room
      * @param room Room object
      */

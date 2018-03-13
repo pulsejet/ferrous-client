@@ -87,12 +87,21 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         );
 
         /* Reload room on updated event */
-        this.hubConnection.on('updated', rid => {
-            const index = this.rooms.findIndex(room => room.roomId === rid);
-            this.dataService.FireLinkSelf(this.rooms[index].links).subscribe(result => {
-                this.rooms[index] = result as Room;
-                this.assignRoom(this.rooms[index]);
+        this.hubConnection.on('updated', rids => {
+            /* Fire the link to download multiple rooms */
+            this.dataService.FireLink(
+                this.dataService.GetLink(this.links, 'list_rooms'), rids
+            ).subscribe(result => {
 
+                /* Update all returned rooms */
+                const rooms = result as Room[];
+                rooms.forEach(room => {
+                    const index = this.rooms.findIndex(r => r.roomId === room.roomId);
+                    this.rooms[index] = room;
+                    this.assignRoom(this.rooms[index]);
+                });
+
+                /* Notify the user */
                 if (!this.roomUpdateSnackbarShowing) {
                     this.snackBar.open('Room data updated', 'Dismiss', {
                         duration: 2000,
@@ -242,15 +251,11 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param status Status to mark
      */
     public mark(status: number) {
-        this.rooms.filter(r => r.selected === true).forEach(room => {
-            this.dataService.MarkRoom(room, status).subscribe(() => {
-            }, () => {
-                /* Show error */
-                this.snackBar.open('Mark failed for ' + room.roomName, 'Dismiss', {
-                    duration: 2000,
-                });
-            });
-        });
+        this.dataService.FireLink(
+            this.dataService.GetLink(this.links, 'mark'),
+            this.rooms.filter(r => r.selected === true).map(r => r.roomId),
+            {status: status}
+        ).subscribe();
     }
 
     /**
@@ -412,9 +417,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** True if a room which cannot be marked is selected */
     public hasUnmarkableRoomSelected(): boolean {
-        return this.rooms.filter(r => r.selected === true).some(room =>
-            !this.dataService.CheckIfLink(room.links, 'mark')
-        );
+        return !this.dataService.CheckIfLink(this.links, 'mark');
     }
 
     /** True if a room which cannot be alloted is selected */
