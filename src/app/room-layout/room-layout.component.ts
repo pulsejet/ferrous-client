@@ -300,15 +300,15 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.rooms.filter(r => r.selected === true).forEach(room => {
-            this.dataService.AllotRoom(room).subscribe(result => {
-            }, (): void => {
-                /* Show error */
-                this.snackBar.open('Allotment failed for ' + room.roomName, 'Dismiss', {
-                    duration: 2000,
-                });
-            });
-        });
+        /* Fire off! */
+        this.dataService.FireLink(
+            this.dataService.GetLink(this.links, 'allot'),
+            this.rooms.filter(r => r.selected === true).map(room => {
+                return {
+                    roomId: room.roomId,
+                    partial: ((room.partialsel > 0) ? room.partialsel : undefined)
+                };
+            })).subscribe();
     }
 
     /** Check if room is full */
@@ -422,8 +422,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** True if a room which cannot be alloted is selected */
     public hasUnallotableRoomSelected(): boolean {
-        return this.rooms.filter(r => r.selected === true).some(room =>
-            !this.dataService.CheckIfLink(room.links, 'allot') ||
+        return !this.dataService.CheckIfLink(this.links, 'allot') ||
+        this.rooms.filter(r => r.selected === true).some(room =>
             !this.canAllocate(room) ||
             ((room.partialallot || this.checkPartial(room)) &&
                 (!this.dataService.CheckValidNumber(room.partialsel, 1)))

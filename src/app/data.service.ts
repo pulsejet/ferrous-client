@@ -248,19 +248,6 @@ export class DataService {
     }
 
     /**
-     * Allot a room
-     * @param room Room object
-     */
-    AllotRoom(room: Room): Observable<any> {
-        const link: Link = this.GetLink(room.links, 'allot');
-        if (room.partialallot || this.RoomCheckPartial(room)) {
-            return this.FireLink(link, null, {partialno: room.partialsel});
-        } else {
-            return this.FireLink(link);
-        }
-    }
-
-    /**
      * Returns true if room is fully occupied
      * @param room Room to check
      */
