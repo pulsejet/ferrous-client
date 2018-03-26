@@ -10,7 +10,7 @@
 }
 
 .dialog {
-  color: #222 !important;
+  color: #222;
   -webkit-perspective: 1200px;
   -moz-perspective: 1200px;
   -ms-perspective: 1200px;

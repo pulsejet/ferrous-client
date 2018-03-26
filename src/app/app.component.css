@@ -48,9 +48,9 @@
 mat-sidenav,
 mat-sidenav.mat-locked-open,
 mat-sidenav.mat-closed.mat-locked-open-add-active {
-    min-width: 200px !important;
-    width: 17vw !important;
-    max-width: 300px !important;
+    min-width: 200px;
+    width: 17vw;
+    max-width: 300px;
 } 
 
 .example-container {
