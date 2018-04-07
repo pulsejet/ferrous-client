@@ -4,15 +4,17 @@ node_js:
 cache:
   directories:
   - node_modules
+
 script:
   - npm run lint
   - npm run build-prod
+  - tar -zcvf release.tar.gz dist/
+
 deploy:
   provider: releases
   api_key:
     secure: btKqjSOed598vw+vpOk4TFIThOfKOm7pTKGV4FMDAH7YZWalC/eQjX8ttnCNKkWQDBleW8jDeWpg1aEIk7/HkqrQZ/sNaYD3jd1jhsIsW/3MBGGuL06rVaj7s2oKfI2If4h1X/UYGYWO+iAO2c1PAr4L3FsmA57Dg68Fjm8349jxkoB8NrHatRchp0KDwF/vYQ1+we6DnZ0x1uQSrvVekyb0vdus4tQ3Ys1vgcjoOuQUV3m3FX85egx7GTB/q0GZ5PPbnDQO4uQq096DDzuN38tTBaGiGAKZHqoZlO6jnn5Ctdz4iFe0NomRrDCz2vJlSOrI9kLoIUktSliCpiAcbN46hHlrsRfiLEBhhlI2RJRgQU+612LRiHl086w4SP3EB3AfvPP9Yi0Ch21RM7xOQg83pY+z4GV32Cws2BtWSTL2zRGE3ldCW76jozZGTPFzeNifNC4EjrN4CXLeVuWvSr4tGwLJtMPRB6oWHjzMPv2/37dyDkVLVBMMVR+RLuGy0cQMuxoGekJ0ZkbIOmFwr5iJ8qUAmJizZj77SKhgnqEvJPI+vnuT/XKojtnihVPVo7ahq93e8Ha/aAT9oY8vjL+oKdyHc627Ex87W7CSU6jznwjQIhN6IrEiiBST3qCyjD+muPf15ykGTa4LPPXEkFzto1PmczXCfnNge6G9Bd8=
-  file_glob: true
-  file: dist/*
+  file: release.tar.gz
   skip_cleanup: true
   on:
     repo: pulsejet/ferrous-client
