@@ -29,6 +29,8 @@ export interface Person {
     contingentLeaderNo: string;
     contingentLeaderNoNavigation: string;
     sex: string;
+    email: string;
+    phone: string;
 
     links: Link[];
 }

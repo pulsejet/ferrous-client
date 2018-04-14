@@ -20,6 +20,12 @@
 
         <div class="col-8 col-md-3"><b>Sex:</b></div>
         <div class="col-4 col-md-9"> {{ person.sex }} </div>
+
+        <div class="col-md-3"><b>E-Mail:</b></div>
+        <div class="col-md-9"> {{ person.email }} </div>
+
+        <div class="col-md-3"><b>Phone No:</b></div>
+        <div class="col-md-9"> {{ person.phone }} </div>
     </div>
 
     <br *ngIf="!editing" />
@@ -50,6 +56,14 @@
                 <mat-option value="M">M</mat-option>
                 <mat-option value="F">F</mat-option>
             </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input fxFlex matInput name="pemail" [(ngModel)]="person.email" placeholder="E-Mail">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input fxFlex matInput name="pphone" [(ngModel)]="person.phone" placeholder="Phone No">
         </mat-form-field>
     </div>
 
