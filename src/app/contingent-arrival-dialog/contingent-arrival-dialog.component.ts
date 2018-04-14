@@ -89,7 +89,7 @@ export class ContingentArrivalDialogComponent {
      * @param chosenEntry Index of chosen entry
      */
     deleteArrival(chosenEntry: number) {
-        this.dataService.FireLinkDelete(this.contingentArrivals[chosenEntry].links).subscribe(result => {
+        this.dataService.FireLinkDelete(this.contingentArrivals[chosenEntry].links).subscribe(() => {
             this.contingentArrivals.splice(chosenEntry, 1);
             this.chosenEntry = -1;
         });

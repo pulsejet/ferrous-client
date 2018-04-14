@@ -1,6 +1,6 @@
-﻿import { Component, Inject } from '@angular/core';
-import { ActivatedRoute, Params, Routes, Route, Router } from '@angular/router';
-import { Contingent, RoomAllocation, ContingentArrival, Link } from '../interfaces';
+﻿import { Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Contingent, RoomAllocation, Link } from '../interfaces';
 import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -35,8 +35,7 @@ export class ContingentDetailsComponent {
         public dataService: DataService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
-        private titleService: Title,
-        @Inject('BASE_URL') baseUrl: string) {
+        private titleService: Title) {
 
         this.titleService.setTitle('Contingent Details');
 
@@ -56,7 +55,7 @@ export class ContingentDetailsComponent {
             }, error => {
                 console.error(error);
                 alert('No such Contingent or error retrieving!');
-                _location.back();       /* Go back if invalid */
+                this._location.back();       /* Go back if invalid */
             });
         }
 
@@ -87,7 +86,7 @@ export class ContingentDetailsComponent {
 
         /* PUT for editing; POST for new record */
         if (!this.newrecord) {
-            this.dataService.FireLinkUpdate(this.links, body).subscribe(result => {
+            this.dataService.FireLinkUpdate(this.links, body).subscribe(() => {
                 /* Update the initial data */
                 this.initial_contingent = { ...this.contingent };
                 this.editing = !this.editing;
@@ -95,7 +94,7 @@ export class ContingentDetailsComponent {
             });
         } else {
             /* Go back to list for new record */
-            this.dataService.FireLink(this.urlLink, body).subscribe(result => {
+            this.dataService.FireLink(this.urlLink, body).subscribe(() => {
                 this.dataService.NavigateContingentsList();
             });
         }
@@ -104,7 +103,7 @@ export class ContingentDetailsComponent {
     /** DELETE a record */
     public delete() {
         if (confirm('Are you sure to delete?')) {
-            this.dataService.FireLinkDelete(this.links).subscribe(result => {
+            this.dataService.FireLinkDelete(this.links).subscribe(() => {
                 this.dataService.NavigateContingentsList();
             });
         }
@@ -113,7 +112,7 @@ export class ContingentDetailsComponent {
     /** DELETE a RoomAllocation */
     public unallocateRoom(roomA: RoomAllocation) {
         if (confirm('Are you sure you want to unallocate this room?')) {
-            this.dataService.UnallocateRoom(roomA).subscribe(result => {
+            this.dataService.UnallocateRoom(roomA).subscribe(() => {
                 /* Get the index and splice it from master */
                 const index = this.contingent.roomAllocation.indexOf(roomA, 0);
                 this.contingent.roomAllocation.splice(index, 1);
@@ -127,7 +126,7 @@ export class ContingentDetailsComponent {
     }
 
     public StartAllocation() {
-        const dialog = this.dialog.open(ContingentArrivalDialogComponent, {
+        this.dialog.open(ContingentArrivalDialogComponent, {
             data: {
                 links: this.links,
                 ca: this.contingent.contingentArrival,

@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Contingent, RoomAllocation, Person, Room, Building, ContingentArrival, EnumContainer, Link } from './interfaces';
+import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link } from './interfaces';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import * as uriTemplates from 'uri-templates';
@@ -89,16 +89,15 @@ export class DataService {
     /**
      * Returns the link with rel "delete"
      * @param links Array of links
-     * @param encoded Retrns encoded string if true
      */
-    GetLinkDelete(links: Link[], encoded: boolean = false): Link { return this.GetLink(links, 'delete'); }
+    GetLinkDelete(links: Link[]): Link { return this.GetLink(links, 'delete'); }
 
     /**
      * Return the string with rel "create"
      * @param links Array of links
      * @param encoded Returns encoded string if true
      */
-    GetLinkCreate(links: Link[], encoded: boolean = false): Link { return this.GetLink(links, 'create'); }
+    GetLinkCreate(links: Link[]): Link { return this.GetLink(links, 'create'); }
 
     /**
      * Fires the link with rel "self"

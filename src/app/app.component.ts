@@ -31,10 +31,10 @@ export class AppComponent implements OnDestroy {
         this.dataService.RefreshAPISpec().subscribe(api => {
             this.dataService._API_SPEC = api;
 
-            this.dataService.GetCurrentUser().subscribe(result => {
+            this.dataService.GetCurrentUser().subscribe(() => {
                 this.dataService.loggedIn = true;
                 this.initialized = true;
-            }, error => {
+            }, () => {
                 this.dataService.loggedIn = false;
                 this.initialized = true;
             });

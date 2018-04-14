@@ -6,10 +6,8 @@ import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
-import { Subscription } from 'rxjs/Subscription';
 import { HubConnection } from '@aspnet/signalr';
 import * as $ from 'jquery';
-import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { SlideInOutAnimation } from '../animations';
 
 /* Room layout component */
@@ -391,7 +389,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param roomA RoomAllocation object
      * @param room Room object for local removal of allocation
      */
-    public unallocateRoom(roomA: RoomAllocation, room: Room) {
+    public unallocateRoom(roomA: RoomAllocation) {
         this.dataService.UnallocateRoom(roomA).subscribe();
     }
 

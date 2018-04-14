@@ -1,5 +1,5 @@
-import { Component, Inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../data.service';
 
@@ -9,11 +9,10 @@ import { DataService } from '../data.service';
     templateUrl: './home.component.html',
 })
 export class HomeComponent {
-    constructor(private activatedRoute: ActivatedRoute,
+    constructor(
         private titleService: Title,
         public router: Router,
         public dataService: DataService,
-        @Inject('BASE_URL') baseUrl: string,
     ) {
         this.titleService.setTitle('Home');
     }

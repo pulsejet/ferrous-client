@@ -10,10 +10,6 @@ export function getBaseUrl() {
   return document.getElementsByTagName('base')[0].href;
 }
 
-const providers = [
-  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
-];
-
 const bootstrap = () => platformBrowserDynamic().bootstrapModule(AppModule);
 if (environment.production) {
   enableProdMode();
