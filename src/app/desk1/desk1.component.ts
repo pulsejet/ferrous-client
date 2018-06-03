@@ -82,7 +82,7 @@ export class Desk1Component implements OnInit {
 
   /** Approve the CA */
   approve() {
-    this.dataService.FireLink(this.dataService.GetLink(this.ca.links, 'approve')).subscribe(() => {
+    this.dataService.FireLink(this.dataService.GetLink(this.ca.links, 'approve'), this.ca).subscribe(() => {
       this.snackBar.open('Subcontingent Approved', 'Dismiss', {
         duration: 2000,
       });
