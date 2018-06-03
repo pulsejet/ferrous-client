@@ -31,6 +31,7 @@ export interface Person {
     sex: string;
     email: string;
     phone: string;
+    allottedCA: ContingentArrival;
 
     links: Link[];
 }
@@ -90,5 +91,19 @@ export interface ContingentArrival {
     contingentLeaderNoNavigation: Contingent[];
     roomAllocation: RoomAllocation[];
 
+    peopleMale: number;
+    peopleFemale: number;
+    caPeople: CAPerson[];
+    approved: boolean;
+
+    links: Link[];
+}
+
+export interface CAPerson {
+    person: Person;
+    flags: string;
+    sno: number;
+    mino: string;
+    sex: string;
     links: Link[];
 }

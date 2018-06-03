@@ -1,0 +1,101 @@
+<div *ngIf="ca">
+  <div class="row">
+    <div class="col-8 col-md-3"><b>Contingent Leader No.</b></div>
+    <div class="col-4 col-md-9"> {{ ca.contingentLeaderNo }} </div>
+
+    <div class="col-8 col-md-3"><b>Subcontingent No.</b></div>
+    <div class="col-4 col-md-9"> {{ ca.contingentArrivalNo }} -
+      <span style="color: green" *ngIf="ca.approved">
+        <b>Approved</b>
+      </span>
+      <span style="color: red" *ngIf="!ca.approved">
+        <b>Pending</b>
+      </span>
+    </div>
+
+    <div class="col-8 col-md-3"><b>Male (filled, counted):</b></div>
+    <div class="col-4 col-md-9"> {{ ca.male }} == {{ ca.peopleMale }}</div>
+
+    <div class="col-8 col-md-3"><b>Female (filled, counted):</b></div>
+    <div class="col-4 col-md-9"> {{ ca.female }} == {{ ca.peopleFemale }}</div>
+
+    <div class="col-12">
+      <br>
+      <mat-form-field>
+        <input matInput name="male" [(ngModel)]="ca.male" placeholder="Male">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="female" [(ngModel)]="ca.female" placeholder="Female">
+      </mat-form-field>
+      <br>
+    </div>
+  </div>
+
+  <button class="col-12 col-md-2"
+          mat-raised-button color="primary"
+          (click)="copyCount()">
+        Copy Count
+  </button>
+
+  <br>
+  <br>
+
+  <div fxLayout
+     fxLayoutAlign="start start"
+     fxLayoutGap="10px"
+     fxLayoutGap.xs="3px"
+     class="xunk-table-prehead"
+     *ngIf="dataService.CheckIfLink(ca.links, 'add_caperson')">
+    <!-- MI Number -->
+    <mat-form-field fxFlex>
+        <input matInput
+               name="clno" [(ngModel)]="enteredMINo"
+               placeholder="Add MI No."
+               (keyup.enter)="addCAPerson()">
+    </mat-form-field>
+
+    <!-- Create record button -->
+    <button mat-icon-button color="primary"
+            class="xunk-table-button-margin"
+            (click)="addCAPerson()">
+        <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div *ngFor="let caperson of ca.caPeople"
+        class="xunk-room-card mat-elevation-z1">
+    <span style="cursor: pointer"
+          (click)="openPerson(caperson.person)">
+      <b>{{ caperson.mino }}</b> -
+      <ng-container *ngIf="caperson.person">
+        {{ caperson.person.name }} - {{ caperson.person.sex }}
+      </ng-container>
+    </span>
+
+    <div style="float: right">
+      <span *ngIf="caperson.flags !== ''"
+            style="color: red;">
+          <b>{{ caperson.flags }}</b>
+      </span>
+      <span *ngIf="caperson.flags === ''"
+            style="color: green;">
+          <b>OK</b>
+      </span>
+
+      <button mat-icon-button color="primary"
+              (click)="delCAPerson(caperson);"
+              *ngIf="dataService.CheckIfLink(caperson.links, 'delete')">
+              <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+
+  </div>
+
+  <br>
+  <button class="col-12 col-md-2"
+          mat-raised-button color="warn"
+          (click)="approve()"
+          *ngIf="dataService.CheckIfLink(ca.links, 'approve')">
+        Approve
+  </button>
+</div>

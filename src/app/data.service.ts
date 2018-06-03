@@ -183,6 +183,10 @@ export class DataService {
         this.router.navigate(['/contingent', this.EncodeObject(link), (newRecord ? '1' : '0')]);
     }
 
+    NavigateDesk1(link: Link): void {
+        this.router.navigate(['/desk1', this.EncodeObject(link)]);
+    }
+
     /**
      * Navigate to list of People
      */

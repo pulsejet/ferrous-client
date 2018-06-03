@@ -18,6 +18,25 @@
     </button>
 </div>
 
+<div fxLayout
+     fxLayoutGap="20px"
+     fxLayoutGap.xs="3px">
+
+    <mat-form-field fxFlex>
+        <input matInput
+               (keyup.enter)="Desk1(enteredDesk1)"
+               name="d1" [(ngModel)]="enteredDesk1"
+               placeholder="Desk 1 - PIN">
+    </mat-form-field>
+
+    <button mat-icon-button
+            color="primary"
+            (click)="Desk1(enteredDesk1)"
+            style="max-height:37px;">
+        <mat-icon>search</mat-icon>
+    </button>
+</div>
+
 <div class="container"
      fxLayout
      fxLayout.xs="column">

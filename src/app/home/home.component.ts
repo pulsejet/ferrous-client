@@ -17,6 +17,7 @@ export class HomeComponent {
         this.titleService.setTitle('Home');
     }
     enteredCL: string;
+    enteredDesk1: string;
 
     FindContingent(clno: string) {
         this.dataService.NavigateContingentDetails(
@@ -25,5 +26,12 @@ export class HomeComponent {
                 { id: clno }
             )
         );
+    }
+
+    Desk1(pin: string) {
+        this.dataService.NavigateDesk1(this.dataService.FillURITemplate(
+            this.dataService.GetLink(this.dataService.GetAPISpec(), 'desk1'),
+            { id: pin}
+        ));
     }
 }
