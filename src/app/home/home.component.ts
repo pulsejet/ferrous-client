@@ -18,6 +18,7 @@ export class HomeComponent {
     }
     enteredCL: string;
     enteredDesk1: string;
+    enteredDesk2: string;
 
     FindContingent(clno: string) {
         this.dataService.NavigateContingentDetails(
@@ -30,6 +31,13 @@ export class HomeComponent {
 
     Desk1(pin: string) {
         this.dataService.NavigateDesk1(this.dataService.FillURITemplate(
+            this.dataService.GetLink(this.dataService.GetAPISpec(), 'desk1'),
+            { id: pin}
+        ));
+    }
+
+    Desk2(pin: string) {
+        this.dataService.NavigateDesk2(this.dataService.FillURITemplate(
             this.dataService.GetLink(this.dataService.GetAPISpec(), 'desk1'),
             { id: pin}
         ));

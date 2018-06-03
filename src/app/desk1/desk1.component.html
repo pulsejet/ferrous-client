@@ -4,11 +4,14 @@
     <div class="col-4 col-md-9"> {{ ca.contingentLeaderNo }} </div>
 
     <div class="col-8 col-md-3"><b>Subcontingent No.</b></div>
-    <div class="col-4 col-md-9"> {{ ca.contingentArrivalNo }} -
-      <span style="color: green" *ngIf="ca.approved">
+      <div class="col-4 col-md-9"> {{ ca.contingentArrivalNo }}</div>
+
+    <div class="col-8 col-md-3"><b>Approval</b></div>
+    <div class="col-4 col-md-9">
+      <span style="color: red" *ngIf="ca.approved">
         <b>Approved</b>
       </span>
-      <span style="color: red" *ngIf="!ca.approved">
+      <span style="color: green" *ngIf="!ca.approved">
         <b>Pending</b>
       </span>
     </div>
@@ -74,11 +77,11 @@
 
     <div style="float: right">
       <span *ngIf="caperson.flags !== ''"
-            style="color: red;">
+            style="color: green;">
           <b>{{ caperson.flags }}</b>
       </span>
       <span *ngIf="caperson.flags === ''"
-            style="color: green;">
+            style="color: red;">
           <b>OK</b>
       </span>
 

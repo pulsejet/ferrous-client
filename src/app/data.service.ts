@@ -187,6 +187,10 @@ export class DataService {
         this.router.navigate(['/desk1', this.EncodeObject(link)]);
     }
 
+    NavigateDesk2(link: Link): void {
+        this.router.navigate(['/desk2', this.EncodeObject(link)]);
+    }
+
     /**
      * Navigate to list of People
      */

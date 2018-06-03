@@ -34,6 +34,7 @@ import { ClickStopPropagationDirective } from './helpers';
 import 'hammerjs';
 import { LoginComponent } from './login/login.component';
 import { Desk1Component } from './desk1/desk1.component';
+import { Desk2Component } from './desk2/desk2.component';
 
 @NgModule({
     bootstrap: [
@@ -60,7 +61,8 @@ import { Desk1Component } from './desk1/desk1.component';
         ClickStopPropagationDirective,
         FilterContingents,
         LoginComponent,
-        Desk1Component
+        Desk1Component,
+        Desk2Component
     ],
     imports: [
         BrowserModule,
@@ -88,6 +90,7 @@ import { Desk1Component } from './desk1/desk1.component';
             { path: 'location-select/:link/:clno', component: LocationSelectComponent },
 
             { path: 'desk1/:link', component: Desk1Component },
+            { path: 'desk2/:link', component: Desk2Component },
 
             { path: '**', redirectTo: 'home' }
         ])
