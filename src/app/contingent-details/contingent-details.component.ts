@@ -136,27 +136,6 @@ export class ContingentDetailsComponent {
     }
 
     /**
-     * Compute number of people arrived
-     * @param female true returns number of females
-     */
-    public GetArrivedContingent(female: boolean): string {
-        if (!this.contingent.contingentArrival) { return ''; }
-
-        let curr = 0;
-        let currO = 0;
-
-        for (const ca of this.contingent.contingentArrival) {
-            curr += Number(female ? ca.female : ca.male);
-            currO += Number(female ? ca.femaleOnSpot : ca.maleOnSpot);
-        }
-        if (currO > 0) {
-            return curr + ' + ' + currO;
-        } else {
-            return curr.toString();
-        }
-    }
-
-    /**
      * Get no of people by sex
      * @param female true for Female
      */

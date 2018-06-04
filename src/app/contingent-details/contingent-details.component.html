@@ -18,10 +18,10 @@
             <div class="col-4 col-md-9"> {{ GetPeopleBySex(true) }} </div>
 
             <div class="col-8 col-md-3"><b>Arrived (M):</b></div>
-            <div class="col-4 col-md-9"> {{ GetArrivedContingent(false) }} </div>
+            <div class="col-4 col-md-9"> {{ dataService.GetArrivedContingent(contingent, false) }} </div>
 
             <div class="col-8 col-md-3"><b>Arrived (F):</b></div>
-            <div class="col-4 col-md-9"> {{ GetArrivedContingent(true) }} </div>
+            <div class="col-4 col-md-9"> {{ dataService.GetArrivedContingent(contingent, true) }} </div>
         </ng-container>
 
         <ng-container *ngIf="!editing">
@@ -62,12 +62,12 @@
              class="xunk-max-200px-desktop">
 
             <ng-container *ngIf="!editing">
-                <button fxFlex mat-raised-button color="primary" 
+                <button fxFlex mat-raised-button color="primary"
                         (click)="edit();"
                         *ngIf="dataService.CheckIfLink(links, 'update')">
                         Edit
                 </button>
-                <button mat-button color="warn" 
+                <button mat-button color="warn"
                         (click)="delete();"
                         *ngIf="dataService.CheckIfLink(links, 'delete')">
                         Delete
@@ -92,7 +92,7 @@
              class="xunk-room-card mat-elevation-z1">
             <b>{{ roomA.room.location }} - {{ roomA.room.roomName }}</b> - {{ roomA.room.capacity}}
             <ng-container *ngIf="roomA.partial > 0">(partial, {{roomA.partial}})</ng-container>
-            <button mat-icon-button color="warn" 
+            <button mat-icon-button color="warn"
                     (click)="unallocateRoom(roomA);"
                     *ngIf="dataService.CheckIfLink(roomA.links, 'delete')">
                     <mat-icon>delete</mat-icon>

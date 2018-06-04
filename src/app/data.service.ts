@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link } from './interfaces';
+import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent } from './interfaces';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import * as uriTemplates from 'uri-templates';
@@ -328,5 +328,29 @@ export class DataService {
      */
     Logout(): Observable<any> {
         return this.FireLink(this.GetLink(this.GetAPISpec(), 'logout'));
+    }
+
+    /* ======================== Data Helpers =============================== */
+
+    /**
+     * Compute number of people arrived
+     * @param female true returns number of females
+     */
+    public GetArrivedContingent(contingent: Contingent, female: boolean): string {
+        if (!contingent.contingentArrival) { return ''; }
+
+        let curr = 0;
+        let currO = 0;
+
+        for (const ca of contingent.contingentArrival) {
+            curr += Number(female ? ca.female : ca.male);
+            currO += Number(female ? ca.femaleOnSpot : ca.maleOnSpot);
+        }
+
+        if (currO > 0) {
+            return curr + ' + ' + currO;
+        } else {
+            return curr.toString();
+        }
     }
 }
