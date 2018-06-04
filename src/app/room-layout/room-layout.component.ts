@@ -180,12 +180,12 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             const index = self.rooms.indexOf(room);
 
             /* Mark the room selected */
-            $(ctrl).click(() => {
+            $(ctrl).on('click', () => {
                 this.handleRoomClick(index);
             });
 
             /* Handle right click */
-            $(ctrl).contextmenu(() => {
+            $(ctrl).on('contextmenu', () => {
                 this.handleContextMenuRoom(index);
                 return false;
             });
