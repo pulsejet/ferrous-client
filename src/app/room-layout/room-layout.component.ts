@@ -86,28 +86,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
         /* Reload room on updated event */
         this.hubConnection.on('updated', rids => {
-            /* Fire the link to download multiple rooms */
-            this.dataService.FireLink(
-                this.dataService.GetLink(this.links, 'list_rooms'), rids
-            ).subscribe(result => {
-
-                /* Update all returned rooms */
-                const rooms = result as Room[];
-                rooms.forEach(room => {
-                    const index = this.rooms.findIndex(r => r.roomId === room.roomId);
-                    this.rooms[index] = room;
-                    this.assignRoom(this.rooms[index]);
-                });
-
-                /* Notify the user */
-                if (!this.roomUpdateSnackbarShowing) {
-                    this.snackBar.open('Room data updated', 'Dismiss', {
-                        duration: 2000,
-                    });
-                    this.roomUpdateSnackbarShowing = true;
-                    setTimeout(() => this.roomUpdateSnackbarShowing = false, 2000);
-                }
-            });
+            this.hubConnectionUpdate(rids);
         });
 
         /* Join the group for the building */
@@ -132,6 +111,32 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             setTimeout(() => {
                 this.startBuildingHubConnection();
             }, 500);
+        });
+    }
+
+    hubConnectionUpdate(rids: any) {
+        /* Fire the link to download multiple rooms */
+        this.dataService.FireLink(
+            this.dataService.GetLink(this.links, 'list_rooms'), rids
+        ).subscribe(result => {
+
+            /* Update all returned rooms */
+            const rooms = result as Room[];
+            rooms.forEach(room => {
+                const index = this.rooms.findIndex(r => r.roomId === room.roomId);
+                this.rooms[index] = room;
+                this.assignRoom(this.rooms[index]);
+            });
+
+            /* Notify the user */
+            if (!this.roomUpdateSnackbarShowing) {
+                this.snackBar.open('Room data updated', 'Dismiss', {
+                    duration: 2000,
+                });
+                this.roomUpdateSnackbarShowing = true;
+                setTimeout(() => this.roomUpdateSnackbarShowing = false, 2000);
+            }
+
         });
     }
 
