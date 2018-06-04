@@ -277,31 +277,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** Allot all selected rooms to current Contingent */
     public allot() {
-
         /* Validate */
-        for (const room of this.rooms.filter(r => r.selected === true)) {
-            /* Status */
-            if (room.status !== 1) {
-                /* Show error */
-                this.snackBar.open('Non-allocable room ' + room.roomName, 'Dismiss', {
-                    duration: 2000,
-                });
-                console.log('Non-allocable room ' + room.roomName);
-                return;
-            }
-
-            /* Partial */
-            if ((room.partialallot || this.checkPartial(room)) &&
-                (!this.dataService.CheckValidNumber(room.partialsel, 1))) {
-
-                /* Show error */
-                this.snackBar.open('Invalid partial capacity for ' + room.roomName, 'Dismiss', {
-                    duration: 2000,
-                });
-                console.log('Invalid partial capacity for ' + room.roomName);
-                return;
-            }
-        }
+        if (this.hasUnallotableRoomSelected()) { return; }
 
         /* Fire off! */
         this.dataService.FireLink(
