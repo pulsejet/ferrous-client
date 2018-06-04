@@ -353,4 +353,24 @@ export class DataService {
             return curr.toString();
         }
     }
+
+    /**
+     * Get no of people by sex
+     * @param female true for Female
+     */
+    public GetPeopleBySex(contingent: Contingent, female: boolean): string {
+        if (!contingent.person) { return ''; }
+
+        let curr = 0;
+
+        /* Count people */
+        for (const person of contingent.person) {
+            if (person.sex && ((female && person.sex.toUpperCase() === 'F') ||
+                (!female && person.sex.toUpperCase() === 'M'))) {
+                curr++;
+            }
+        }
+
+        return curr.toString();
+    }
 }

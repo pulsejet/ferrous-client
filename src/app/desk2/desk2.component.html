@@ -41,10 +41,10 @@
 
       <ng-container *ngIf="contingent">
           <div class="col-8 col-md-3"><b>Registered (M):</b></div>
-          <div class="col-4 col-md-9"> {{ GetPeopleBySex(false) }} </div>
+          <div class="col-4 col-md-9"> {{ dataService.GetPeopleBySex(contingent, false) }} </div>
 
           <div class="col-8 col-md-3"><b>Registered (F):</b></div>
-          <div class="col-4 col-md-9"> {{ GetPeopleBySex(true) }} </div>
+          <div class="col-4 col-md-9"> {{ dataService.GetPeopleBySex(contingent, true) }} </div>
 
           <div class="col-8 col-md-3"><b>Arrived (M):</b></div>
           <div class="col-4 col-md-9"> {{ dataService.GetArrivedContingent(contingent, false) }} </div>

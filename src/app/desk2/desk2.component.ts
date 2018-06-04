@@ -49,23 +49,4 @@ export class Desk2Component implements OnInit {
     this.dataService.NavigateLayoutSelect(this.ca, this.ca.contingentLeaderNo);
   }
 
-  /**
-   * Get no of people by sex
-   * @param female true for Female
-   */
-  public GetPeopleBySex(female: boolean): string {
-    if (!this.contingent.person) { return ''; }
-
-    let curr = 0;
-
-    /* Count people */
-    for (const person of this.contingent.person) {
-        if (person.sex && ((female && person.sex.toUpperCase() === 'F') ||
-            (!female && person.sex.toUpperCase() === 'M'))) {
-            curr++;
-        }
-    }
-
-    return curr.toString();
-  }
 }
