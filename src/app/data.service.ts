@@ -1,5 +1,5 @@
-﻿import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link } from './interfaces';
 import { Router } from '@angular/router';

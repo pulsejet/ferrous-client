@@ -6,7 +6,7 @@ import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
-import { HubConnection } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import * as $ from 'jquery';
 import { SlideInOutAnimation } from '../animations';
 
@@ -80,9 +80,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         }
 
         /* Connect to the websocket */
-        this.hubConnection = new HubConnection(
-            this.dataService.GetLink(this.dataService.GetAPISpec(), 'building_websocket').href
-        );
+        this.hubConnection = new HubConnectionBuilder()
+                .withUrl(this.dataService.GetLink(this.dataService.GetAPISpec(), 'building_websocket').href)
+                .build();
 
         /* Reload room on updated event */
         this.hubConnection.on('updated', rids => {
