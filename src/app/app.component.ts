@@ -20,13 +20,12 @@ export class AppComponent implements OnDestroy {
     constructor(
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
-        private titleService: Title,
+        public titleService: Title,
         public dataService: DataService) {
 
         this.mobileQuery = media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addListener(this._mobileQueryListener);
-        this.titleService.setTitle('Home');
 
         this.dataService.RefreshAPISpec().subscribe(api => {
             this.dataService._API_SPEC = api;

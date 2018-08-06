@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as $ from 'jquery';
 import { DataService } from '../data.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,12 @@ export class LoginComponent implements OnInit {
   public usernameError = '';
   public passwordError = '';
 
-  constructor(public dataService: DataService) {}
+  constructor(
+    public dataService: DataService,
+    public titleService: Title,
+  ) {
+    this.titleService.setTitle('Ferrous Login');
+  }
 
   ngOnInit() {
   }
