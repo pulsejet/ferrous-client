@@ -1,4 +1,4 @@
-<div class="example-container" 
+<div class="example-container"
     [class.example-is-mobile]="mobileQuery.matches"
     *ngIf='initialized && dataService.loggedIn && dataService.GetAPISpec()'>
 
@@ -19,7 +19,7 @@
 
         <span class="fill-space"></span>
 
-        <a id="logout" mat-icon-button (click)="logout()"><mat-icon>exit_to_app</mat-icon></a>
+        <button id="logout" mat-button (click)="logout()">Log Out</button>
     </mat-toolbar>
 
     <!-- Sidenav -->

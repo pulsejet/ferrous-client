@@ -9,6 +9,16 @@
   padding-bottom: 20px;
 }
 
+#logomi {
+  width: 100%;
+  margin: 20px auto;
+}
+
+#logomi img {
+  width: 50%;
+  margin-left: 25%;
+}
+
 .dialog {
   color: #222;
   -webkit-perspective: 1200px;
@@ -29,7 +39,7 @@
 .dialog .dialog-back {
   width: auto;
   position: absolute;
-  top: 50%;
+  top: 46%;
   left: 50%;
   padding: 0;
   margin: 0;

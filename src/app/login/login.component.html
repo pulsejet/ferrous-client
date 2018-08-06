@@ -1,10 +1,13 @@
 <div class="xunk-full-container">
     <div id="dialog" class="dialog dialog-effect-in">
         <div class="dialog-front">
+            <div id="logomi">
+                <img src="/assets/mi.png">
+            </div>
             <div class="dialog-content">
                 <form id="login_form" class="dialog-form" action="" method="POST">
                     <fieldset>
-                        <legend>Log in</legend>
+                        <legend>Log in to Ferrous</legend>
                         <div class="form-group">
                             <label for="user_username" class="control-label">Username:</label>
                             <input (click)='clearMessages()' [(ngModel)]="username" type="text" id="user_username" class="form-control" name="user_username" autofocus />
