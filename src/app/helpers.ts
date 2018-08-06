@@ -3,10 +3,10 @@
 /** Helper for using Angular Paginator */
 export class PaginatorHelper {
     /** Default page size */
-    pageSize = 10;
+    pageSize = 100;
 
     /** Default options for page size */
-    pageSizeOptions: number[] = [5, 10, 25, 100, 200];
+    pageSizeOptions: number[] = [5, 10, 25, 100, 200, 500, 1000, 5000, 10000];
 
     /** Event handler for changed size */
     pageEvent: PageEvent;
