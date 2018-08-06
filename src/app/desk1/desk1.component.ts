@@ -94,4 +94,9 @@ export class Desk1Component implements OnInit {
     });
   }
 
+  /** Open the contingent */
+  openContingent() {
+    this.dataService.NavigateContingentDetails(this.dataService.GetLink(this.ca.links, 'contingent'), false);
+  }
+
 }

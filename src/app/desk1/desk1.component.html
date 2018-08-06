@@ -95,10 +95,17 @@
   </div>
 
   <br>
-  <button class="col-12 col-md-2"
+  <button class="col-12 col-md-2 btn"
           mat-raised-button color="warn"
           (click)="approve()"
           *ngIf="dataService.CheckIfLink(ca.links, 'approve')">
         Approve
+  </button>
+
+  <button class="col-12 col-md-2 btn"
+          mat-raised-button color="primary"
+          (click)="openContingent()"
+          *ngIf="dataService.CheckIfLink(ca.links, 'contingent')">
+        Open Contingent
   </button>
 </div>

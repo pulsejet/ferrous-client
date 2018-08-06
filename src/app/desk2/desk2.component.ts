@@ -49,4 +49,9 @@ export class Desk2Component implements OnInit {
     this.dataService.NavigateLayoutSelect(this.ca, this.ca.contingentLeaderNo);
   }
 
+  /** Open the contingent */
+  openContingent() {
+    this.dataService.NavigateContingentDetails(this.dataService.GetLink(this.ca.links, 'contingent'), false);
+  }
+
 }
