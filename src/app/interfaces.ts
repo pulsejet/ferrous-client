@@ -28,7 +28,6 @@ export interface Person {
     mino: string;
     college: string;
     contingentLeaderNo: string;
-    contingentLeaderNoNavigation: string;
     sex: string;
     email: string;
     phone: string;
