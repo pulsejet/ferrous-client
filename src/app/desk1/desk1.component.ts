@@ -32,6 +32,7 @@ export class Desk1Component implements OnInit {
         this.urlLink = this.dataService.DecodeObject(params['link']);
         this.dataService.FireLink<ContingentArrival>(this.urlLink).subscribe(result => {
           this.ca = result;
+          this.checkDuplicates();
 
           /** Fill in people for missing ones */
           for (const caPerson of this.ca.caPeople) {
@@ -42,6 +43,20 @@ export class Desk1Component implements OnInit {
 
         }, error => console.error(error));
     });
+  }
+
+  /** Check and mark duplicates */
+  checkDuplicates(): boolean {
+    const minos = [];
+    this.ca.caPeople.forEach(m => {
+      m.flags = m.flags.replace('DUP', '');
+      if (minos.includes(m.mino)) {
+        m.flags += 'DUP';
+      } else {
+        minos.push(m.mino);
+      }
+    });
+    return !(minos.length === this.ca.caPeople.length);
   }
 
   /** Make a call to the forwarding API to fill a person */
@@ -108,6 +123,10 @@ export class Desk1Component implements OnInit {
 
   /** Approve the CA */
   approve() {
+    if (this.checkDuplicates() && !confirm('This subcontingent has duplicates. Approve?')) {
+      return;
+    }
+
     this.dataService.FireLink(this.dataService.GetLink(this.ca.links, 'approve'), this.ca).subscribe(() => {
       this.snackBar.open('Subcontingent Approved', 'Dismiss', {
         duration: 2000,
