@@ -1,4 +1,8 @@
 <div class="main">
+  <div class="center">
+    <img class="head" src="https://moodi.org/images/logo_horizontal.svg" />
+  </div>
+
   <mat-vertical-stepper [linear]="true"
                         #stepper
                         (selectionChange)="constructDetails($event)"
@@ -30,7 +34,7 @@
     </mat-step>
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Details of People</ng-template>
+        <ng-template matStepLabel>Arrival Details</ng-template>
 
         <mat-form-field class="full-width" *ngFor="let person of details">
           <input matInput [placeholder]="getPlaceholder(person)" [formControlName]="person.ctrl" required upperCase>
@@ -44,9 +48,47 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Submit</ng-template>
-      You are now done.
+
+      <div *ngIf="validation" class="validation">
+        <p>Contingent Leader No. - {{ validation.contingentLeaderNo }}</p>
+        <div *ngFor="let caPerson of validation.caPeople">
+          <span [ngClass]="getErrorClass(caPerson)">
+            {{ caPerson.mino }} <span *ngIf="caPerson.person">- {{ caPerson.person.name }}</span>
+          </span>
+        </div>
+
+        <br />
+
+        <p>
+          <span *ngIf="!hasSelf()">
+              <b>
+                It seems your own MI number is not present in the list. You should also include your MI number if you will
+                be availing accomodation.
+              </b>
+            </span>
+        </p>
+
+        <p>
+          <span *ngIf="!hasSome()">
+            <b>
+              Seems there is no one here! Make sure this is correct!
+            </b>
+          </span>
+        </p>
+
+        <p>
+          <span *ngIf="hasValidationErrors()">
+            <b>
+              The MI numbers marked with red have some issues with payment or registration. If you think you have filled everything
+              correctly, press the submit button and contact Hospitality Desk 1
+            </b>
+          </span>
+        </p>
+
+      </div>
+
       <div>
-        <button class="button" mat-button color="warn" (click)="stepper.reset()">Reset</button>
+        <button class="button" mat-button matStepperPrevious>Back</button>
         <button class="button" mat-raised-button color="primary" [disabled]="submitting" (click)="submit()">Submit</button>
       </div>
     </mat-step>

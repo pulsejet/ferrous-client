@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../data.service';
-import { ContingentArrival } from '../interfaces';
+import { ContingentArrival, CAPerson } from '../interfaces';
 
 interface FormPerson {
   mino: string;
@@ -36,6 +36,7 @@ export class RegisterComponent implements OnInit {
 
   public nmale = 0;
   public nfemale = 0;
+  public validation: ContingentArrival;
 
   private minoValidPattern = Validators.required; // Validators.pattern('MI-[A-Za-z]{3}-[0-9]{3}');
 
@@ -90,6 +91,18 @@ export class RegisterComponent implements OnInit {
 
       /* Build */
       this.secondFormGroup = this._formBuilder.group(controls);
+    } else if (e.selectedIndex === 2) {
+      this.submitting = true;
+      this.dataService.FireLink<ContingentArrival>(
+        this.dataService.GetLink(
+          this.dataService.GetAPISpec(), 'validatepostform1'), this.getRequest()
+      ).subscribe(result => {
+        this.submitting = false;
+        this.validation = result;
+      }, error => {
+        this.submitting = false;
+        alert('An error occured - ' + error.error.message);
+      });
     }
   }
 
@@ -99,6 +112,20 @@ export class RegisterComponent implements OnInit {
   }
 
   submit() {
+    this.submitting = true;
+    this.dataService.FireLink<ContingentArrival>(
+      this.dataService.GetLink(
+        this.dataService.GetAPISpec(), 'postform1'), this.getRequest()
+    ).subscribe(result => {
+        this.submitting = false;
+        this.caPIN = result.contingentArrivalNo;
+      }, error => {
+        this.submitting = false;
+        alert('An error occured - ' + error.error.message);
+      });
+  }
+
+  getRequest(): FormAPI {
     const request = {} as FormAPI;
     request.contingentLeaderNo = this.firstFormGroup.get('clno').value;
     request.male = this.firstFormGroup.get('nmale').value;
@@ -108,17 +135,28 @@ export class RegisterComponent implements OnInit {
     for (const person of this.details) {
       request.minos.push(this.secondFormGroup.get(person.ctrl).value);
     }
+    return request;
+  }
 
-    this.submitting = true;
-    this.dataService.FireLink<ContingentArrival>(
-      this.dataService.GetLink(this.dataService.GetAPISpec(), 'postform1'), request
-      ).subscribe(result => {
-        this.submitting = false;
-        this.caPIN = result.contingentArrivalNo;
-      }, error => {
-        this.submitting = false;
-        alert('An error occured - ' + error.error.message);
-      });
+  getErrorClass(caPerson: CAPerson) {
+    return (caPerson.flags === '') ? 'ca-valid' : 'ca-error';
+  }
+
+  hasValidationErrors() {
+    for (const p of this.validation.caPeople) {
+      if (p.flags !== '') { return true; }
+    }
+    return false;
+  }
+
+  hasSome() {
+    return this.validation.caPeople.length > 0;
+  }
+
+  hasSelf() {
+    return this.validation.caPeople.map(m => m.mino).includes(
+      this.firstFormGroup.get('mino').value
+    );
   }
 
 }

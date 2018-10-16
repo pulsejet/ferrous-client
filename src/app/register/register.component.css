@@ -4,6 +4,16 @@ div.main {
     margin: 10px auto;
 }
 
+.center {
+    width: 75%;
+    margin: 0 auto;
+}
+
+img.head {
+    width: 100%;
+    margin: 10px auto;
+}
+
 .full-width {
     width: 100%;
 }
@@ -28,4 +38,17 @@ form {
 
 .text-center {
     text-align: center;
+}
+
+.ca-error {
+    font-weight: bold;
+    color: red;
+}
+
+.ca-valid {
+    color: green;
+}
+
+.validation {
+    margin-bottom: 20px;
 }
