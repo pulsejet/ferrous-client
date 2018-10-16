@@ -1,3 +1,4 @@
+<ng-container *ngIf="!isGuest(); else guest">
 <div class="example-container"
     [class.example-is-mobile]="mobileQuery.matches"
     *ngIf='initialized && dataService.loggedIn && dataService.GetAPISpec()'>
@@ -46,3 +47,9 @@
 </div>
 
 <app-login *ngIf='initialized && !dataService.loggedIn'></app-login>
+
+</ng-container>
+
+<ng-template #guest>
+    <router-outlet></router-outlet>
+</ng-template>

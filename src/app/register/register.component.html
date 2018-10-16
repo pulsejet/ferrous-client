@@ -1,0 +1,66 @@
+<div class="main">
+  <mat-vertical-stepper [linear]="true"
+                        #stepper
+                        (selectionChange)="constructDetails($event)"
+                        [hidden]="caPIN">
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Basic Information</ng-template>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Contingent Leader No." formControlName="clno" required upperCase>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Your MI Number" formControlName="mino" required upperCase>
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="People with you (Male)" formControlName="nmale" required type="number">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="People with you (Female)" formControlName="nfemale" required type="number">
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Details of People</ng-template>
+
+        <mat-form-field class="full-width" *ngFor="let person of details">
+          <input matInput [placeholder]="getPlaceholder(person)" [formControlName]="person.ctrl" required upperCase>
+        </mat-form-field>
+
+        <div>
+          <button class="button" mat-button matStepperPrevious>Back</button>
+          <button class="button" mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Submit</ng-template>
+      You are now done.
+      <div>
+        <button class="button" mat-button color="warn" (click)="stepper.reset()">Reset</button>
+        <button class="button" mat-raised-button color="primary" [disabled]="submitting" (click)="submit()">Submit</button>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>
+
+  <div *ngIf="caPIN" class="text-center">
+    <div class="big-pin">
+      Your PIN is <br/> <span class="green">{{ caPIN }}</span>
+    </div>
+    Please produce this PIN number at <b>Hospitality Desk 1</b> for further action
+  </div>
+
+  <div *ngIf="submitting">
+      <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
+  </div>
+
+</div>

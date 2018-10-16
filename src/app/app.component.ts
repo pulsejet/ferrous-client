@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, Injectable, OnDestroy } from '@angular/co
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { DataService } from './data.service';
+import { Router } from '@angular/router';
 
 /* TODO: This code comes from the example for the angular   *
  * material side nav. Clean it up and add comments.         */
@@ -21,7 +22,8 @@ export class AppComponent implements OnDestroy {
         changeDetectorRef: ChangeDetectorRef,
         media: MediaMatcher,
         public titleService: Title,
-        public dataService: DataService) {
+        public dataService: DataService,
+        public router: Router) {
 
         this.mobileQuery = media.matchMedia('(max-width: 600px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -53,5 +55,9 @@ export class AppComponent implements OnDestroy {
             });
 
         });
+    }
+
+    isGuest() {
+        return this.router.url.includes('/register');
     }
 }

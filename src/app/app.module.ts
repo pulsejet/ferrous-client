@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
+import { NgxUpperCaseDirectiveModule } from 'ngx-upper-case-directive';
+
 import { NavMenuComponent } from './navmenu/navmenu.component';
 import { HomeComponent } from './home/home.component';
 
@@ -35,6 +37,7 @@ import 'hammerjs';
 import { LoginComponent } from './login/login.component';
 import { Desk1Component } from './desk1/desk1.component';
 import { Desk2Component } from './desk2/desk2.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
     bootstrap: [
@@ -62,7 +65,8 @@ import { Desk2Component } from './desk2/desk2.component';
         FilterContingents,
         LoginComponent,
         Desk1Component,
-        Desk2Component
+        Desk2Component,
+        RegisterComponent
     ],
     imports: [
         BrowserModule,
@@ -73,6 +77,7 @@ import { Desk2Component } from './desk2/desk2.component';
         HttpClientModule,
         FormsModule,
         MyMaterialClass,
+        NgxUpperCaseDirectiveModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
@@ -91,6 +96,8 @@ import { Desk2Component } from './desk2/desk2.component';
 
             { path: 'desk1/:link', component: Desk1Component },
             { path: 'desk2/:link', component: Desk2Component },
+
+            { path: 'register', component: RegisterComponent },
 
             { path: '**', redirectTo: 'home' }
         ])
