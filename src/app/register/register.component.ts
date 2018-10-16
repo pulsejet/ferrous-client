@@ -100,6 +100,7 @@ export class RegisterComponent implements OnInit {
       ).subscribe(result => {
         this.submitting = false;
         this.validation = result;
+        this.validationError = null;
       }, error => {
         this.submitting = false;
         this.validationError = error.error.message;
