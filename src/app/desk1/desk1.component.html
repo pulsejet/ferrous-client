@@ -51,7 +51,7 @@
      *ngIf="dataService.CheckIfLink(ca.links, 'add_caperson')">
     <!-- MI Number -->
     <mat-form-field fxFlex>
-        <input matInput
+        <input matInput upperCase
                name="clno" [(ngModel)]="enteredMINo"
                placeholder="Add MI No."
                (keyup.enter)="addCAPerson()">

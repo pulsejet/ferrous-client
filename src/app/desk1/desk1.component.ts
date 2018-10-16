@@ -31,9 +31,30 @@ export class Desk1Component implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
         this.urlLink = this.dataService.DecodeObject(params['link']);
         this.dataService.FireLink<ContingentArrival>(this.urlLink).subscribe(result => {
-        this.ca = result;
+          this.ca = result;
+
+          /** Fill in people for missing ones */
+          for (const caPerson of this.ca.caPeople) {
+            if (!caPerson.person) {
+              this.fillPersonForward(caPerson);
+            }
+          }
+
         }, error => console.error(error));
     });
+  }
+
+  /** Make a call to the forwarding API to fill a person */
+  fillPersonForward(caPerson: CAPerson) {
+    this.dataService.FireLink<any>(this.dataService.GetLink(
+      this.dataService.GetAPISpec(), 'person_forward'), null, { id: caPerson.mino }).subscribe(forwarded => {
+        const person = {} as Person;
+        person.name = `[Unregistered] ${forwarded.name}`;
+        person.mino = forwarded.mi_number;
+        person.email = forwarded.email;
+        person.sex = forwarded.gender;
+        caPerson.person = person;
+      });
   }
 
   /* Open person component */
@@ -58,6 +79,11 @@ export class Desk1Component implements OnInit {
       this.ca.caPeople.push(result);
       this.updatePeopleCount(result, 1);
       this.enteredMINo = '';
+
+      /* Update from forward API */
+      if (!result.person) {
+        this.fillPersonForward(result);
+      }
     });
   }
 
