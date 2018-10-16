@@ -110,7 +110,7 @@ export class Desk1Component implements OnInit {
 
   /** Approve the CA */
   approve() {
-    if (this.checkDuplicates() && !confirm('This subcontingent has duplicates. Approve?')) {
+    if (checkDuplicates(this.ca) && !confirm('This subcontingent has duplicates. Approve?')) {
       return;
     }
 
