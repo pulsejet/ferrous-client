@@ -24,8 +24,23 @@ export class PaginatorHelper {
     }
 }
 
+/** Check and mark duplicates in a contingent arrival */
+export function checkDuplicates(ca: ContingentArrival): boolean {
+    const minos = [];
+    ca.caPeople.forEach(m => {
+      m.flags = m.flags.replace('DUP', '');
+      if (minos.includes(m.mino)) {
+        m.flags += 'DUP';
+      } else {
+        minos.push(m.mino);
+      }
+    });
+    return !(minos.length === ca.caPeople.length);
+}
+
 /* Click Stop Propagation */
 import { Directive, HostListener } from '@angular/core';
+import { ContingentArrival } from './interfaces';
 
 @Directive({
     selector: '[appClickStopPropagation]'

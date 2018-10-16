@@ -4,6 +4,7 @@ import { DataService } from '../data.service';
 import { Router, Params, ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { checkDuplicates } from '../helpers';
 
 @Component({
   selector: 'app-desk1',
@@ -32,7 +33,7 @@ export class Desk1Component implements OnInit {
         this.urlLink = this.dataService.DecodeObject(params['link']);
         this.dataService.FireLink<ContingentArrival>(this.urlLink).subscribe(result => {
           this.ca = result;
-          this.checkDuplicates();
+          checkDuplicates(this.ca);
 
           /** Fill in people for missing ones */
           for (const caPerson of this.ca.caPeople) {
@@ -43,20 +44,6 @@ export class Desk1Component implements OnInit {
 
         }, error => console.error(error));
     });
-  }
-
-  /** Check and mark duplicates */
-  checkDuplicates(): boolean {
-    const minos = [];
-    this.ca.caPeople.forEach(m => {
-      m.flags = m.flags.replace('DUP', '');
-      if (minos.includes(m.mino)) {
-        m.flags += 'DUP';
-      } else {
-        minos.push(m.mino);
-      }
-    });
-    return !(minos.length === this.ca.caPeople.length);
   }
 
   /** Make a call to the forwarding API to fill a person */

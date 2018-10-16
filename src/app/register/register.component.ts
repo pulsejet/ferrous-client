@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DataService } from '../data.service';
 import { ContingentArrival, CAPerson } from '../interfaces';
+import { checkDuplicates } from '../helpers';
 
 interface FormPerson {
   mino: string;
@@ -38,6 +39,7 @@ export class RegisterComponent implements OnInit {
   public nfemale = 0;
   public validation: ContingentArrival;
   public validationError: string;
+  public validationDupes: boolean;
 
   private minoValidPattern = Validators.required; // Validators.pattern('MI-[A-Za-z]{3}-[0-9]{3}');
 
@@ -101,6 +103,9 @@ export class RegisterComponent implements OnInit {
         this.submitting = false;
         this.validation = result;
         this.validationError = null;
+
+        /* Check for duplicates */
+        this.validationDupes = checkDuplicates(result);
       }, error => {
         this.submitting = false;
         this.validationError = error.error.message;

@@ -72,10 +72,16 @@
           </b>
         </p>
 
+        <p *ngIf="validationDupes">
+          <b>
+            It seems there are duplicates in your filled MI numbers.
+          </b>
+        </p>
+
         <p *ngIf="hasValidationErrors()">
           <b>
-            The MI numbers marked with red have some issues with payment or registration. If you think you have filled everything
-            correctly, press the submit button and contact Hospitality Desk 1
+            The MI numbers marked with red have some issues with payment or registration or are duplicate.
+            If you think you have filled everything correctly, press the submit button and contact Hospitality Desk 1
           </b>
         </p>
 
