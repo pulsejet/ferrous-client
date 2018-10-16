@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
   public nmale = 0;
   public nfemale = 0;
   public validation: ContingentArrival;
+  public validationError: string;
 
   private minoValidPattern = Validators.required; // Validators.pattern('MI-[A-Za-z]{3}-[0-9]{3}');
 
@@ -101,7 +102,7 @@ export class RegisterComponent implements OnInit {
         this.validation = result;
       }, error => {
         this.submitting = false;
-        alert('An error occured - ' + error.error.message);
+        this.validationError = error.error.message;
       });
     }
   }
