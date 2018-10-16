@@ -18,6 +18,7 @@ export interface Contingent {
     person: Person[];
     roomAllocation: RoomAllocation[];
     contingentArrival: ContingentArrival[];
+    remark: string;
 
     links: Link[];
 }
