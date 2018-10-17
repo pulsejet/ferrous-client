@@ -1,8 +1,21 @@
 .main {
     font-size: 1.2em;
+    vertical-align: top;
+}
+
+.main > div {
+    vertical-align: top;
 }
 
 .card {
-    padding: 12px 12px;
-    margin: 8px;
+    padding: 12px 20px;
+    margin: 20px 4px;
+    overflow: hidden;
+}
+
+.chart {
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin: 0 auto;
+    max-width: 100%;
 }

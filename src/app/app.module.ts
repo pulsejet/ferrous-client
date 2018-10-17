@@ -32,6 +32,7 @@ import { DataService } from './data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { FilterContingents } from './pipes/filter-contingents';
 import { ClickStopPropagationDirective } from './helpers';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 import 'hammerjs';
 import { LoginComponent } from './login/login.component';
@@ -80,6 +81,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
         FormsModule,
         MyMaterialClass,
         NgxUpperCaseDirectiveModule,
+        Ng2GoogleChartsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
