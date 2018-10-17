@@ -1,30 +1,34 @@
 <div *ngIf="buildings" class="main">
   <div class="col-md-6 d-inline-block">
-    <div class="col-12">
-      <div class="card mat-elevation-z2">
-        <h2>Total Capacity</h2>
-        <p>Available - {{ getTotalAvailable() }}</p>
-        <p>Filled - {{ getTotalFilled() }}</p>
-        <p>Not Ready - {{ getTotalNR() }}</p>
-        <div class="chart">
-          <google-chart [data]="totalPie"></google-chart>
-        </div>
+    <div class="card mat-elevation-z2">
+      <h2>Total Capacity</h2>
+      <p>Available - {{ getTotalAvailable() }}</p>
+      <p>Filled - {{ getTotalFilled() }}</p>
+      <p>Not Ready - {{ getTotalNR() }}</p>
+      <div class="chart">
+        <google-chart [data]="totalPie"></google-chart>
       </div>
     </div>
 
-    <div class="col-12">
-      <div class="card mat-elevation-z2">
-        <h2>Rooms</h2>
-        <p>Total - {{ getRoomsTotal() }}</p>
-        <p>Empty - {{ getRoomsEmpty() }}</p>
-        <p>Partial - {{ getRoomsPartial() }}</p>
-        <p>Full - {{ getRoomsFilled() }}</p>
-        <p>Not Ready - {{ getRoomsNR() }}</p>
-        <div class="chart">
-          <google-chart [data]="roomsPie"></google-chart>
-        </div>
+    <div class="card mat-elevation-z2">
+      <h2>Rooms</h2>
+      <p>Total - {{ getRoomsTotal() }}</p>
+      <p>Empty - {{ getRoomsEmpty() }}</p>
+      <p>Partial - {{ getRoomsPartial() }}</p>
+      <p>Full - {{ getRoomsFilled() }}</p>
+      <p>Not Ready - {{ getRoomsNR() }}</p>
+      <div class="chart">
+        <google-chart [data]="roomsPie"></google-chart>
       </div>
     </div>
+
+    <div class="card mat-elevation-z2">
+      <h2>Rooms Distribution</h2>
+      <div class="chart">
+        <google-chart [data]="roomsChart"></google-chart>
+      </div>
+    </div>
+
   </div>
 
   <div class="col-md-6 d-inline-block">
@@ -39,7 +43,7 @@
       <div class="card mat-elevation-z2">
         <h2>Capacity Distribution</h2>
         <div class="chart">
-          <google-chart [data]="hostelChart"></google-chart>
+          <google-chart [data]="capacityChart"></google-chart>
         </div>
       </div>
     </div>

@@ -17,7 +17,8 @@ export class StatisticsComponent implements OnInit {
   public totalPie: any;
   public roomsPie: any;
   public availableCapacityPie: any;
-  public hostelChart: any;
+  public capacityChart: any;
+  public roomsChart: any;
 
   constructor(
     public dataService: DataService,
@@ -35,11 +36,12 @@ export class StatisticsComponent implements OnInit {
 
       sortNatural(this.buildings, 'locationFullName');
 
-      /* Construct pies */
+      /* Construct charts */
       this.makeTotalPie();
       this.makeRoomsPie();
       this.makeAvailableCapacityPie();
-      this.makeHostelChart();
+      this.makeCapacityChart();
+      this.makeRoomsChart();
     });
   }
 
@@ -71,7 +73,7 @@ export class StatisticsComponent implements OnInit {
     };
   }
 
-  makeHostelChart() {
+  makeCapacityChart() {
     const dataTable = [];
     dataTable.push(['Building', 'Available', 'Filled', 'Not Ready']);
     for (const building of this.buildings) {
@@ -82,8 +84,26 @@ export class StatisticsComponent implements OnInit {
         building.capacityNotReady
       ]);
     }
+    this.capacityChart = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink']);
+  }
 
-    this.hostelChart = {
+  makeRoomsChart() {
+    const dataTable = [];
+    dataTable.push(['Building', 'Available', 'Partial', 'Full', 'Not Ready']);
+    for (const building of this.buildings) {
+      dataTable.push([
+        building.locationFullName,
+        building.roomsEmpty,
+        building.roomsPartial,
+        building.roomsFilled,
+        building.roomsNotReady
+      ]);
+    }
+    this.roomsChart = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink']);
+  }
+
+  getBigBarChart(dataTable: any, colors: any) {
+    return {
       chartType: 'BarChart',
       dataTable: dataTable,
       options: {
@@ -92,7 +112,7 @@ export class StatisticsComponent implements OnInit {
         height: 600,
         width: 460,
         chartArea: { height: 520 },
-        colors: ['darkblue', 'orange', 'lightpink']
+        colors: colors
       },
     };
   }
