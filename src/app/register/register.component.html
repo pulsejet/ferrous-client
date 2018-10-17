@@ -32,6 +32,7 @@
         </div>
       </form>
     </mat-step>
+
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Arrival Details</ng-template>
@@ -46,6 +47,26 @@
         </div>
       </form>
     </mat-step>
+
+    <mat-step [stepControl]="thirdFormGroup" [optional]="true">
+      <form [formGroup]="thirdFormGroup">
+        <ng-template matStepLabel>On-Spot</ng-template>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="On-Spot Requests (Male)" formControlName="maleOnSpotDemand" required type="number">
+        </mat-form-field>
+
+        <mat-form-field class="full-width">
+          <input matInput placeholder="On-Spot Requests (Female)" formControlName="maleOnSpotDemand" required type="number">
+        </mat-form-field>
+
+        <div>
+          <button class="button" mat-button matStepperPrevious>Back</button>
+          <button class="button" mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
     <mat-step>
       <ng-template matStepLabel>Submit</ng-template>
 
@@ -58,6 +79,11 @@
         </div>
 
         <br />
+
+        <p *ngIf="hasOnspot()">
+          You have requested for on-spot accommodation. Requests for on-spot accommodation will be granted
+          on the basis on availability. Submitting this form does NOT mean you have received accommodation.
+        </p>
 
         <p *ngIf="!hasSelf()">
           <b>
@@ -88,7 +114,7 @@
       </div>
 
       <p class="ca-error" *ngIf="validationError">
-        ERROR- {{ validationError }}
+        ERROR - {{ validationError }}
       </p>
 
       <div>

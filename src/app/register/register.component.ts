@@ -17,6 +17,8 @@ interface FormAPI {
   mino: string;
   male: number;
   female: number;
+  maleOnSpotDemand: number;
+  femaleOnSpotDemand: number;
   minos: string[];
 }
 
@@ -29,6 +31,7 @@ export class RegisterComponent implements OnInit {
 
   public firstFormGroup: FormGroup;
   public secondFormGroup: FormGroup;
+  public thirdFormGroup: FormGroup;
 
   public caPIN: number;
   public submitting = false;
@@ -57,11 +60,17 @@ export class RegisterComponent implements OnInit {
     });
 
     this.secondFormGroup = this._formBuilder.group({});
+
+    this.thirdFormGroup = this._formBuilder.group({
+      maleOnSpotDemand: [0, Validators.required],
+      femaleOnSpotDemand: [0, Validators.required]
+    });
   }
 
   /** Construct boxes */
   constructDetails(e: any) {
     if (e.selectedIndex === 1) {
+      /* Details Page */
       const nmale: number = this.firstFormGroup.get('nmale').value;
       const nfemale: number = this.firstFormGroup.get('nfemale').value;
 
@@ -94,7 +103,9 @@ export class RegisterComponent implements OnInit {
 
       /* Build */
       this.secondFormGroup = this._formBuilder.group(controls);
-    } else if (e.selectedIndex === 2) {
+
+    } else if (e.selectedIndex === 3) {
+      /* Validation Page */
       this.submitting = true;
       this.dataService.FireLink<ContingentArrival>(
         this.dataService.GetLink(
@@ -138,6 +149,8 @@ export class RegisterComponent implements OnInit {
     request.male = this.firstFormGroup.get('nmale').value;
     request.female = this.firstFormGroup.get('nfemale').value;
     request.minos = [];
+    request.maleOnSpotDemand = this.thirdFormGroup.get('maleOnSpotDemand').value;
+    request.femaleOnSpotDemand = this.thirdFormGroup.get('femaleOnSpotDemand').value;
 
     for (const person of this.details) {
       request.minos.push(this.secondFormGroup.get(person.ctrl).value);
@@ -164,6 +177,10 @@ export class RegisterComponent implements OnInit {
     return this.validation.caPeople.map(m => m.mino).includes(
       this.firstFormGroup.get('mino').value
     );
+  }
+
+  hasOnspot() {
+    return this.validation.maleOnSpotDemand + this.validation.femaleOnSpotDemand > 0;
   }
 
 }

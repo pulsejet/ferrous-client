@@ -88,6 +88,8 @@ export interface ContingentArrival {
     female: number;
     maleOnSpot: number;
     femaleOnSpot: number;
+    maleOnSpotDemand: number;
+    femaleOnSpotDemand: number;
     contingentLeaderNoNavigation: Contingent[];
     roomAllocation: RoomAllocation[];
 
