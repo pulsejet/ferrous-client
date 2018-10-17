@@ -37,6 +37,26 @@ export class StatisticsComponent implements OnInit {
     return this.sum(this.buildings.map(b => b.capacityNotReady));
   }
 
+  getRoomsTotal() {
+    return this.sum(this.buildings.map(b => b.roomsTotal));
+  }
+
+  getRoomsEmpty() {
+    return this.sum(this.buildings.map(b => b.roomsEmpty));
+  }
+
+  getRoomsPartial() {
+    return this.sum(this.buildings.map(b => b.roomsPartial));
+  }
+
+  getRoomsFilled() {
+    return this.sum(this.buildings.map(b => b.roomsFilled));
+  }
+
+  getRoomsNR() {
+    return this.sum(this.buildings.map(b => b.roomsNotReady));
+  }
+
   sum(arr: number[]) {
     return arr.reduce((a, b) => a + b, 0);
   }

@@ -76,6 +76,11 @@ export interface Building {
     capacityEmpty: number;
     capacityFilled: number;
     capacityNotReady: number;
+    roomsEmpty: number;
+    roomsFilled: number;
+    roomsNotReady: number;
+    roomsPartial: number;
+    roomsTotal: number;
 
     links: Link[];
 }
