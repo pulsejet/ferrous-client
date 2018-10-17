@@ -15,6 +15,7 @@ export class Desk2Component implements OnInit {
   public ca: ContingentArrival;
   public contingent: Contingent;
   public urlLink: Link;
+  public onSpotAlreadyApproved = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -32,6 +33,11 @@ export class Desk2Component implements OnInit {
       this.urlLink = this.dataService.DecodeObject(params['link']);
       this.dataService.FireLink<ContingentArrival>(this.urlLink).subscribe(result => {
         this.ca = result;
+        if (this.ca.maleOnSpot == null && this.ca.femaleOnSpot == null) {
+          this.ca.femaleOnSpot = this.ca.maleOnSpot = 0;
+        } else {
+          this.onSpotAlreadyApproved = true;
+        }
 
         if (this.ca.links && this.dataService.CheckIfLink(this.ca.links, 'contingent')) {
           this.dataService.FireLink<Contingent>(
@@ -52,6 +58,20 @@ export class Desk2Component implements OnInit {
   /** Open the contingent */
   openContingent() {
     this.dataService.NavigateContingentDetails(this.dataService.GetLink(this.ca.links, 'contingent'), false);
+  }
+
+  /** PUT to update on spot */
+  approveOnSpot(all: boolean = false) {
+    if (all) {
+      this.ca.maleOnSpot = this.ca.maleOnSpotDemand;
+      this.ca.femaleOnSpot = this.ca.femaleOnSpotDemand;
+    }
+    this.dataService.FireLink<ContingentArrival>(
+      this.dataService.GetLinkUpdate(this.ca.links), this.ca).subscribe(() => {
+        this.snackBar.open('On-Spot Approved', 'Dismiss', { duration: 2000 });
+    }, () => {
+      this.snackBar.open('Approving Failed', 'Dismiss', { duration: 2000 });
+    });
   }
 
 }

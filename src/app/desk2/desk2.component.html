@@ -1,60 +1,106 @@
 <div *ngIf="ca">
     <div class="row">
-      <div class="col-12"><i>Subcontingent</i></div>
-      <div class="col-8 col-md-3"><b>Contingent Leader No.</b></div>
-      <div class="col-4 col-md-9"> {{ ca.contingentLeaderNo }} </div>
+      <div class="col-12 col-md-6 col-lg-5">
+        <div class="card mat-elevation-z2 col-12">
+          <div class="col-12"><i>Subcontingent</i></div>
+          <div class="col-8 col-md-6"><b>Contingent Leader No.</b></div>
+          <div class="col-4 col-md-6"> {{ ca.contingentLeaderNo }} </div>
 
-      <div class="col-8 col-md-3"><b>Subcontingent No.</b></div>
-      <div class="col-4 col-md-9"> {{ ca.contingentArrivalNo }}</div>
+          <div class="col-8 col-md-6"><b>Subcontingent No.</b></div>
+          <div class="col-4 col-md-6"> {{ ca.contingentArrivalNo }}</div>
 
-      <div class="col-8 col-md-3"><b>Approval</b></div>
-      <div class="col-4 col-md-9">
-        <span style="color: green" *ngIf="ca.approved">
-          <b>Approved</b>
-        </span>
-        <span style="color: red" *ngIf="!ca.approved">
-          <b>Pending</b>
-        </span>
+          <div class="col-8 col-md-6"><b>Approval</b></div>
+          <div class="col-4 col-md-6">
+            <span style="color: green" *ngIf="ca.approved">
+              <b>Approved</b>
+            </span>
+            <span style="color: red" *ngIf="!ca.approved">
+              <b>Pending</b>
+            </span>
+          </div>
+
+          <div class="col-8 col-md-6"><b>Room Allocation</b></div>
+          <div class="col-4 col-md-6">
+            <span style="color: green" *ngIf="!ca.roomAllocation || ca.roomAllocation.length == 0">
+              <b>Pending</b>
+            </span>
+            <span style="color: red" *ngIf="ca.roomAllocation && ca.roomAllocation.length > 0">
+              <b>Allocated</b>
+            </span>
+          </div>
+
+          <div class="col-8 col-md-6"><b>Male</b> (filled, counted):</div>
+          <div class="col-4 col-md-6"> <b>{{ ca.male }}</b> <small>== {{ ca.peopleMale }}</small></div>
+
+          <div class="col-8 col-md-6"><b>Female</b> (filled, counted):</div>
+          <div class="col-4 col-md-6"> <b>{{ ca.female }}</b> <small>== {{ ca.peopleFemale }}</small></div>
+
+          <div class="col-8 col-md-6"><b>Remark:</b></div>
+          <div class="col-4 col-md-6">{{ ca.remark }}</div>
+        </div>
+
+        <div class="card mat-elevation-z2 col-12">
+          <div class="col-12"><i>On Spot</i></div>
+
+          <div class="col-8 col-md-6"><b>Male</b> (demand):</div>
+          <div class="col-4 col-md-6"> <b>{{ ca.maleOnSpotDemand }}</b></div>
+
+          <div class="col-8 col-md-6"><b>Female</b> (demand):</div>
+          <div class="col-4 col-md-6"><b>{{ ca.femaleOnSpotDemand }}</b></div>
+
+          <br />
+
+          <div class="onspot-boxes col-12" *ngIf="dataService.CheckIfLink(ca.links, 'update')">
+            <mat-form-field class="input">
+              <input matInput name="caOnSpotM" [(ngModel)]="ca.maleOnSpot" placeholder="Male" type="number">
+            </mat-form-field>
+            <mat-form-field class="input">
+                <input matInput name="caOnSpotF" [(ngModel)]="ca.femaleOnSpot" placeholder="Female" type="number">
+            </mat-form-field>
+            <br />
+
+            <ng-container *ngIf="onSpotAlreadyApproved">
+              <div class="already-approved">
+                Already Approved
+              </div>
+            </ng-container>
+
+            <button class="col-5 col-lg-3 btn"
+              mat-raised-button color="primary"
+              (click)="approveOnSpot()">
+                Approve
+            </button>
+
+            <button class="col-5 col-lg-3 btn"
+              mat-raised-button color="primary"
+              (click)="approveOnSpot(true)">
+                Approve All
+            </button>
+          </div>
+        </div>
+
       </div>
 
-      <div class="col-8 col-md-3"><b>Room Allocation</b></div>
-      <div class="col-4 col-md-9">
-        <span style="color: green" *ngIf="!ca.roomAllocation || ca.roomAllocation.length == 0">
-          <b>Pending</b>
-        </span>
-        <span style="color: red" *ngIf="ca.roomAllocation && ca.roomAllocation.length > 0">
-          <b>Allocated</b>
-        </span>
+      <div *ngIf="contingent" class="col-12 col-md-5">
+        <div class="card mat-elevation-z2">
+          <div class="col-12"><i>Contingent</i></div>
+
+          <div class="col-8 col-lg-5"><b>Registered (M):</b></div>
+          <div class="col-4 col-lg-7"> {{ dataService.GetPeopleBySex(contingent, false) }} </div>
+
+          <div class="col-8 col-lg-5"><b>Registered (F):</b></div>
+          <div class="col-4 col-lg-7"> {{ dataService.GetPeopleBySex(contingent, true) }} </div>
+
+          <div class="col-8 col-lg-5"><b>Arrived (M):</b></div>
+          <div class="col-4 col-lg-7"> {{ dataService.GetArrivedContingent(contingent, false) }} </div>
+
+          <div class="col-8 col-lg-5"><b>Arrived (F):</b></div>
+          <div class="col-4 col-lg-7"> {{ dataService.GetArrivedContingent(contingent, true) }} </div>
+
+          <div class="col-8 col-lg-5"><b>Remark:</b></div>
+          <div class="col-4 col-lg-7"> {{ contingent.remark }} </div>
+        </div>
       </div>
-
-      <div class="col-8 col-md-3"><b>Male (filled, counted):</b></div>
-      <div class="col-4 col-md-9"> <b>{{ ca.male }}</b> <small>== {{ ca.peopleMale }}</small></div>
-
-      <div class="col-8 col-md-3"><b>Female (filled, counted):</b></div>
-      <div class="col-4 col-md-9"> <b>{{ ca.female }}</b> <small>== {{ ca.peopleFemale }}</small></div>
-
-      <div class="col-8 col-md-3"><b>Remark:</b></div>
-      <div class="col-4 col-md-9">{{ ca.remark }}</div>
-
-      <div class="col-12">&nbsp;</div>
-      <div class="col-12"><i>Contingent</i></div>
-
-      <ng-container *ngIf="contingent">
-          <div class="col-8 col-md-3"><b>Registered (M):</b></div>
-          <div class="col-4 col-md-9"> {{ dataService.GetPeopleBySex(contingent, false) }} </div>
-
-          <div class="col-8 col-md-3"><b>Registered (F):</b></div>
-          <div class="col-4 col-md-9"> {{ dataService.GetPeopleBySex(contingent, true) }} </div>
-
-          <div class="col-8 col-md-3"><b>Arrived (M):</b></div>
-          <div class="col-4 col-md-9"> {{ dataService.GetArrivedContingent(contingent, false) }} </div>
-
-          <div class="col-8 col-md-3"><b>Arrived (F):</b></div>
-          <div class="col-4 col-md-9"> {{ dataService.GetArrivedContingent(contingent, true) }} </div>
-
-          <div class="col-8 col-md-3"><b>Remark:</b></div>
-          <div class="col-4 col-md-9"> {{ contingent.remark }} </div>
-      </ng-container>
     </div>
 
     <br>

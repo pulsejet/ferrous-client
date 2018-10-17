@@ -131,4 +131,14 @@ export class Desk1Component implements OnInit {
     this.dataService.NavigateContingentDetails(this.dataService.GetLink(this.ca.links, 'contingent'), false);
   }
 
+  /** If the CA has onspot request */
+  hasOnspot(ca: ContingentArrival) {
+    return ca.femaleOnSpotDemand + ca.maleOnSpotDemand > 0;
+  }
+
+  /** Display string for onspot */
+  getOnspotCount(ca: ContingentArrival) {
+    return ca.femaleOnSpotDemand + ca.maleOnSpotDemand;
+  }
+
 }

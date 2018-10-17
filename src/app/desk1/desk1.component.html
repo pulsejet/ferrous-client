@@ -8,12 +8,14 @@
 
     <div class="col-8 col-md-3"><b>Approval</b></div>
     <div class="col-4 col-md-9">
-      <span style="color: red" *ngIf="ca.approved">
+      <span style="color: red" *ngIf="ca.approved; else pending">
         <b>Approved</b>
       </span>
-      <span style="color: green" *ngIf="!ca.approved">
-        <b>Pending</b>
-      </span>
+      <ng-template #pending>
+        <span style="color: green">
+          <b>Pending</b>
+        </span>
+      </ng-template>
     </div>
 
     <div class="col-8 col-md-3"><b>Male (filled, counted):</b></div>
@@ -21,6 +23,18 @@
 
     <div class="col-8 col-md-3"><b>Female (filled, counted):</b></div>
     <div class="col-4 col-md-9"> {{ ca.female }} == {{ ca.peopleFemale }}</div>
+
+    <div class="col-8 col-md-3"><b>On-Spot:</b></div>
+    <div class="col-4 col-md-9">
+      <span style="color: blue" *ngIf="hasOnspot(ca); else noOnSpot">
+        <b>Requested - {{ getOnspotCount(ca) }}</b>
+      </span>
+      <ng-template #noOnSpot>
+        <span style="color: green">
+          <b>Not Requested</b>
+        </span>
+      </ng-template>
+    </div>
 
     <div class="col-12">
       <br>
