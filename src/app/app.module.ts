@@ -38,6 +38,7 @@ import { LoginComponent } from './login/login.component';
 import { Desk1Component } from './desk1/desk1.component';
 import { Desk2Component } from './desk2/desk2.component';
 import { RegisterComponent } from './register/register.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
     bootstrap: [
@@ -66,7 +67,8 @@ import { RegisterComponent } from './register/register.component';
         LoginComponent,
         Desk1Component,
         Desk2Component,
-        RegisterComponent
+        RegisterComponent,
+        StatisticsComponent
     ],
     imports: [
         BrowserModule,
@@ -98,6 +100,7 @@ import { RegisterComponent } from './register/register.component';
             { path: 'desk2/:link', component: Desk2Component },
 
             { path: 'register', component: RegisterComponent },
+            { path: 'statistics', component: StatisticsComponent },
 
             { path: '**', redirectTo: 'home' }
         ])

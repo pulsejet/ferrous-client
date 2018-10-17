@@ -55,9 +55,14 @@
     <mat-icon>list</mat-icon> &nbsp; People
 </a>
 
-<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'mark_buildings')" 
+<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'mark_buildings')"
     mat-list-item (click)="NavigateLayoutSelect()">
     <mat-icon>assignment</mat-icon> &nbsp; Rooms
+</a>
+
+<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'mark_buildings')"
+    mat-list-item [routerLink]="['/statistics']">
+    <mat-icon>insert_chart</mat-icon> &nbsp; Statistics
 </a>
 
 <a mat-list-item href="mailto:support@radialapps.com"> <mat-icon>bug_report</mat-icon> &nbsp; Report Bug</a>

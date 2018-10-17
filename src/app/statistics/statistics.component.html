@@ -1,0 +1,10 @@
+<div *ngIf="buildings" class="main">
+  <div class="col-12 col-md-5">
+    <div class="card mat-elevation-z2">
+      <h2>Total Capacity</h2>
+      <p>Available - {{ getTotalAvailable() }}</p>
+      <p>Filled - {{ getTotalFilled() }}</p>
+      <p>Not Ready - {{ getTotalNR() }}</p>
+    </div>
+  </div>
+</div>
