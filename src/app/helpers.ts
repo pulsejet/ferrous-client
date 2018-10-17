@@ -38,6 +38,10 @@ export function checkDuplicates(ca: ContingentArrival): boolean {
     return !(minos.length === ca.caPeople.length);
 }
 
+export function sortNatural(data, key) {
+    data.sort((a, b) => a[key].localeCompare(b[key], undefined, { numeric: true }));
+}
+
 /* Click Stop Propagation */
 import { Directive, HostListener } from '@angular/core';
 import { ContingentArrival } from './interfaces';

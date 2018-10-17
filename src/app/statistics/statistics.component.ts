@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Building, Link } from '../interfaces';
 import { Title } from '@angular/platform-browser';
+import { sortNatural } from '../helpers';
 
 @Component({
   selector: 'app-statistics',
@@ -32,7 +33,7 @@ export class StatisticsComponent implements OnInit {
       this.buildings = result.data;
       this.links = result.links;
 
-      this.sortNatural(this.buildings, 'locationFullName');
+      sortNatural(this.buildings, 'locationFullName');
 
       /* Construct pies */
       this.makeTotalPie();
@@ -156,9 +157,5 @@ export class StatisticsComponent implements OnInit {
 
   sum(arr: number[]) {
     return arr.reduce((a, b) => a + b, 0);
-  }
-
-  sortNatural(data, key) {
-    data.sort((a, b) => a[key].localeCompare(b[key], undefined, { numeric: true }));
   }
 }

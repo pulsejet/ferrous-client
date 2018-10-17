@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Building, Link } from '../interfaces';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../data.service';
+import { sortNatural } from '../helpers';
 
 /* Room layout component */
 @Component({
@@ -39,6 +40,7 @@ export class LocationSelectComponent {
         this.dataService.GetAllBuildingsExtended(this.urlLink).subscribe(result => {
             this.buildings = result.data;
             this.links = result.links;
+            sortNatural(this.buildings, 'locationFullName');
         });
     }
 
