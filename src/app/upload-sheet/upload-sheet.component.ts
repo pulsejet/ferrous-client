@@ -34,4 +34,9 @@ export class UploadSheetComponent implements OnInit {
     this.progress = progress;
   }
 
+  /** Returns true if the room was not found */
+  isRoomBad(room: Room) {
+    return room.remark === 'NOT FOUND';
+  }
+
 }

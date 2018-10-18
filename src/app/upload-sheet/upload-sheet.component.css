@@ -1,3 +1,12 @@
 .result {
     margin-top: 1em;
 }
+
+.room-row {
+    color: green;
+    font-weight: bold;
+}
+
+.room-row.bad {
+    color: red;
+}
