@@ -1,0 +1,36 @@
+<div *ngIf="progress > 0 && progress < 100">
+  <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
+</div>
+
+<h1> Upload Rooms Sheet </h1>
+
+<div>
+  <app-upload-component (uploaded)="sheetUploaded($event)"
+                        [link]="uploadLink"
+                        (progressChange)="progressChange($event)">
+  </app-upload-component>
+</div>
+
+<div class="result" *ngIf="result">
+  <h3> Successful Updates </h3>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Location</th>
+        <th>Room No.</th>
+        <th>Lock No.</th>
+        <th>Status Code</th>
+        <th>Remark</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of result">
+        <td>{{ room.location }}</td>
+        <td>{{ room.roomName }}</td>
+        <td>{{ room.lockNo }}</td>
+        <td>{{ room.status }}</td>
+        <td>{{ room.remark }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

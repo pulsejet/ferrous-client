@@ -40,6 +40,8 @@ import { Desk1Component } from './desk1/desk1.component';
 import { Desk2Component } from './desk2/desk2.component';
 import { RegisterComponent } from './register/register.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { UploadComponent } from './upload/upload.component';
+import { UploadSheetComponent } from './upload-sheet/upload-sheet.component';
 
 @NgModule({
     bootstrap: [
@@ -69,7 +71,9 @@ import { StatisticsComponent } from './statistics/statistics.component';
         Desk1Component,
         Desk2Component,
         RegisterComponent,
-        StatisticsComponent
+        StatisticsComponent,
+        UploadComponent,
+        UploadSheetComponent
     ],
     imports: [
         BrowserModule,
@@ -103,6 +107,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 
             { path: 'register', component: RegisterComponent },
             { path: 'statistics', component: StatisticsComponent },
+            { path: 'upload-sheet', component: UploadSheetComponent },
 
             { path: '**', redirectTo: 'home' }
         ])

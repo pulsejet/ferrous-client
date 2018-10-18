@@ -65,4 +65,9 @@
     <mat-icon>insert_chart</mat-icon> &nbsp; Statistics
 </a>
 
+<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'upload-sheet')"
+    mat-list-item [routerLink]="['/upload-sheet']">
+    <mat-icon>assignment</mat-icon> &nbsp; Upload Sheet
+</a>
+
 <a mat-list-item href="mailto:support@radialapps.com"> <mat-icon>bug_report</mat-icon> &nbsp; Report Bug</a>
