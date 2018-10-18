@@ -12,6 +12,7 @@ export class UploadSheetComponent implements OnInit {
   public uploadLink: Link;
   public progress = 0;
   public result: Room[];
+  public sampleLink: string;
 
   constructor(
     public dataService: DataService,
@@ -19,6 +20,10 @@ export class UploadSheetComponent implements OnInit {
     this.uploadLink = this.dataService.GetLink(
       this.dataService.GetAPISpec(), 'upload-sheet'
     );
+
+    this.sampleLink = this.dataService.GetLink(
+      this.dataService.GetAPISpec(), 'upload-sheet-sample'
+    ).href;
   }
 
   ngOnInit() {
