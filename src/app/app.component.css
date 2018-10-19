@@ -20,9 +20,10 @@
     position: fixed;
     left: 0;
     top: 0;
-    height: 100vh; 
+    height: 100vh;
     width: 5vw;
     z-index: 1000;
+    max-width: 15px;
 }
 
 @media (max-width: 767px) {
@@ -51,7 +52,7 @@ mat-sidenav.mat-closed.mat-locked-open-add-active {
     min-width: 200px;
     width: 17vw;
     max-width: 300px;
-} 
+}
 
 .example-container {
     display: flex;

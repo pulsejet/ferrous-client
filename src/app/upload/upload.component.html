@@ -1,1 +1,8 @@
-<input #file type="file" multiple (change)="upload(file.files)" />
+<input #file id="file-upload" type="file" multiple (change)="upload(file.files)" style="display: none" />
+
+<button mat-raised-button
+        class="custom-file-upload"
+        color="primary"
+        (click)="file.click()">
+    Upload File
+</button>
