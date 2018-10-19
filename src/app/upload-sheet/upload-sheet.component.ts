@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Room, Link } from '../interfaces';
 import { DataService } from '../data.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-upload-sheet',
@@ -16,6 +17,7 @@ export class UploadSheetComponent implements OnInit {
 
   constructor(
     public dataService: DataService,
+    public snackBar: MatSnackBar,
   ) {
     this.uploadLink = this.dataService.GetLink(
       this.dataService.GetAPISpec(), 'upload-sheet'
@@ -32,6 +34,9 @@ export class UploadSheetComponent implements OnInit {
   /** Answer the server's response */
   sheetUploaded(event: Room[]) {
     this.result = event;
+    this.snackBar.open('Room data updated', 'Dismiss', {
+      duration: 2000
+    });
   }
 
   /** Show spinner when progressing */
