@@ -1,5 +1,10 @@
-<a mat-list-item [routerLink]="['/home']"> <mat-icon>home</mat-icon> &nbsp; Home</a>
-<a mat-list-item [routerLink]="['/counter']"> <mat-icon>queue</mat-icon> &nbsp; Counter</a>
+<a mat-list-item [routerLink]="['/home']">
+    <mat-icon>home</mat-icon> &nbsp; Home
+</a>
+
+<a mat-list-item [routerLink]="['/counter']">
+    <mat-icon>queue</mat-icon> &nbsp; Counter
+</a>
 
 <a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'contingents')"
     mat-list-item [routerLink]="['/contingent']">
