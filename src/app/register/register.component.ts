@@ -79,7 +79,7 @@ export class RegisterComponent implements OnInit {
         return;
       } else {
         if (nmale + nfemale > 10) {
-          alert('Please make sure the number of people are accurate. All inputs will be cleared if you change them!');
+          alert('Please make sure the number of people are accurate. All inputs might be cleared if you change them!');
         }
       }
 
