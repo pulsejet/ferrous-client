@@ -84,6 +84,7 @@ export class RegisterComponent implements OnInit {
       }
 
       /* Clear current */
+      const prevLength = this.details.length;
       this.details = [];
       const controls: any = {};
 
@@ -93,7 +94,15 @@ export class RegisterComponent implements OnInit {
       /* Create boxes for each */
       for (let i = 0; i < nmale + nfemale; i++) {
         const ctrl = 'person' + i.toString();
-        controls[ctrl] = ['MI-', this.minoValidPattern];
+
+        /* Preserve values after changes */
+        let defaultValue = 'MI-';
+        if (prevLength > i) {
+          defaultValue = this.secondFormGroup.get(ctrl).value;
+        }
+
+        /* Add the control */
+        controls[ctrl] = [defaultValue, this.minoValidPattern];
         this.details.push({
           sno: i,
           ctrl: ctrl,
