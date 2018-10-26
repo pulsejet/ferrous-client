@@ -13,6 +13,16 @@
   </app-upload-component>
 </div>
 
+<br />
+<h2> Upload People Sheet </h2>
+
+<div>
+  <app-upload-component (uploaded)="peopleSheetUploaded($event)"
+                        [link]="peopleUploadLink"
+                        (progressChange)="progressChange($event)">
+  </app-upload-component>
+</div>
+
 <div class="result" *ngIf="result">
   <h3> Updates Done </h3>
   <table class="table table-hover">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Room, Link } from '../interfaces';
+import { Room, Link, Person } from '../interfaces';
 import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class UploadSheetComponent implements OnInit {
 
   public uploadLink: Link;
+  public peopleUploadLink: Link;
   public progress = 0;
   public result: Room[];
   public sampleLink: string;
@@ -26,6 +27,10 @@ export class UploadSheetComponent implements OnInit {
     this.sampleLink = this.dataService.GetLink(
       this.dataService.GetAPISpec(), 'upload-sheet-sample'
     ).href;
+
+    this.peopleUploadLink = this.dataService.GetLink(
+      this.dataService.GetAPISpec(), 'upload-people-sheet'
+    );
   }
 
   ngOnInit() {
@@ -37,6 +42,11 @@ export class UploadSheetComponent implements OnInit {
     this.snackBar.open('Room data updated', 'Dismiss', {
       duration: 2000
     });
+  }
+
+  peopleSheetUploaded(event: Person[]) {
+    alert('People sheet updated');
+    console.log(event);
   }
 
   /** Show spinner when progressing */
