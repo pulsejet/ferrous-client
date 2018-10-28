@@ -1,3 +1,8 @@
+<!-- Loading spinner -->
+<div *ngIf="!ca">
+  <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
+</div>
+
 <div *ngIf="ca">
   <div class="row">
     <div class="col-8 col-md-3"><b>Contingent Leader No.</b></div>
