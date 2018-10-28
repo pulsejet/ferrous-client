@@ -1,7 +1,8 @@
 <!-- Contingent search box-->
 <div fxLayout
      fxLayoutGap="20px"
-     fxLayoutGap.xs="3px">
+     fxLayoutGap.xs="3px"
+     *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'find_contingent')">
 
     <mat-form-field fxFlex>
         <input matInput
@@ -18,10 +19,11 @@
     </button>
 </div>
 
-<!-- Contingent search box-->
+<!-- Person search box-->
 <div fxLayout
      fxLayoutGap="20px"
-     fxLayoutGap.xs="3px">
+     fxLayoutGap.xs="3px"
+     *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'find-person')">
 
     <mat-form-field fxFlex>
         <input matInput
@@ -40,18 +42,19 @@
 
 <div fxLayout
      fxLayoutGap="20px"
-     fxLayoutGap.xs="3px">
+     fxLayoutGap.xs="3px"
+     *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'desk1')">
 
     <mat-form-field fxFlex>
         <input matInput
-               (keyup.enter)="Desk1(enteredDesk1)"
+               (keyup.enter)="dataService.Desk1(enteredDesk1)"
                name="d1" [(ngModel)]="enteredDesk1"
                placeholder="Desk 1 - PIN">
     </mat-form-field>
 
     <button mat-icon-button
             color="primary"
-            (click)="Desk1(enteredDesk1)"
+            (click)="dataService.Desk1(enteredDesk1)"
             style="max-height:37px;">
         <mat-icon>search</mat-icon>
     </button>
@@ -59,18 +62,19 @@
 
 <div fxLayout
      fxLayoutGap="20px"
-     fxLayoutGap.xs="3px">
+     fxLayoutGap.xs="3px"
+     *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'desk1')">
 
     <mat-form-field fxFlex>
         <input matInput
-               (keyup.enter)="Desk2(enteredDesk2)"
+               (keyup.enter)="dataService.Desk2(enteredDesk2)"
                name="d2" [(ngModel)]="enteredDesk2"
                placeholder="Desk 2 - PIN">
     </mat-form-field>
 
     <button mat-icon-button
             color="primary"
-            (click)="Desk2(enteredDesk2)"
+            (click)="dataService.Desk2(enteredDesk2)"
             style="max-height:37px;">
         <mat-icon>search</mat-icon>
     </button>

@@ -66,6 +66,22 @@
         </mat-form-field>
     </div>
 
+    <div *ngIf="person.allottedCA">
+        <span class="terror">
+            Allotted to subcontingent #{{person.allottedCA.contingentArrivalNo}}
+        </span>
+        <button mat-button color="primary"
+                *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'desk1')"
+                (click)="dataService.Desk1(person.allottedCA.contingentArrivalNo)">
+            Desk 1
+        </button>
+        <button mat-button color="primary"
+                *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'desk1')"
+                (click)="dataService.Desk2(person.allottedCA.contingentArrivalNo)">
+            Desk 2
+        </button>
+    </div>
+
     <div fxLayout="column"
          fxLayoutGap="8px">
         <div fxLayout
@@ -90,11 +106,11 @@
                 <button mat-raised-button color="accent" (click)="edit();">Cancel</button>
             </ng-container>
         </div>
-        <button class="xunk-max-200px-desktop" 
-                mat-raised-button color="primary" 
+        <button class="xunk-max-200px-desktop"
+                mat-raised-button color="primary"
                 (click)="this.dataService.NavigateContingentDetails(this.dataService.GetLink(person.links, 'contingent'));"
                 *ngIf="person.links && dataService.CheckIfLink(person.links, 'contingent')">
-        Open Contingent
+            Open Contingent
         </button>
     </div>
 </ng-container>

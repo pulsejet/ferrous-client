@@ -38,18 +38,4 @@ export class HomeComponent {
             )
         );
     }
-
-    Desk1(pin: string) {
-        this.dataService.NavigateDesk1(this.dataService.FillURITemplate(
-            this.dataService.GetLink(this.dataService.GetAPISpec(), 'desk1'),
-            { id: pin}
-        ));
-    }
-
-    Desk2(pin: string) {
-        this.dataService.NavigateDesk2(this.dataService.FillURITemplate(
-            this.dataService.GetLink(this.dataService.GetAPISpec(), 'desk1'),
-            { id: pin}
-        ));
-    }
 }

@@ -197,6 +197,22 @@ export class DataService {
         this.router.navigate(['/desk2', this.EncodeObject(link)]);
     }
 
+    /** Navigate to Desk 1 with PIN */
+    Desk1(pin: string) {
+        this.NavigateDesk1(this.FillURITemplate(
+            this.GetLink(this.GetAPISpec(), 'desk1'),
+            { id: pin}
+        ));
+    }
+
+    /** Navigate to Desk 2 with PIN */
+    Desk2(pin: string) {
+        this.NavigateDesk2(this.FillURITemplate(
+            this.GetLink(this.GetAPISpec(), 'desk1'),
+            { id: pin}
+        ));
+    }
+
     /**
      * Navigate to list of People
      */
