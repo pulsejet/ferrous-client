@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ContingentArrival, Link, Contingent, Building } from '../interfaces';
+import { ContingentArrival, Link, Contingent } from '../interfaces';
 
 @Component({
   selector: 'app-desk2',
