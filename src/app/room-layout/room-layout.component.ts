@@ -9,6 +9,7 @@ import { RoomDialogComponent } from '../room-dialog/room-dialog.component';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import * as $ from 'jquery';
 import { SlideInOutAnimation } from '../animations';
+import { Observable } from 'rxjs';
 
 /* Room layout component */
 @Component({
@@ -81,24 +82,36 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     }
 
     /** Load contingent arrival */
-    loadCA() {
-        /* Check for duplicate requests */
-        const rand = Math.floor(Math.random() * 100) + 1;
-        this.currCAReq = rand;
+    loadCA(): Observable<ContingentArrival> {
+        return Observable.create(observer => {
+            /* Check for duplicate requests */
+            const rand = Math.floor(Math.random() * 100) + 1;
+            this.currCAReq = rand;
 
-        /* Load the contingent arrival */
-        if (this.dataService.CheckIfLink(this.links, 'get-ca')) {
-            this.dataService.FireLink<ContingentArrival>(
-                this.dataService.GetLink(this.links, 'get-ca')
-            ).subscribe(res => {
-                if (this.currCAReq !== rand) { return; }
-                if (res.male === null) { res.male = 0; }
-                if (res.female === null) { res.female = 0; }
-                res.male += res.maleOnSpot;
-                res.female += res.femaleOnSpot;
-                this.contingentArrival = res;
-            });
-        }
+            /* Load the contingent arrival */
+            if (this.dataService.CheckIfLink(this.links, 'get-ca')) {
+                this.dataService.FireLink<ContingentArrival>(
+                    this.dataService.GetLink(this.links, 'get-ca')
+                ).subscribe(res => {
+                    // Check if a new request was made
+                    if (this.currCAReq !== rand) {
+                        observer.error(null);
+                        return;
+                    }
+
+                    // Initialize
+                    if (res.male === null) { res.male = 0; }
+                    if (res.female === null) { res.female = 0; }
+                    res.male += res.maleOnSpot;
+                    res.female += res.femaleOnSpot;
+                    this.contingentArrival = res;
+
+                    // Complete the observable
+                    observer.next(res);
+                    observer.complete();
+                }, error => observer.error(error));
+            }
+        });
     }
 
     /** Get count of male allocated + selected */
@@ -209,21 +222,20 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         this.dataService.FireLink<Building>(this.urlLink).subscribe(result => {
             this.building = result;
             this.links = result.links;
-            this.rooms = result.room;
 
             /* Fill CA */
-            this.loadCA();
+            this.loadCA().subscribe(() => {
+                /* Assign other things */
+                this.rooms = result.room;
+                this.locFullname = result.locationFullName;
+                this.assignRoomsInit();
+                this.assignRooms();
 
-            /* Assign other things */
-            this.locFullname = result.locationFullName;
-            this.assignRoomsInit();
-            this.assignRooms();
-
-            /* Alert the user */
-            this.snackBar.open('Room data updated', 'Dismiss', {
-                duration: 2000,
+                /* Alert the user */
+                this.snackBar.open('Room data updated', 'Dismiss', {
+                    duration: 2000,
+                });
             });
-
         });
     }
 
@@ -342,7 +354,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                     roomId: room.roomId,
                     partial: ((room.partialsel > 0) ? room.partialsel : undefined)
                 };
-            })).subscribe(() => this.loadCA());
+            })).subscribe(() => this.loadCA().subscribe());
     }
 
     /** Check if room is full */
@@ -365,17 +377,23 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param room Room object
      */
     public getRoomClass(room: Room): string {
-        /* Selected has top priority */
-        if (room.selected) { return 'room sel'; }
+        /* Helper to get string */
+        const getFullClass = (c: string, border: boolean = false) => {
+            return `room ${c}${border ? ' border' : ''}`;
+        };
 
         let containsThis = false;      /* Room contains current contingent     */
         let containsOther = false;     /* Room contains another contingent     */
         let filled = 0;                 /* Number of people currently in room   */
+        let currentCA = false;          /* True if the room is given to current CA */
 
         /* Fill up local data */
         room.roomAllocation.forEach(roomA => {
             if (roomA.contingentLeaderNo === this.clno) {
                 containsThis = true;
+                if (roomA.contingentArrivalNo === this.contingentArrival.contingentArrivalNo) {
+                    currentCA = true;
+                }
             } else {
                 containsOther = true;
             }
@@ -387,20 +405,23 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             }
         });
 
+        /* Selected has top priority */
+        if (room.selected) { return getFullClass('sel', currentCA); }
+
         /* Assign classes */
         if (filled < room.capacity) {
             if (containsOther && !containsThis) {
-                return 'room partial';
+                return getFullClass('partial', currentCA);
             } else if (containsThis) {
-                return 'room already-partial';
+                return getFullClass('already-partial', currentCA);
             }
         } else {
             if (containsOther && !containsThis) {
-                return 'room occupied';
+                return getFullClass('occupied', currentCA);
             } else if (!containsOther && containsThis) {
-                return 'room already';
+                return getFullClass('already', currentCA);
             } else if (containsOther && containsThis) {
-                return 'room already-fullshared';
+                return getFullClass('already-fullshared', currentCA);
             }
         }
 
@@ -426,7 +447,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param room Room object for local removal of allocation
      */
     public unallocateRoom(roomA: RoomAllocation) {
-        this.dataService.UnallocateRoom(roomA).subscribe(() => this.loadCA());
+        this.dataService.UnallocateRoom(roomA).subscribe(() => this.loadCA().subscribe());
     }
 
     /**

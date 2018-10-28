@@ -62,7 +62,7 @@ export interface RoomAllocation {
     contingentLeaderNoNavigation: Contingent;
     room: Room;
     partial: number;
-    contingentArrivalNo: string;
+    contingentArrivalNo: number;
     contingentArrivalNoNavigation: ContingentArrival[];
 
     links: Link[];

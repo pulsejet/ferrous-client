@@ -200,10 +200,12 @@
 .room.sel {
     background-color:greenyellow;
     color:black;
-    outline-color:skyblue;
-    outline-style: solid;
-    outline-width: 1.5px;
+    outline: solid skyblue 1.5px;
     cursor:pointer;
+}
+
+.room.border {
+    outline: solid green 3px;
 }
 
 table.rooms-block td {
