@@ -18,6 +18,26 @@
     </button>
 </div>
 
+<!-- Contingent search box-->
+<div fxLayout
+     fxLayoutGap="20px"
+     fxLayoutGap.xs="3px">
+
+    <mat-form-field fxFlex>
+        <input matInput
+               (keyup.enter)="FindPerson(enteredMI)"
+               name="mino" [(ngModel)]="enteredMI"
+               placeholder="MI Number">
+    </mat-form-field>
+
+    <button mat-icon-button
+            color="primary"
+            (click)="FindPerson(enteredMI)"
+            style="max-height:37px;">
+        <mat-icon>search</mat-icon>
+    </button>
+</div>
+
 <div fxLayout
      fxLayoutGap="20px"
      fxLayoutGap.xs="3px">

@@ -17,6 +17,7 @@ export class HomeComponent {
         this.titleService.setTitle('Home');
     }
     enteredCL: string;
+    enteredMI: string;
     enteredDesk1: string;
     enteredDesk2: string;
 
@@ -25,6 +26,15 @@ export class HomeComponent {
             this.dataService.FillURITemplate(
                 this.dataService.GetLink(this.dataService.GetAPISpec(), 'find_contingent'),
                 { id: clno }
+            )
+        );
+    }
+
+    FindPerson(mino: string) {
+        this.dataService.NavigatePersonDetails(
+            this.dataService.FillURITemplate(
+                this.dataService.GetLink(this.dataService.GetAPISpec(), 'find-person'),
+                { id: mino }
             )
         );
     }
