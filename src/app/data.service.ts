@@ -57,6 +57,10 @@ export class DataService {
      * @param rel Required rell
      */
     CheckIfLink(links: Link[], rel: string = 'self'): boolean {
+        if (links == null) {
+            return false;
+        }
+
         const found = links.find(x => x.rel === rel);
         if (found == null) {
             return false;
