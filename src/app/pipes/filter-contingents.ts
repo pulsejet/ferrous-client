@@ -1,6 +1,10 @@
 ﻿import { Pipe, PipeTransform } from '@angular/core';
 import { Contingent } from '../interfaces';
 
+function isub(str: string, sub: string) {
+    return str.toUpperCase().includes(sub.toUpperCase());
+}
+
 @Pipe({
     name: 'filter_contingents',
     pure: false
@@ -11,6 +15,6 @@ export class FilterContingents implements PipeTransform {
             return items;
         }
 
-        return items.filter(item => item.contingentLeaderNo.indexOf(clno) !== -1);
+        return items.filter(item => isub(item.contingentLeaderNo, clno));
     }
 }
