@@ -29,6 +29,13 @@ export class AppComponent implements OnDestroy {
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addListener(this._mobileQueryListener);
 
+        /* Load preferences */
+        const hostelKeys = window.localStorage.getItem('hostelKeys');
+        if (hostelKeys !== null) {
+            this.dataService.hostelKeys = JSON.parse(hostelKeys);
+        }
+
+        /* Get API Spec */
         this.dataService.RefreshAPISpec().subscribe(api => {
             this.dataService._API_SPEC = api;
 

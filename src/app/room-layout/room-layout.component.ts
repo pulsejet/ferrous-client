@@ -473,9 +473,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** True if we have a layout skip link */
     hasDirectSexLink(sex: string) {
         return (this.dataService.hostelKeys[sex] !== '' &&
-            this.contingentArrival &&
-            this.dataService.hostelLinks.cano === this.contingentArrival.contingentArrivalNo &&
-            this.dataService.hostelLinks[sex] !== null);
+            this.contingentArrival);
     }
 
     /** Skip select layout */
@@ -487,12 +485,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             this.hubConnection.stop();
         }
 
-        /* Navigate to next hostel */
-        this.dataService.NavigateRoomLayout(
-            this.dataService.hostelLinks[sex],
-            this.dataService.hostelKeys[sex],
-            this.clno
-        );
+        this.dataService.NavigateHostelKeySex(sex, this.contingentArrival);
     }
 
     sum(arr: number[]) {

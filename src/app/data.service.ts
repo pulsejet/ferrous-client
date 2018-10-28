@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent } from './interfaces';
+import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent, Building } from './interfaces';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import * as uriTemplates from 'uri-templates';
@@ -28,15 +28,8 @@ export class DataService {
 
     /** Hostel keys for skipping location select screen */
     public hostelKeys = {
-        M: 'H7',
-        F: 'H15C'
-    };
-
-    /** Current links to open hostelKeys */
-    public hostelLinks = {
-        M: null,
-        F: null,
-        cano: null
+        M: 'M',
+        F: 'F'
     };
 
     /**
@@ -385,5 +378,32 @@ export class DataService {
         }
 
         return curr.toString();
+    }
+
+    /** Navigate to hostel key layout by sex */
+    public NavigateHostelKeySex(sex: string, ca: ContingentArrival) {
+        /* Save preferences */
+        window.localStorage.setItem('hostelKeys', JSON.stringify(this.hostelKeys));
+
+        /* Get list of buildings */
+        this.FireLink<Building[]>(
+            this.GetLink(ca.links, 'buildings-min')
+        ).subscribe(buildings => {
+            /* Find the building we want */
+            const building = buildings.find(b => b.location === this.hostelKeys[sex].toUpperCase());
+
+            /* Show error */
+            if (building === null) {
+                alert('You seem to have chosen a wrong hostel');
+                return;
+            }
+
+            /* Skip to allotment */
+            this.NavigateRoomLayout(
+                this.GetLinkSelf(building.links),
+                this.hostelKeys[sex],
+                ca.contingentLeaderNo
+            );
+        });
     }
 }

@@ -18,6 +18,11 @@
             {{ this.titleService.getTitle() }}
         </h1>
 
+        <div class="top-sel">
+            <input class="inp" matInput name="hmale" [(ngModel)]="dataService.hostelKeys.M" placeholder="Hostel (M)">
+            <input class="inp" matInput name="hfemale" [(ngModel)]="dataService.hostelKeys.F" placeholder="Hostel (F)">
+        </div>
+
         <span class="fill-space"></span>
 
         <button id="logout" mat-button (click)="logout()">Log Out</button>

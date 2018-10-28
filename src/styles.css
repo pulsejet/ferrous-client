@@ -62,6 +62,21 @@
     margin: 10px;
 }
 
+.top-sel {
+    font-size: 0.8em;
+}
+
+.top-sel .inp {
+    color: yellow;
+    border: none;
+    background: transparent;
+    width: 50px;
+}
+
+.top-sel .inp:first-child {
+    margin-left: 30px;
+}
+
 .h1-inline {
     font-size: 1.9em;
 }
