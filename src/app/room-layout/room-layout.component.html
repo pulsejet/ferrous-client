@@ -89,6 +89,18 @@
                     Allot Rooms
             </button>
 
+            <button fxFlex="auto" (click)="gotoDirectSexLink('M')"
+                    mat-raised-button color="accent"
+                    [disabled]="!hasDirectSexLink('M')">
+                    Male
+            </button>
+
+            <button fxFlex="auto" (click)="gotoDirectSexLink('F')"
+                    mat-raised-button color="accent"
+                    [disabled]="!hasDirectSexLink('F')">
+                    Female
+            </button>
+
             <button fxFlex="auto" (click)="mark(1);"
                     mat-raised-button color="primary"
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">

@@ -105,12 +105,27 @@
 
     <br>
 
-    <button class="col-12 col-md-2 btn"
-          mat-raised-button color="warn"
-          (click)="allocate()"
-          *ngIf="dataService.CheckIfLink(ca.links, 'approve')">
-        Allocate Rooms
-    </button>
+    <ng-container *ngIf="dataService.CheckIfLink(ca.links, 'buildings')">
+      <button class="col-12 col-md-2 btn"
+            mat-raised-button color="warn"
+            (click)="allocate()">
+          Allocate Rooms
+      </button>
+
+      <button class="col-12 col-md-1 btn"
+            mat-raised-button color="warn"
+            (click)="allocate('M')"
+            [disabled]="this.dataService.hostelKeys.M === ''">
+          Male
+      </button>
+
+      <button class="col-12 col-md-1 btn"
+            mat-raised-button color="warn"
+            (click)="allocate('F')"
+            [disabled]="this.dataService.hostelKeys.F === ''">
+          Female
+      </button>
+    </ng-container>
 
     <button class="col-12 col-md-2 btn"
           mat-raised-button color="primary"

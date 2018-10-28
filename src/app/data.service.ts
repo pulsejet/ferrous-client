@@ -26,6 +26,19 @@ export class DataService {
     /** Can be used for passing data between components */
     public passedData: any;
 
+    /** Hostel keys for skipping location select screen */
+    public hostelKeys = {
+        M: 'H7',
+        F: 'H15C'
+    };
+
+    /** Current links to open hostelKeys */
+    public hostelLinks = {
+        M: null,
+        F: null,
+        cano: null
+    };
+
     /**
      * Set the static passed data
      * @param data Data to store

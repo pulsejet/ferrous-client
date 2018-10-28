@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ContingentArrival, Link, Contingent } from '../interfaces';
+import { ContingentArrival, Link, Contingent, Building } from '../interfaces';
 
 @Component({
   selector: 'app-desk2',
@@ -51,8 +51,45 @@ export class Desk2Component implements OnInit {
   }
 
   /** Start room allocation */
-  allocate() {
-    this.dataService.NavigateLayoutSelect(this.ca, this.ca.contingentLeaderNo);
+  allocate(sex: string = null) {
+    if (sex == null) {
+      this.dataService.NavigateLayoutSelect(this.ca, this.ca.contingentLeaderNo);
+    } else {
+      this.dataService.FireLink<Building[]>(
+        this.dataService.GetLink(this.ca.links, 'buildings-min')
+      ).subscribe(buildings => {
+        /* Find the building we want */
+        this.dataService.hostelLinks = {
+          M: null,
+          F: null,
+          cano: this.ca.contingentArrivalNo
+        };
+
+        /* Get male building */
+        const maleBuilding = buildings.find(b => b.location === this.dataService.hostelKeys.M.toUpperCase());
+        if (maleBuilding !== null) {
+          this.dataService.hostelLinks.M = this.dataService.GetLinkSelf(maleBuilding.links);
+        }
+
+        /* Get female building */
+        const femaleBuilding = buildings.find(b => b.location === this.dataService.hostelKeys.F.toUpperCase());
+        if (femaleBuilding !== null) {
+          this.dataService.hostelLinks.F = this.dataService.GetLinkSelf(femaleBuilding.links);
+        }
+
+        /* Show error */
+        if (this.dataService.hostelLinks[sex] === null) {
+          alert('You seem to have chosen a wrong hostel');
+        }
+
+        /* Skip to allotment */
+        this.dataService.NavigateRoomLayout(
+          this.dataService.hostelLinks[sex],
+          this.dataService.hostelKeys[sex],
+          this.ca.contingentLeaderNo
+        );
+      });
+    }
   }
 
   /** Open the contingent */

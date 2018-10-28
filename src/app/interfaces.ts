@@ -82,6 +82,7 @@ export interface Building {
     roomsNotReady: number;
     roomsPartial: number;
     roomsTotal: number;
+    alreadyAllocated: number;
 
     links: Link[];
 }
