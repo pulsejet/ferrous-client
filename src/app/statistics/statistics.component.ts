@@ -57,6 +57,10 @@ export class StatisticsComponent implements OnInit {
     return this.sum(this.buildings.map(b => b.capacityNotReady));
   }
 
+  getTotalMaint() {
+    return this.sum(this.buildings.map(b => b.capacityMaintainance));
+  }
+
   makeTotalPie() {
     this.totalPie = {
       chartType: 'PieChart',
@@ -64,42 +68,45 @@ export class StatisticsComponent implements OnInit {
         ['Metric', 'Number of People'],
         ['Available', this.getTotalAvailable()],
         ['Filled', this.getTotalFilled()],
-        ['Not Ready',  this.getTotalNR()]
+        ['Not Ready',  this.getTotalNR()],
+        ['Maintainance',  this.getTotalMaint()]
       ],
       options: {
         height: 250,
-        colors: ['darkblue', 'orange', 'lightpink']
+        colors: ['darkblue', 'orange', 'lightpink', 'magenta']
       },
     };
   }
 
   makeCapacityChart() {
     const dataTable = [];
-    dataTable.push(['Building', 'Available', 'Filled', 'Not Ready']);
+    dataTable.push(['Building', 'Available', 'Filled', 'Not Ready', 'Maintainance']);
     for (const building of this.buildings) {
       dataTable.push([
         building.locationFullName,
         building.capacityEmpty,
         building.capacityFilled,
-        building.capacityNotReady
+        building.capacityNotReady,
+        building.capacityMaintainance
       ]);
     }
-    this.capacityChart = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink']);
+    this.capacityChart = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink', 'magenta']);
   }
 
   makeRoomsChart() {
     const dataTable = [];
-    dataTable.push(['Building', 'Available', 'Partial', 'Full', 'Not Ready']);
+    dataTable.push(['Building', 'Available', 'Partial', 'Full', 'Not Ready', 'Maintainance']);
     for (const building of this.buildings) {
       dataTable.push([
         building.locationFullName,
         building.roomsEmpty,
         building.roomsPartial,
         building.roomsFilled,
-        building.roomsNotReady
+        building.roomsNotReady,
+        building.roomsMaintainance
       ]);
     }
-    this.roomsChart = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink']);
+    this.roomsChart = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink', 'magenta']);
   }
 
   getBigBarChart(dataTable: any, colors: any) {
@@ -146,11 +153,12 @@ export class StatisticsComponent implements OnInit {
         ['Empty', this.getRoomsEmpty()],
         ['Partial', this.getRoomsPartial()],
         ['Filled', this.getRoomsFilled()],
-        ['Not Ready',  this.getRoomsNR()]
+        ['Not Ready',  this.getRoomsNR()],
+        ['Maintainance',  this.getTotalMaint()]
       ],
       options: {
         height: 250,
-        colors: ['darkblue', 'blue', 'orange', 'lightpink']
+        colors: ['darkblue', 'blue', 'orange', 'lightpink', 'magenta']
       },
     };
   }

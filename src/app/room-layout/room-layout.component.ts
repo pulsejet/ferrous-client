@@ -444,6 +444,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             return 'room partial';
         } else if (status === 4) {
             return 'room notready';
+        } else if (status === 6) {
+            return 'room maintainance';
         }
         return 'room';
     }

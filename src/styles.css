@@ -189,6 +189,9 @@
 .room.notready {
     background-color:lightpink;
 }
+.room.maintainance {
+    background-color:magenta;
+}
 
 .room.occupied {background-color:darkred;}
 

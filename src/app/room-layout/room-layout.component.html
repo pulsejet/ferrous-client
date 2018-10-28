@@ -104,17 +104,22 @@
             <button fxFlex="auto" (click)="mark(1);"
                     mat-raised-button color="primary"
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
-                    Mark Available
+                    Available
             </button>
             <button fxFlex="auto" (click)="mark(4);"
                     mat-raised-button color="accent"
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
-                    Mark Not Ready
+                    Not Ready
+            </button>
+            <button fxFlex="auto" (click)="mark(6);"
+                    mat-raised-button color="accent"
+                    [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
+                    Maintainance
             </button>
             <button fxFlex="auto" (click)="mark(0);"
                     mat-raised-button
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
-                    Mark Unavailable
+                    Unavailable
             </button>
             <button fxFlex="auto" (click)="openBill();"
                     mat-raised-button color="primary"
