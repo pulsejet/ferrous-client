@@ -45,7 +45,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     constructor(
         private activatedRoute: ActivatedRoute,
         private titleService: Title,
-        private dataService: DataService,
+        public dataService: DataService,
         public snackBar: MatSnackBar,
         public dialog: MatDialog,
         @Inject('BASE_URL') public baseUrl: string) {
