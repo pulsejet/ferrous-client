@@ -418,10 +418,10 @@ export class DataService {
             this.GetLink(ca.links, 'buildings-min')
         ).subscribe(buildings => {
             /* Find the building we want */
-            const building = buildings.find(b => b.location === loc.toUpperCase());
+            const building = buildings.find(b => b.location.toUpperCase() === loc.toUpperCase());
 
             /* Show error */
-            if (building === null) {
+            if (building == null) {
                 alert('You seem to have chosen a wrong hostel');
                 return;
             }
