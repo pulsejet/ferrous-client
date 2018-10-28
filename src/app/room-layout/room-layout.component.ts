@@ -1,6 +1,6 @@
 ﻿import { Component, Inject, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Room, RoomAllocation, Link, Building } from '../interfaces';
+import { Room, RoomAllocation, Link, Building, ContingentArrival } from '../interfaces';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -38,6 +38,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Set to false when deliberately disconnecting */
     private connectWebsocket = true;
 
+    /** Curent contingent arrival */
+    public contingentArrival: ContingentArrival;
+
     public urlLink: Link;
     public links: Link[];
 
@@ -57,20 +60,55 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             this.urlLink = dataService.DecodeObject(params['link']);
             this.locCode = params['location'];
             this.clno = params['clno'];
-        });
 
-        /* Get room layout by location */
-        dataService.GetRoomLayout(this.locCode).subscribe(result => {
-            this.roomsLayout.nativeElement.innerHTML = result;
+            /* Get room layout by location */
+            dataService.GetRoomLayout(this.locCode).subscribe(result => {
+                this.roomsLayout.nativeElement.innerHTML = result;
 
-            /* Load rooms */
-            this.reloadRooms();
+                /* Load rooms */
+                this.reloadRooms();
+            });
         });
     }
 
     ngOnInit() {
         this.connectWebsocket = true;
         this.startBuildingHubConnection();
+    }
+
+    /** Load contingent arrival */
+    loadCA() {
+        if (this.dataService.CheckIfLink(this.links, 'get-ca')) {
+            this.dataService.FireLink<ContingentArrival>(
+                this.dataService.GetLink(this.links, 'get-ca')
+            ).subscribe(res => {
+                if (res.male === null) { res.male = 0; }
+                if (res.female === null) { res.female = 0; }
+                res.male += res.maleOnSpot;
+                res.female += res.femaleOnSpot;
+                this.contingentArrival = res;
+            });
+        }
+    }
+
+    /** Get count of male allocated + selected */
+    getMaleSel() {
+        const rooms = this.rooms.filter(r => r.selected && this.canAllocate(r));
+        return this.contingentArrival.allottedMale + this.sum(rooms.map(r => this.getCapacitySel(r)));
+    }
+
+    /** Get count of female allocated + selected */
+    getFemaleSel() {
+        const rooms = this.rooms.filter(r => r.selected && this.canAllocate(r));
+        return this.contingentArrival.allottedFemale + this.sum(rooms.map(r => this.getCapacitySel(r)));
+    }
+
+    getCapacitySel(room: Room): number {
+        if (this.checkPartial(room) || room.partialallot) {
+            if (room.partialsel == null) { return 0; }
+            return Number(room.partialsel);
+        }
+        return Number(this.getCapacity(room));
     }
 
     /** Connnect to the websocket */
@@ -159,6 +197,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         this.dataService.FireLink<Building>(this.urlLink).subscribe(result => {
             this.links = result.links;
             this.rooms = result.room;
+
+            /* Fill CA */
+            this.loadCA();
 
             /* Assign other things */
             this.locFullname = result.locationFullName;
@@ -288,7 +329,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                     roomId: room.roomId,
                     partial: ((room.partialsel > 0) ? room.partialsel : undefined)
                 };
-            })).subscribe();
+            })).subscribe(() => this.loadCA());
     }
 
     /** Check if room is full */
@@ -372,7 +413,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
      * @param room Room object for local removal of allocation
      */
     public unallocateRoom(roomA: RoomAllocation) {
-        this.dataService.UnallocateRoom(roomA).subscribe();
+        this.dataService.UnallocateRoom(roomA).subscribe(() => this.loadCA());
     }
 
     /**
@@ -414,5 +455,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Fires the bill link in a new tab */
     public openBill() {
         window.open(this.dataService.GetLink(this.links, 'bill').href, '_blank');
+    }
+
+    sum(arr: number[]) {
+        return arr.reduce((a, b) => a + b, 0);
     }
 }

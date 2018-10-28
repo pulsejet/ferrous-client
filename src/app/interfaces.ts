@@ -101,6 +101,8 @@ export interface ContingentArrival {
 
     peopleMale: number;
     peopleFemale: number;
+    allottedMale: number;
+    allottedFemale: number;
     caPeople: CAPerson[];
     approved: boolean;
 

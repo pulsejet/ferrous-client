@@ -64,7 +64,11 @@
 
 .h1-inline {
     font-size: 21pt;
-}   
+}
+
+.h1-inline.mr {
+    margin-right: 20px;
+}
 
 .xunk-max-200px-desktop {
     max-width:250px;
@@ -146,7 +150,7 @@
 }
 .room.unavailable {background-color:lightgray;}
 .room.already {
-    background-color:orange; 
+    background-color:orange;
     color:black;
 }
 .room.already-partial {

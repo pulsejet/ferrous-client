@@ -4,10 +4,20 @@
 </div>
 
 <!-- Location label and refresh button-->
-<span *ngIf="rooms" class="h1-inline"> {{ locFullname }} (for {{ clno }})</span>
-<button class="xunk-table-button" mat-icon-button color="primary" (click)="reloadRooms(true)">
-    <mat-icon>refresh</mat-icon>
-</button>
+<div>
+    <span *ngIf="rooms" class="h1-inline mr"> {{ locFullname }} (for {{ clno }})</span>
+
+    <span *ngIf="contingentArrival" class="h1-inline mr">
+        &#9794; {{ getMaleSel() }} / {{ contingentArrival.male }}
+    </span>
+    <span *ngIf="contingentArrival" class="h1-inline">
+        &#9792; {{ getFemaleSel() }} / {{ contingentArrival.female }}
+    </span>
+
+    <button class="xunk-table-button" mat-icon-button color="primary" (click)="reloadRooms(true)">
+        <mat-icon>refresh</mat-icon>
+    </button>
+</div>
 
 <!-- Layout -->
 <div [hidden]="!rooms" class="xunk-center-wrapper table-responsive">
@@ -41,7 +51,7 @@
     <!-- To Allocate List -->
     <div>
         <ng-container *ngFor="let room of rooms">
-            <div *ngIf="room.selected && canAllocate(room)" 
+            <div *ngIf="room.selected && canAllocate(room)"
                  class="xunk-room-card mat-elevation-z1"
                  [@slideInOut]>
                 <ng-container *ngIf="checkPartial(room) || room.partialallot">
