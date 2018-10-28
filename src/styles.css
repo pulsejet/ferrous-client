@@ -63,11 +63,15 @@
 }
 
 .h1-inline {
-    font-size: 21pt;
+    font-size: 1.9em;
 }
 
 .h1-inline.mr {
     margin-right: 20px;
+}
+
+.h1-inline.small {
+    font-size: 1.3em;
 }
 
 .xunk-max-200px-desktop {
