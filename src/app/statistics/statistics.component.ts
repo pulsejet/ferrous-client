@@ -154,7 +154,7 @@ export class StatisticsComponent implements OnInit {
         ['Partial', this.getRoomsPartial()],
         ['Filled', this.getRoomsFilled()],
         ['Not Ready',  this.getRoomsNR()],
-        ['Maintainance',  this.getTotalMaint()]
+        ['Maintainance',  this.getRoomsMaint()]
       ],
       options: {
         height: 250,
@@ -181,6 +181,10 @@ export class StatisticsComponent implements OnInit {
 
   getRoomsNR() {
     return this.sum(this.buildings.map(b => b.roomsNotReady));
+  }
+
+  getRoomsMaint() {
+    return this.sum(this.buildings.map(b => b.roomsMaintainance));
   }
 
   sum(arr: number[]) {

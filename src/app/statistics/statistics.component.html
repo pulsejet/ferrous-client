@@ -4,7 +4,7 @@
       <h2>Total Capacity</h2>
       <p>Available - {{ getTotalAvailable() }}</p>
       <p>Filled - {{ getTotalFilled() }}</p>
-      <p>Not Ready - {{ getTotalNR() }}</p>
+      <p>Not Ready - {{ getTotalNR() }} + {{ getTotalMaint() }} = {{ getTotalNR() + getTotalMaint() }}</p>
       <div class="chart">
         <google-chart [data]="totalPie"></google-chart>
       </div>
@@ -16,7 +16,7 @@
       <p>Empty - {{ getRoomsEmpty() }}</p>
       <p>Partial - {{ getRoomsPartial() }}</p>
       <p>Full - {{ getRoomsFilled() }}</p>
-      <p>Not Ready - {{ getRoomsNR() }}</p>
+      <p>Not Ready - {{ getRoomsNR() }} + {{ getRoomsMaint() }} = {{ getRoomsNR() + getRoomsMaint() }}</p>
       <div class="chart">
         <google-chart [data]="roomsPie"></google-chart>
       </div>
