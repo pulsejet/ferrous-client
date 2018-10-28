@@ -98,6 +98,11 @@
     margin-top: -8px;
 }
 
+.terror {
+    color: red;
+    font-weight: bold;
+}
+
 @media screen and (max-width: 768px) {
     .xunk-table {
         margin: 3px;

@@ -7,10 +7,10 @@
 <div>
     <span *ngIf="rooms" class="h1-inline mr"> {{ locFullname }} (for {{ clno }})</span>
 
-    <span *ngIf="contingentArrival" class="h1-inline mr">
+    <span *ngIf="contingentArrival" class="h1-inline mr" [class.terror]="getMaleSel() > contingentArrival.male">
         &#9794; {{ getMaleSel() }} / {{ contingentArrival.male }}
     </span>
-    <span *ngIf="contingentArrival" class="h1-inline">
+    <span *ngIf="contingentArrival" class="h1-inline" [class.terror]="getFemaleSel() > contingentArrival.female">
         &#9792; {{ getFemaleSel() }} / {{ contingentArrival.female }}
     </span>
 

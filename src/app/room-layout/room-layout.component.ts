@@ -17,6 +17,8 @@ import { SlideInOutAnimation } from '../animations';
     animations: [SlideInOutAnimation],
 })
 export class RoomLayoutComponent implements OnInit, OnDestroy {
+    /** Whole building */
+    public building: Building;
     /** Master list of rooms */
     public rooms: Room[];
     /** Always true after initialization */
@@ -43,6 +45,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     public urlLink: Link;
     public links: Link[];
+
+    private currCAReq: number;
 
     /** constructor for RoomLayoutComponent */
     constructor(
@@ -78,10 +82,16 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** Load contingent arrival */
     loadCA() {
+        /* Check for duplicate requests */
+        const rand = Math.floor(Math.random() * 100) + 1;
+        this.currCAReq = rand;
+
+        /* Load the contingent arrival */
         if (this.dataService.CheckIfLink(this.links, 'get-ca')) {
             this.dataService.FireLink<ContingentArrival>(
                 this.dataService.GetLink(this.links, 'get-ca')
             ).subscribe(res => {
+                if (this.currCAReq !== rand) { return; }
                 if (res.male === null) { res.male = 0; }
                 if (res.female === null) { res.female = 0; }
                 res.male += res.maleOnSpot;
@@ -93,12 +103,14 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** Get count of male allocated + selected */
     getMaleSel() {
+        if (this.building.sex.toUpperCase() !== 'M') { return this.contingentArrival.allottedMale; }
         const rooms = this.rooms.filter(r => r.selected && this.canAllocate(r));
         return this.contingentArrival.allottedMale + this.sum(rooms.map(r => this.getCapacitySel(r)));
     }
 
     /** Get count of female allocated + selected */
     getFemaleSel() {
+        if (this.building.sex.toUpperCase() !== 'F') { return this.contingentArrival.allottedFemale; }
         const rooms = this.rooms.filter(r => r.selected && this.canAllocate(r));
         return this.contingentArrival.allottedFemale + this.sum(rooms.map(r => this.getCapacitySel(r)));
     }
@@ -195,6 +207,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         }
 
         this.dataService.FireLink<Building>(this.urlLink).subscribe(result => {
+            this.building = result;
             this.links = result.links;
             this.rooms = result.room;
 
