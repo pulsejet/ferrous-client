@@ -59,6 +59,11 @@ export class Desk2Component implements OnInit {
     }
   }
 
+  /** Navigate to hostel */
+  hostel(loc: string) {
+    this.dataService.NavigateHostelByLocation(loc, this.ca);
+  }
+
   /** Open the contingent */
   openContingent() {
     this.dataService.NavigateContingentDetails(this.dataService.GetLink(this.ca.links, 'contingent'), false);

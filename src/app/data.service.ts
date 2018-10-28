@@ -404,13 +404,21 @@ export class DataService {
     public NavigateHostelKeySex(sex: string, ca: ContingentArrival) {
         /* Save preferences */
         window.localStorage.setItem('hostelKeys', JSON.stringify(this.hostelKeys));
+        this.NavigateHostelByLocation(this.hostelKeys[sex], ca);
+    }
 
+    /**
+     * Navigate to hostel location with location
+     * @param loc Location name to navigate to
+     * @param ca Contingent Arrival object
+     */
+    public NavigateHostelByLocation(loc: string, ca: ContingentArrival) {
         /* Get list of buildings */
         this.FireLink<Building[]>(
             this.GetLink(ca.links, 'buildings-min')
         ).subscribe(buildings => {
             /* Find the building we want */
-            const building = buildings.find(b => b.location === this.hostelKeys[sex].toUpperCase());
+            const building = buildings.find(b => b.location === loc.toUpperCase());
 
             /* Show error */
             if (building === null) {
@@ -421,7 +429,7 @@ export class DataService {
             /* Skip to allotment */
             this.NavigateRoomLayout(
                 this.GetLinkSelf(building.links),
-                this.hostelKeys[sex],
+                loc,
                 ca.contingentLeaderNo
             );
         });

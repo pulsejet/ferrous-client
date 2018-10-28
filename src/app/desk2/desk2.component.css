@@ -3,6 +3,11 @@
     margin-bottom: 10px;
 }
 
+.hostel-link {
+    cursor: pointer;
+    color: darkblue !important;
+}
+
 .onspot-boxes {
     margin-top: 1em;
 }
