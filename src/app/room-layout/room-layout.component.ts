@@ -66,6 +66,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             this.locCode = params['location'];
             this.clno = params['clno'];
 
+            this.marking = (this.clno === 'marking');
+
             /* Get room layout by location */
             dataService.GetRoomLayout(this.locCode).subscribe(result => {
                 this.roomsLayout.nativeElement.innerHTML = result;
@@ -84,33 +86,37 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Load contingent arrival */
     loadCA(): Observable<ContingentArrival> {
         return Observable.create(observer => {
+            /* Skip for marking */
+            if (this.marking || !this.dataService.CheckIfLink(this.links, 'get-ca')) {
+                observer.next(null);
+                observer.complete();
+            }
+
             /* Check for duplicate requests */
             const rand = Math.floor(Math.random() * 100) + 1;
             this.currCAReq = rand;
 
             /* Load the contingent arrival */
-            if (this.dataService.CheckIfLink(this.links, 'get-ca')) {
-                this.dataService.FireLink<ContingentArrival>(
-                    this.dataService.GetLink(this.links, 'get-ca')
-                ).subscribe(res => {
-                    // Check if a new request was made
-                    if (this.currCAReq !== rand) {
-                        observer.error(null);
-                        return;
-                    }
+            this.dataService.FireLink<ContingentArrival>(
+                this.dataService.GetLink(this.links, 'get-ca')
+            ).subscribe(res => {
+                // Check if a new request was made
+                if (this.currCAReq !== rand) {
+                    observer.error(null);
+                    return;
+                }
 
-                    // Initialize
-                    if (res.male === null) { res.male = 0; }
-                    if (res.female === null) { res.female = 0; }
-                    res.male += res.maleOnSpot;
-                    res.female += res.femaleOnSpot;
-                    this.contingentArrival = res;
+                // Initialize
+                if (res.male === null) { res.male = 0; }
+                if (res.female === null) { res.female = 0; }
+                res.male += res.maleOnSpot;
+                res.female += res.femaleOnSpot;
+                this.contingentArrival = res;
 
-                    // Complete the observable
-                    observer.next(res);
-                    observer.complete();
-                }, error => observer.error(error));
-            }
+                // Complete the observable
+                observer.next(res);
+                observer.complete();
+            }, error => observer.error(error));
         });
     }
 
@@ -391,7 +397,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         room.roomAllocation.forEach(roomA => {
             if (roomA.contingentLeaderNo === this.clno) {
                 containsThis = true;
-                if (roomA.contingentArrivalNo === this.contingentArrival.contingentArrivalNo) {
+                if (!this.marking &&
+                    roomA.contingentArrivalNo === this.contingentArrival.contingentArrivalNo) {
                     currentCA = true;
                 }
             } else {
