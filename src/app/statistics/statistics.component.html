@@ -6,50 +6,47 @@
 </div>
 
 <div *ngIf="buildings" class="main">
-  <div class="col-12 col-md-6 d-inline-block">
+  <div class="col-12 col-md-6 d-inline-block" *ngFor="let s of ['M', 'F']">
     <div class="card mat-elevation-z2 col-12">
-      <h2>Total Capacity</h2>
-      <p>Available - {{ getTotalAvailable() }}</p>
-      <p>Filled - {{ getTotalFilled() }}</p>
-      <p>Not Ready - {{ getTotalNR() }} + {{ getTotalMaint() }} = {{ getTotalNR() + getTotalMaint() }}</p>
+      <h2>Total Capacity {{ getIcon(s) }}</h2>
+      <p>Available - {{ getTotalAvailable(s) }}</p>
+      <p>Filled - {{ getTotalFilled(s) }}</p>
+      <p>Not Ready - {{ getTotalNR(s) }} + {{ getTotalMaint(s) }} = {{ getTotalNR(s) + getTotalMaint(s) }}</p>
       <div class="chart">
-        <google-chart [data]="totalPie"></google-chart>
+        <google-chart [data]="totalPie[s]"></google-chart>
       </div>
     </div>
 
     <div class="card mat-elevation-z2">
-      <h2>Rooms</h2>
-      <p>Total - {{ getRoomsTotal() }}</p>
-      <p>Empty - {{ getRoomsEmpty() }}</p>
-      <p>Partial - {{ getRoomsPartial() }}</p>
-      <p>Full - {{ getRoomsFilled() }}</p>
-      <p>Not Ready - {{ getRoomsNR() }} + {{ getRoomsMaint() }} = {{ getRoomsNR() + getRoomsMaint() }}</p>
+      <h2>Available Capacity {{ getIcon(s) }}</h2>
       <div class="chart">
-        <google-chart [data]="roomsPie"></google-chart>
+        <google-chart [data]="availableCapacityPie[s]"></google-chart>
       </div>
     </div>
 
     <div class="card mat-elevation-z2">
-      <h2>Rooms Distribution</h2>
+      <h2>Capacity Distribution {{ getIcon(s) }}</h2>
       <div class="chart">
-        <google-chart [data]="roomsChart"></google-chart>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="col-12 col-md-6 d-inline-block">
-    <div class="card mat-elevation-z2">
-      <h2>Available Capacity</h2>
-      <div class="chart">
-        <google-chart [data]="availableCapacityPie"></google-chart>
+        <google-chart [data]="capacityChart[s]"></google-chart>
       </div>
     </div>
 
     <div class="card mat-elevation-z2">
-      <h2>Capacity Distribution</h2>
+      <h2>Rooms {{ getIcon(s) }}</h2>
+      <p>Total - {{ getRoomsTotal(s) }}</p>
+      <p>Empty - {{ getRoomsEmpty(s) }}</p>
+      <p>Partial - {{ getRoomsPartial(s) }}</p>
+      <p>Full - {{ getRoomsFilled(s) }}</p>
+      <p>Not Ready - {{ getRoomsNR(s) }} + {{ getRoomsMaint(s) }} = {{ getRoomsNR(s) + getRoomsMaint(s) }}</p>
       <div class="chart">
-        <google-chart [data]="capacityChart"></google-chart>
+        <google-chart [data]="roomsPie[s]"></google-chart>
+      </div>
+    </div>
+
+    <div class="card mat-elevation-z2">
+      <h2>Rooms Distribution {{ getIcon(s) }}</h2>
+      <div class="chart">
+        <google-chart [data]="roomsChart[s]"></google-chart>
       </div>
     </div>
   </div>

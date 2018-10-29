@@ -15,11 +15,11 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   public buildings: Building[];
   public links: Link[];
 
-  public totalPie: any;
-  public roomsPie: any;
-  public availableCapacityPie: any;
-  public capacityChart: any;
-  public roomsChart: any;
+  public totalPie = { M: null, F: null };
+  public roomsPie = { M: null, F: null };
+  public availableCapacityPie = { M: null, F: null };
+  public capacityChart = { M: null, F: null };
+  public roomsChart = { M: null, F: null };
 
   /** WebSocket connection for updates */
   private hubConnection: HubConnection;
@@ -60,11 +60,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   /** Construct all charts */
   makeAllCharts() {
-    this.makeTotalPie();
-    this.makeRoomsPie();
-    this.makeAvailableCapacityPie();
-    this.makeCapacityChart();
-    this.makeRoomsChart();
+    for (const s of ['M', 'F']) {
+      this.makeTotalPie(s);
+      this.makeRoomsPie(s);
+      this.makeAvailableCapacityPie(s);
+      this.makeCapacityChart(s);
+      this.makeRoomsChart(s);
+    }
   }
 
   ngOnDestroy() {
@@ -141,15 +143,15 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     });
   }
 
-  makeTotalPie() {
-    this.totalPie = {
+  makeTotalPie(s: string) {
+    this.totalPie[s] = {
       chartType: 'PieChart',
       dataTable: [
         ['Metric', 'Number of People'],
-        ['Available', this.getTotalAvailable()],
-        ['Filled', this.getTotalFilled()],
-        ['Not Ready',  this.getTotalNR()],
-        ['Maintainance',  this.getTotalMaint()]
+        ['Available', this.getTotalAvailable(s)],
+        ['Filled', this.getTotalFilled(s)],
+        ['Not Ready',  this.getTotalNR(s)],
+        ['Maintainance',  this.getTotalMaint(s)]
       ],
       options: {
         height: 250,
@@ -158,10 +160,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     };
   }
 
-  makeCapacityChart() {
+  makeCapacityChart(s: string) {
     const dataTable = [];
     dataTable.push(['Building', 'Available', 'Filled', 'Not Ready', 'Maintainance']);
-    for (const building of this.buildings) {
+    for (const building of this.buildings.filter(b => b.sex === s)) {
       dataTable.push([
         building.locationFullName,
         building.capacityEmpty,
@@ -170,13 +172,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         building.capacityMaintainance
       ]);
     }
-    this.capacityChart = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink', 'magenta']);
+    this.capacityChart[s] = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink', 'magenta']);
   }
 
-  makeRoomsChart() {
+  makeRoomsChart(s: string) {
     const dataTable = [];
     dataTable.push(['Building', 'Available', 'Partial', 'Full', 'Not Ready', 'Maintainance']);
-    for (const building of this.buildings) {
+    for (const building of this.buildings.filter(b => b.sex === s)) {
       dataTable.push([
         building.locationFullName,
         building.roomsEmpty,
@@ -186,7 +188,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         building.roomsMaintainance
       ]);
     }
-    this.roomsChart = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink', 'magenta']);
+    this.roomsChart[s] = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink', 'magenta']);
   }
 
   getBigBarChart(dataTable: any, colors: any) {
@@ -196,25 +198,26 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       options: {
         legend: { position: 'top' },
         isStacked: true,
-        height: 600,
+        bar: {groupWidth: 15},
+        height: 400,
         width: 460,
-        chartArea: { height: 520 },
+        chartArea: { height: 400 },
         colors: colors
       },
     };
   }
 
-  makeAvailableCapacityPie() {
+  makeAvailableCapacityPie(s: string) {
     const dataTable = [];
     dataTable.push(['Building', 'Capacity']);
-    for (const building of this.buildings) {
+    for (const building of this.buildings.filter(b => b.sex === s)) {
       dataTable.push([
         building.locationFullName,
         building.capacityEmpty
       ]);
     }
 
-    this.availableCapacityPie = {
+    this.availableCapacityPie[s] = {
       chartType: 'PieChart',
       dataTable: dataTable,
       options: {
@@ -225,16 +228,16 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     };
   }
 
-  makeRoomsPie() {
-    this.roomsPie = {
+  makeRoomsPie(s: string) {
+    this.roomsPie[s] = {
       chartType: 'PieChart',
       dataTable: [
         ['Metric', 'Rooms'],
-        ['Empty', this.getRoomsEmpty()],
-        ['Partial', this.getRoomsPartial()],
-        ['Filled', this.getRoomsFilled()],
-        ['Not Ready',  this.getRoomsNR()],
-        ['Maintainance',  this.getRoomsMaint()]
+        ['Empty', this.getRoomsEmpty(s)],
+        ['Partial', this.getRoomsPartial(s)],
+        ['Filled', this.getRoomsFilled(s)],
+        ['Not Ready',  this.getRoomsNR(s)],
+        ['Maintainance',  this.getRoomsMaint(s)]
       ],
       options: {
         height: 250,
@@ -243,47 +246,58 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getRoomsTotal() {
-    return this.sum(this.buildings.map(b => b.roomsTotal));
+  getRoomsTotal(s: string): number {
+    return this.getSum(s, b => b.roomsTotal);
   }
 
-  getRoomsEmpty() {
-    return this.sum(this.buildings.map(b => b.roomsEmpty));
+  getRoomsEmpty(s: string): number {
+    return this.getSum(s, b => b.roomsEmpty);
   }
 
-  getRoomsPartial() {
-    return this.sum(this.buildings.map(b => b.roomsPartial));
+  getRoomsPartial(s: string): number {
+    return this.getSum(s, b => b.roomsPartial);
   }
 
-  getRoomsFilled() {
-    return this.sum(this.buildings.map(b => b.roomsFilled));
+  getRoomsFilled(s: string): number {
+    return this.getSum(s, b => b.roomsFilled);
   }
 
-  getRoomsNR() {
-    return this.sum(this.buildings.map(b => b.roomsNotReady));
+  getRoomsNR(s: string): number {
+    return this.getSum(s, b => b.roomsNotReady);
   }
 
-  getRoomsMaint() {
-    return this.sum(this.buildings.map(b => b.roomsMaintainance));
+  getRoomsMaint(s: string): number {
+    return this.getSum(s, b => b.roomsMaintainance);
   }
 
-  getTotalAvailable() {
-    return this.sum(this.buildings.map(b => b.capacityEmpty));
+  getTotalAvailable(s: string): number {
+    return this.getSum(s, b => b.capacityEmpty);
   }
 
-  getTotalFilled() {
-    return this.sum(this.buildings.map(b => b.capacityFilled));
+  getTotalFilled(s: string): number {
+    return this.getSum(s, b => b.capacityFilled);
   }
 
-  getTotalNR() {
-    return this.sum(this.buildings.map(b => b.capacityNotReady));
+  getTotalNR(s: string): number {
+    return this.getSum(s, b => b.capacityNotReady);
   }
 
-  getTotalMaint() {
-    return this.sum(this.buildings.map(b => b.capacityMaintainance));
+  getTotalMaint(s: string): number {
+    return this.getSum(s, b => b.capacityMaintainance);
   }
 
-  sum(arr: number[]) {
+  getSum(sex: string, field: (b: Building) => number): number {
+    return this.sum(this.buildings.filter(b => b.sex === sex).map(field));
+  }
+
+  sum(arr: number[]): number {
     return arr.reduce((a, b) => a + b, 0);
+  }
+
+  getIcon(s: string) {
+    return {
+      M: '♂',
+      F: '♀'
+    }[s];
   }
 }
