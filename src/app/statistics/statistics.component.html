@@ -6,8 +6,8 @@
 </div>
 
 <div *ngIf="buildings" class="main">
-  <div class="col-md-6 d-inline-block">
-    <div class="card mat-elevation-z2">
+  <div class="col-12 col-md-6 d-inline-block">
+    <div class="card mat-elevation-z2 col-12">
       <h2>Total Capacity</h2>
       <p>Available - {{ getTotalAvailable() }}</p>
       <p>Filled - {{ getTotalFilled() }}</p>
@@ -38,20 +38,18 @@
 
   </div>
 
-  <div class="col-md-6 d-inline-block">
-    <div class="col-12">
-      <div class="card mat-elevation-z2">
-        <h2>Available Capacity</h2>
-        <div class="chart">
-          <google-chart [data]="availableCapacityPie"></google-chart>
-        </div>
+  <div class="col-12 col-md-6 d-inline-block">
+    <div class="card mat-elevation-z2">
+      <h2>Available Capacity</h2>
+      <div class="chart">
+        <google-chart [data]="availableCapacityPie"></google-chart>
       </div>
+    </div>
 
-      <div class="card mat-elevation-z2">
-        <h2>Capacity Distribution</h2>
-        <div class="chart">
-          <google-chart [data]="capacityChart"></google-chart>
-        </div>
+    <div class="card mat-elevation-z2">
+      <h2>Capacity Distribution</h2>
+      <div class="chart">
+        <google-chart [data]="capacityChart"></google-chart>
       </div>
     </div>
   </div>

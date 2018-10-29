@@ -19,3 +19,10 @@
     margin: 0 auto;
     max-width: 100%;
 }
+
+@media (max-width: 768px) {
+    .card {
+        padding: 8px 15px;
+        margin: 10px 0px;
+    }
+}
