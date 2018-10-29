@@ -359,7 +359,7 @@ export class DataService {
     /* ======================== Data Helpers =============================== */
 
     /**
-     * Compute number of people arrived
+     * Compute number of people arrived (approved from Desk 1)
      * @param female true returns number of females
      */
     public GetArrivedContingent(contingent: Contingent, female: boolean): string {
@@ -369,8 +369,10 @@ export class DataService {
         let currO = 0;
 
         for (const ca of contingent.contingentArrival) {
-            curr += Number(female ? ca.female : ca.male);
-            currO += Number(female ? ca.femaleOnSpot : ca.maleOnSpot);
+            if (ca.approved) {
+                curr += Number(female ? ca.female : ca.male);
+                currO += Number(female ? ca.femaleOnSpot : ca.maleOnSpot);
+            }
         }
 
         if (currO > 0) {
