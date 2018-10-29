@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DataService } from '../data.service';
-import { Building, Link } from '../interfaces';
+import { Building, Link, EnumContainer } from '../interfaces';
 import { Title } from '@angular/platform-browser';
 import { sortNatural } from '../helpers';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, OnDestroy {
 
   public buildings: Building[];
   public links: Link[];
@@ -19,6 +20,11 @@ export class StatisticsComponent implements OnInit {
   public availableCapacityPie: any;
   public capacityChart: any;
   public roomsChart: any;
+
+  /** WebSocket connection for updates */
+  private hubConnection: HubConnection;
+  /** Set to false when deliberately disconnecting */
+  private connectWebsocket = true;
 
   constructor(
     public dataService: DataService,
@@ -36,29 +42,79 @@ export class StatisticsComponent implements OnInit {
 
       sortNatural(this.buildings, 'locationFullName');
 
-      /* Construct charts */
-      this.makeTotalPie();
-      this.makeRoomsPie();
-      this.makeAvailableCapacityPie();
-      this.makeCapacityChart();
-      this.makeRoomsChart();
+      this.makeAllCharts();
+
+      /** Start websocket */
+      this.connectWebsocket = true;
+      this.startBuildingHubConnection();
     });
   }
 
-  getTotalAvailable() {
-    return this.sum(this.buildings.map(b => b.capacityEmpty));
+  /** Construct all charts */
+  makeAllCharts() {
+    this.makeTotalPie();
+    this.makeRoomsPie();
+    this.makeAvailableCapacityPie();
+    this.makeCapacityChart();
+    this.makeRoomsChart();
   }
 
-  getTotalFilled() {
-    return this.sum(this.buildings.map(b => b.capacityFilled));
+  ngOnDestroy() {
+    /* Kill the hub connection */
+    this.connectWebsocket = false;
+    if (this.hubConnection) {
+        this.hubConnection.stop();
+    }
   }
 
-  getTotalNR() {
-    return this.sum(this.buildings.map(b => b.capacityNotReady));
-  }
+  /** Connnect to the websocket */
+  startBuildingHubConnection(): void {
+    if (!this.dataService.CheckIfLink(this.dataService.GetAPISpec(), 'stats-update') ||
+        !this.connectWebsocket) {
+        return;
+    }
 
-  getTotalMaint() {
-    return this.sum(this.buildings.map(b => b.capacityMaintainance));
+    /* Connect to the websocket */
+    this.hubConnection = new HubConnectionBuilder()
+            .withUrl(this.dataService.GetLink(this.dataService.GetAPISpec(), 'building_websocket').href)
+            .build();
+
+    /* Reload room on updated event */
+    this.hubConnection.on('updated', rids => {
+      this.dataService.FireLink<EnumContainer>(
+        this.dataService.GetLink(this.dataService.GetAPISpec(), 'stats-update'), rids
+      ).subscribe(container => {
+        for (const building of container.data) {
+          const current: number = this.buildings.findIndex(b => b.location === building.location);
+          this.buildings[current] = building;
+        }
+        this.makeAllCharts();
+      });
+    });
+
+    /* Join the group for the building */
+    this.hubConnection.start()
+        .then(() => {
+            this.hubConnection.invoke(
+                this.dataService.GetLink(
+                    this.dataService.GetAPISpec(), 'building_websocket_join').href,
+                'ALL'
+            );
+            console.log('Hub connection started');
+        })
+        .catch(() => {
+            console.log('Error while establishing connection');
+            setTimeout(() => {
+                this.startBuildingHubConnection();
+            }, 500);
+        });
+
+    /* Reconnect if necessary */
+    this.hubConnection.onclose(() => {
+        setTimeout(() => {
+            this.startBuildingHubConnection();
+        }, 500);
+    });
   }
 
   makeTotalPie() {
@@ -185,6 +241,22 @@ export class StatisticsComponent implements OnInit {
 
   getRoomsMaint() {
     return this.sum(this.buildings.map(b => b.roomsMaintainance));
+  }
+
+  getTotalAvailable() {
+    return this.sum(this.buildings.map(b => b.capacityEmpty));
+  }
+
+  getTotalFilled() {
+    return this.sum(this.buildings.map(b => b.capacityFilled));
+  }
+
+  getTotalNR() {
+    return this.sum(this.buildings.map(b => b.capacityNotReady));
+  }
+
+  getTotalMaint() {
+    return this.sum(this.buildings.map(b => b.capacityMaintainance));
   }
 
   sum(arr: number[]) {
