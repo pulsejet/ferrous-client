@@ -4,6 +4,7 @@ import { Building, Link, EnumContainer } from '../interfaces';
 import { Title } from '@angular/platform-browser';
 import { sortNatural } from '../helpers';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { noop } from 'rxjs';
 
 @Component({
   selector: 'app-statistics',
@@ -58,11 +59,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       this.startBuildingHubConnection();
     });
 
-    this.dataService.FireLink(
-      this.dataService.GetLink(this.dataService.GetAPISpec(), 'ca-stats')
-    ).subscribe(result => {
-      this.caStats = result;
-    });
+    this.updateCAStats(noop);
   }
 
   /** Construct all charts */
@@ -110,16 +107,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       };
 
       /* Update data */
-      this.dataService.FireLink<EnumContainer>(
-        this.dataService.GetLink(this.dataService.GetAPISpec(), 'stats-update'), rids
-      ).subscribe(container => {
-        for (const building of container.data) {
-          const current: number = this.buildings.findIndex(b => b.location === building.location);
-          this.buildings[current] = building;
-        }
-        this.makeAllCharts();
-        done();
-      }, () => done());
+      this.updateBuildings(rids, () => {
+        this.updateCAStats(() => done());
+      });
     });
 
     /* Join the group for the building */
@@ -148,6 +138,34 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         }, 500);
         this.hubStatus = 0;
     });
+  }
+
+  /**
+   * Update buildings from websocket room ids
+   * @param roomIds Room Ids known to have been updated
+   * @param callback Callback with status as argument
+   */
+  updateBuildings(roomIds: number[], callback: (b: boolean) => void) {
+    this.dataService.FireLink<EnumContainer>(
+      this.dataService.GetLink(this.dataService.GetAPISpec(), 'stats-update'), roomIds
+    ).subscribe(container => {
+      for (const building of container.data) {
+        const current: number = this.buildings.findIndex(b => b.location === building.location);
+        this.buildings[current] = building;
+      }
+      this.makeAllCharts();
+      callback(true);
+    }, () => callback(false));
+  }
+
+  /** Update general ca stats with callback */
+  updateCAStats(callback: (b: boolean) => void) {
+    this.dataService.FireLink(
+      this.dataService.GetLink(this.dataService.GetAPISpec(), 'ca-stats')
+    ).subscribe(result => {
+      this.caStats = result;
+      callback(true);
+    }, () => callback(false));
   }
 
   makeTotalPie(s: string) {
