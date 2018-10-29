@@ -9,9 +9,9 @@
   <div class="col-12 col-md-6 d-inline-block" *ngFor="let s of ['M', 'F']">
     <div class="card mat-elevation-z2">
       <h2>Total Capacity {{ getIcon(s) }}</h2>
-      <p>Available - {{ getTotalAvailable(s) }}</p>
-      <p>Filled - {{ getTotalFilled(s) }}</p>
-      <p>Not Ready - {{ getTotalNR(s) }} + {{ getTotalMaint(s) }} = {{ getTotalNR(s) + getTotalMaint(s) }}</p>
+      <div>Available - {{ getTotalAvailable(s) }}</div>
+      <div>Filled - {{ getTotalFilled(s) }}</div>
+      <div>Not Ready - {{ getTotalNR(s) }} + {{ getTotalMaint(s) }} = {{ getTotalNR(s) + getTotalMaint(s) }}</div>
       <div class="chart">
         <google-chart [data]="totalPie[s]"></google-chart>
       </div>
@@ -69,11 +69,11 @@
 
     <div class="card mat-elevation-z2">
       <h2>Rooms {{ getIcon(s) }}</h2>
-      <p>Total - {{ getRoomsTotal(s) }}</p>
-      <p>Empty - {{ getRoomsEmpty(s) }}</p>
-      <p>Partial - {{ getRoomsPartial(s) }}</p>
-      <p>Full - {{ getRoomsFilled(s) }}</p>
-      <p>Not Ready - {{ getRoomsNR(s) }} + {{ getRoomsMaint(s) }} = {{ getRoomsNR(s) + getRoomsMaint(s) }}</p>
+      <div>Total - {{ getRoomsTotal(s) }}</div>
+      <div>Empty - {{ getRoomsEmpty(s) }}</div>
+      <div>Partial - {{ getRoomsPartial(s) }}</div>
+      <div>Full - {{ getRoomsFilled(s) }}</div>
+      <div>Not Ready - {{ getRoomsNR(s) }} + {{ getRoomsMaint(s) }} = {{ getRoomsNR(s) + getRoomsMaint(s) }}</div>
       <div class="chart">
         <google-chart [data]="roomsPie[s]"></google-chart>
       </div>
