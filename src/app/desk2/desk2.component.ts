@@ -3,7 +3,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { DataService } from '../data.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ContingentArrival, Link, Contingent } from '../interfaces';
+import { ContingentArrival, Link, Contingent, Person } from '../interfaces';
 
 @Component({
   selector: 'app-desk2',
@@ -16,6 +16,8 @@ export class Desk2Component implements OnInit {
   public contingent: Contingent;
   public urlLink: Link;
   public onSpotAlreadyApproved = false;
+  public filler: Person;
+  public badFiller = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -38,6 +40,15 @@ export class Desk2Component implements OnInit {
         } else {
           this.onSpotAlreadyApproved = true;
         }
+
+        /** Fill in filler MI no. */
+        this.dataService.getPersonWithFallback(result.fillerMiNo).subscribe(p => {
+          this.filler = p;
+          this.badFiller = this.filler.name.includes('[Unreg');
+        }, () => {
+          this.badFiller = true;
+          this.filler = { name: 'UNKNOWN'} as Person;
+        });
 
         if (this.ca.links && this.dataService.CheckIfLink(this.ca.links, 'contingent')) {
           this.dataService.FireLink<Contingent>(
