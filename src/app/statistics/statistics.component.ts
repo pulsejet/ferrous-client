@@ -14,6 +14,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   public buildings: Building[];
   public links: Link[];
+  public caStats: any;
 
   public totalPie = { M: null, F: null };
   public roomsPie = { M: null, F: null };
@@ -55,6 +56,12 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       /** Start websocket */
       this.connectWebsocket = true;
       this.startBuildingHubConnection();
+    });
+
+    this.dataService.FireLink(
+      this.dataService.GetLink(this.dataService.GetAPISpec(), 'ca-stats')
+    ).subscribe(result => {
+      this.caStats = result;
     });
   }
 
@@ -299,5 +306,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       M: '♂',
       F: '♀'
     }[s];
+  }
+
+  getCAStat(s: string, f: string): number {
+    return Number(this.caStats[s.toLowerCase()][f]);
   }
 }

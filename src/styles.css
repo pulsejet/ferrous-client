@@ -234,3 +234,46 @@ table.building {
 .websock-status.red { background-color: red; }
 .websock-status.green { background-color: green; }
 .websock-status.blue { background-color: cyan; }
+
+/* TOOLTIP */
+/* Tooltip container */
+.ttip {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+}
+
+/* Tooltip text */
+.ttip .tooltiptext {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s;
+    width: auto;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 4px 3px;
+    border-radius: 6px;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    bottom: 0;
+    transform: translate(10px, 0);
+    z-index: 1;
+}
+
+.ttip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: 100%; /* To the left of the tooltip */
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+}
+
+.ttip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

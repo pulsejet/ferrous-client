@@ -17,6 +17,42 @@
       </div>
     </div>
 
+    <div class="card mat-elevation-z2 ca-stats" *ngIf="caStats">
+      <h2>General Statistics {{ getIcon(s) }}</h2>
+      <div class="ttip">
+        Total Registered - {{ getCAStat(s, 'reg') }}
+        <span class="tooltiptext">Registered People (Paid Online/Existing in Database)</span>
+      </div>
+      <div class="ttip">
+        Desk 1 Approved - {{ getCAStat(s, 'd1Approved') }}
+        <span class="tooltiptext">Total people approved from Desk 1 (including people not present in database, excluding on-spot)</span>
+      </div>
+      <div class="ttip">
+        Registered Approved - {{ getCAStat(s, 'regApproved') }}
+        <span class="tooltiptext">Registered people approved from Desk 1</span>
+      </div>
+      <div class="ttip">
+        Desk 2 Allotted - {{ getCAStat(s, 'regWithRooms') }}
+        <span class="tooltiptext">Registered people with rooms given from desk 2 (Excluding On-Spot)</span>
+      </div>
+      <div class="ttip">
+        Reg Bucket Queue - {{ getCAStat(s, 'regApproved') - getCAStat(s, 'regWithRooms') }}
+        <span class="tooltiptext">Desk 1 Approved - Desk 2 Alloted. Equals bucket queue of registered people</span>
+      </div>
+      <div class="ttip">
+        Reg Pending Approval - {{ getCAStat(s, 'regPendingApproval') }}
+        <span class="tooltiptext">Registered people filled form pending Desk 1 approval (unreliable, might have duplicates)</span>
+      </div>
+      <div class="ttip">
+        On Spot Given - {{ getCAStat(s, 'onSpotGiven') }}
+        <span class="tooltiptext">Total On Spot given from Desk 2 till now</span>
+      </div>
+      <div class="ttip">
+        On Spot Demand - {{ getCAStat(s, 'onSpotPendingDemand') }}
+        <span class="tooltiptext">On spot demand filled form having non-zero on spot allocated (very unreliable, might have duplicates)</span>
+      </div>
+    </div>
+
     <div class="card mat-elevation-z2">
       <h2>Available Capacity {{ getIcon(s) }}</h2>
       <div class="chart">

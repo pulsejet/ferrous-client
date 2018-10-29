@@ -20,6 +20,10 @@
     max-width: 100%;
 }
 
+.ttip .tooltiptext {
+    font-size: 0.6em;
+}
+
 @media (max-width: 768px) {
     .card {
         padding: 8px 15px;
