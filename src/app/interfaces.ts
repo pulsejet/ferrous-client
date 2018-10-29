@@ -92,6 +92,7 @@ export interface Building {
 export interface ContingentArrival {
     contingentArrivalNo: number;
     contingentLeaderNo: string;
+    fillerMiNo: string;
     createdOn: Date;
     male: number;
     female: number;

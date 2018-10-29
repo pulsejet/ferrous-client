@@ -14,6 +14,7 @@ interface FormPerson {
 
 interface FormAPI {
   contingentLeaderNo: string;
+  fillerMiNo: string;
   mino: string;
   male: number;
   female: number;
@@ -155,6 +156,7 @@ export class RegisterComponent implements OnInit {
   getRequest(): FormAPI {
     const request = {} as FormAPI;
     request.contingentLeaderNo = this.firstFormGroup.get('clno').value;
+    request.fillerMiNo = this.firstFormGroup.get('mino').value;
     request.male = this.firstFormGroup.get('nmale').value;
     request.female = this.firstFormGroup.get('nfemale').value;
     request.minos = [];
