@@ -7,7 +7,7 @@
 
 <div *ngIf="buildings" class="main">
   <div class="col-12 col-md-6 d-inline-block" *ngFor="let s of ['M', 'F']">
-    <div class="card mat-elevation-z2 col-12">
+    <div class="card mat-elevation-z2">
       <h2>Total Capacity {{ getIcon(s) }}</h2>
       <p>Available - {{ getTotalAvailable(s) }}</p>
       <p>Filled - {{ getTotalFilled(s) }}</p>
