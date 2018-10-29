@@ -33,10 +33,10 @@
       </div>
       <div class="ttip">
         Desk 2 Allotted - {{ getCAStat(s, 'regWithRooms') }}
-        <span class="tooltiptext">Registered people with rooms given from desk 2 (Excluding On-Spot)</span>
+        <span class="tooltiptext">Sum of people approved from Desk 1 with rooms given from Desk 2 (Excluding On-Spot)</span>
       </div>
       <div class="ttip">
-        Reg Bucket Queue - {{ getCAStat(s, 'regApproved') - getCAStat(s, 'regWithRooms') }}
+        Reg Bucket Queue - {{ getCAStat(s, 'd1Approved') - getCAStat(s, 'regWithRooms') }}
         <span class="tooltiptext">Desk 1 Approved - Desk 2 Alloted. Equals bucket queue of registered people</span>
       </div>
       <div class="ttip">
