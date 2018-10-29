@@ -16,6 +16,8 @@ export class Desk1Component implements OnInit {
   public ca: ContingentArrival;
   public urlLink: Link;
   public enteredMINo: string;
+  public filler: Person;
+  public badFiller = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -35,6 +37,15 @@ export class Desk1Component implements OnInit {
           this.ca = result;
           checkDuplicates(this.ca);
 
+          /** Fill in filler MI no. */
+          this.dataService.getPersonWithFallback(result.fillerMiNo).subscribe(p => {
+            this.filler = p;
+            this.badFiller = this.filler.name.includes('[Unreg');
+          }, () => {
+            this.badFiller = true;
+            this.filler = { name: 'UNKNOWN'} as Person;
+          });
+
           /** Fill in people for missing ones */
           for (const caPerson of this.ca.caPeople) {
             if (!caPerson.person) {
@@ -48,15 +59,9 @@ export class Desk1Component implements OnInit {
 
   /** Make a call to the forwarding API to fill a person */
   fillPersonForward(caPerson: CAPerson) {
-    this.dataService.FireLink<any>(this.dataService.GetLink(
-      this.dataService.GetAPISpec(), 'person_forward'), null, { id: caPerson.mino }).subscribe(forwarded => {
-        const person = {} as Person;
-        person.name = `[Unregistered] ${forwarded.name}`;
-        person.mino = forwarded.mi_number;
-        person.email = forwarded.email;
-        person.sex = forwarded.gender;
-        caPerson.person = person;
-      });
+    this.dataService.getPersonForward(caPerson.mino).subscribe(person => {
+      caPerson.person = person;
+    });
   }
 
   /* Open person component */

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent, Building } from './interfaces';
+import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent, Building, Person } from './interfaces';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import * as uriTemplates from 'uri-templates';
@@ -434,6 +434,41 @@ export class DataService {
                 loc,
                 ca.contingentLeaderNo
             );
+        });
+    }
+
+    /** Get a person from API2 */
+    getPersonForward(mino: string): Observable<Person> {
+        return Observable.create(observer => {
+        this.FireLink<any>(this.GetLink(
+            this.GetAPISpec(), 'person_forward'), null, { id: mino }).subscribe(forwarded => {
+            const person = {} as Person;
+            person.name = `[Unregistered] ${forwarded.name}`;
+            person.mino = forwarded.mi_number;
+            person.email = forwarded.email;
+            person.sex = forwarded.gender;
+            observer.next(person);
+            observer.complete();
+        }, error => observer.error(error));
+        });
+    }
+
+    getPersonWithFallback(mino: string): Observable<Person> {
+        return Observable.create(observer => {
+            this.FireLink<Person>(this.GetLink(
+                this.GetAPISpec(), 'find-person'),
+                null, { id: mino }
+            ).subscribe(p => {
+                observer.next(p);
+                observer.complete();
+            }, () => {
+                this.getPersonForward(mino).subscribe(p => {
+                    observer.next(p);
+                    observer.complete();
+                }, (error) => {
+                    observer.error(error);
+                });
+            });
         });
     }
 }

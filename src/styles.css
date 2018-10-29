@@ -235,6 +235,10 @@ table.building {
 .websock-status.green { background-color: green; }
 .websock-status.blue { background-color: cyan; }
 
+.color-red {
+    color: red;
+}
+
 /* TOOLTIP */
 /* Tooltip container */
 .ttip {
@@ -276,4 +280,8 @@ table.building {
 .ttip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+}
+
+.pointer {
+    cursor: pointer;
 }

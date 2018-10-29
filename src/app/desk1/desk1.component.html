@@ -12,7 +12,11 @@
     <div class="col-4 col-md-9"> {{ ca.contingentArrivalNo }}</div>
 
     <div class="col-8 col-md-3"><b>Filler MI No.</b></div>
-    <div class="col-4 col-md-9"> {{ ca.fillerMiNo }} </div>
+    <div class="col-4 col-md-9">
+        <span class="pointer" (click)="openPerson(filler)" [class.color-red]="badFiller">
+          {{ ca.fillerMiNo }} <ng-container *ngIf="filler">- {{ filler.name }}</ng-container>
+        </span>
+    </div>
 
     <div class="col-8 col-md-3"><b>Approval</b></div>
     <div class="col-4 col-md-9">
@@ -89,8 +93,7 @@
 
   <div *ngFor="let caperson of ca.caPeople"
         class="xunk-room-card mat-elevation-z1">
-    <span style="cursor: pointer"
-          (click)="openPerson(caperson.person)">
+    <span class="pointer" (click)="openPerson(caperson.person)">
       <b>{{ caperson.mino }}</b> -
       <ng-container *ngIf="caperson.person">
         {{ caperson.person.name }} - {{ caperson.person.sex }}
