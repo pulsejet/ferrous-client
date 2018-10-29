@@ -228,7 +228,7 @@ table.building {
     height: 12px; width: 12px;
     border-radius: 50%;
     position: fixed;
-    top: 80px; right: 40px;
+    top: 74px; right: 2vw;
     z-index: 100;
 }
 .websock-status.red { background-color: red; }
