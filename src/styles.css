@@ -222,3 +222,15 @@ table.building {
 }
 
 /* --------------------------------------------- */
+
+/* Websocket Status Icon */
+.websock-status {
+    height: 12px; width: 12px;
+    border-radius: 50%;
+    position: fixed;
+    top: 80px; right: 40px;
+    z-index: 100;
+}
+.websock-status.red { background-color: red; }
+.websock-status.green { background-color: green; }
+.websock-status.blue { background-color: cyan; }

@@ -25,6 +25,14 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   private hubConnection: HubConnection;
   /** Set to false when deliberately disconnecting */
   private connectWebsocket = true;
+  /** Status of hubConnection
+   * 0 = not connected
+   * 1 = connected
+   * 2 = just received
+   */
+  public hubStatus = 0;
+  /** Number for update check */
+  public hubCheck = 0;
 
   constructor(
     public dataService: DataService,
@@ -81,6 +89,18 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
     /* Reload room on updated event */
     this.hubConnection.on('updated', rids => {
+      /* Update status */
+      this.hubStatus = 2;
+      const hubC = ++this.hubCheck;
+
+      /* Mark status done */
+      const done = () => {
+        if (hubC === this.hubCheck && this.hubStatus === 2) {
+          this.hubStatus = 1;
+        }
+      };
+
+      /* Update data */
       this.dataService.FireLink<EnumContainer>(
         this.dataService.GetLink(this.dataService.GetAPISpec(), 'stats-update'), rids
       ).subscribe(container => {
@@ -89,7 +109,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
           this.buildings[current] = building;
         }
         this.makeAllCharts();
-      });
+        done();
+      }, () => done());
     });
 
     /* Join the group for the building */
@@ -101,12 +122,14 @@ export class StatisticsComponent implements OnInit, OnDestroy {
                 'ALL'
             );
             console.log('Hub connection started');
+            this.hubStatus = 1;
         })
         .catch(() => {
             console.log('Error while establishing connection');
             setTimeout(() => {
                 this.startBuildingHubConnection();
             }, 500);
+            this.hubStatus = 0;
         });
 
     /* Reconnect if necessary */
@@ -114,6 +137,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         setTimeout(() => {
             this.startBuildingHubConnection();
         }, 500);
+        this.hubStatus = 0;
     });
   }
 

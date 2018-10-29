@@ -3,6 +3,13 @@
     <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
 </div>
 
+<!-- Websocket status -->
+<div class="websock-status"
+    [class.red]="hubStatus === 0"
+    [class.green]="hubStatus === 1"
+    [class.blue]="hubStatus === 2">
+</div>
+
 <!-- Location label and refresh button-->
 <div>
     <span *ngIf="rooms" class="h1-inline mr"> {{ locFullname }} (for {{ clno }})</span>

@@ -40,6 +40,14 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     private hubConnection: HubConnection;
     /** Set to false when deliberately disconnecting */
     private connectWebsocket = true;
+    /** Status of hubConnection
+     * 0 = not connected
+     * 1 = connected
+     * 2 = just received
+     */
+    public hubStatus = 0;
+    /** Number for update check */
+    public hubCheck = 0;
 
     /** Curent contingent arrival */
     public contingentArrival: ContingentArrival;
@@ -155,7 +163,18 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
         /* Reload room on updated event */
         this.hubConnection.on('updated', rids => {
-            this.hubConnectionUpdate(rids);
+            /* Update status */
+            this.hubStatus = 2;
+            const hubC = ++this.hubCheck;
+
+            /* Mark status done */
+            const done = () => {
+                if (hubC === this.hubCheck && this.hubStatus === 2) {
+                this.hubStatus = 1;
+                }
+            };
+
+            this.hubConnectionUpdate(rids, done);
         });
 
         /* Join the group for the building */
@@ -167,9 +186,11 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                     this.locCode
                 );
                 console.log('Hub connection started');
+                this.hubStatus = 1;
             })
             .catch(() => {
                 console.log('Error while establishing connection');
+                this.hubStatus = 0;
                 setTimeout(() => {
                     this.startBuildingHubConnection();
                 }, 500);
@@ -177,13 +198,14 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
         /* Reconnect if necessary */
         this.hubConnection.onclose(() => {
+            this.hubStatus = 0;
             setTimeout(() => {
                 this.startBuildingHubConnection();
             }, 500);
         });
     }
 
-    hubConnectionUpdate(rids: any) {
+    hubConnectionUpdate(rids: any, callback: () => void) {
         /* Fire the link to download multiple rooms */
         this.dataService.FireLink(
             this.dataService.GetLink(this.links, 'list_rooms'), rids
@@ -206,7 +228,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
                 setTimeout(() => this.roomUpdateSnackbarShowing = false, 2000);
             }
 
-        });
+            callback();
+
+        }, () => callback());
     }
 
     ngOnDestroy() {
