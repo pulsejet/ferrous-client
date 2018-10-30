@@ -23,9 +23,14 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+
+      <button class="del" mat-button color="warn" (click)="remove(id);">
+        Remove
+      </button>
   </div>
 
-  <div class="col-12">
-    <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+  <div class="col-12" class="actions">
+    <button mat-raised-button color="primary" (click)="add()">Add</button>
+    <button mat-raised-button color="warn" (click)="submit()">Submit</button>
   </div>
 </div>
