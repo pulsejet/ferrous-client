@@ -36,4 +36,9 @@
     <mat-icon>person</mat-icon> &nbsp; Manage Users
 </a>
 
+<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'get-logs')"
+    mat-list-item [href]="dataService.GetLink(dataService.GetAPISpec(), 'get-logs').href" target="_blank">
+    <mat-icon>fingerprint</mat-icon> &nbsp; View Logs
+</a>
+
 <a mat-list-item href="mailto:support@radialapps.com"> <mat-icon>bug_report</mat-icon> &nbsp; Report Bug</a>
