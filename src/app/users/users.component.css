@@ -1,0 +1,10 @@
+.card {
+    background-color: white;
+    padding: 15px;
+    margin: 15px;
+    display: inline-block;
+}
+
+.card mat-form-field {
+    width: 100%;
+}

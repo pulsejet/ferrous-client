@@ -1,0 +1,31 @@
+<div *ngIf="identities" class="col-12">
+  <div class="col-12 mat-elevation-z1 col-md-5 card" *ngFor="let id of identities">
+      <mat-form-field>
+        <input matInput name="name" [(ngModel)]="id.username" placeholder="Username">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput name="password" [(ngModel)]="id.password" placeholder="Password" type="password">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select placeholder="Elevation" [(ngModel)]="id.elevation">
+          <mat-option *ngFor="let el of numberKeys(elevations)" [value]="el">
+            {{ elevations[el] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="privileges">
+        <mat-select placeholder="Privileges" [(ngModel)]="id.privileges" multiple>
+          <mat-option *ngFor="let pr of numberKeys(privileges)" [value]="pr">
+            {{ privileges[pr] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+  <div class="col-12">
+    <button mat-raised-button color="primary" (click)="submit()">Submit</button>
+  </div>
+</div>

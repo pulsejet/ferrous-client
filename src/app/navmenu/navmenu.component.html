@@ -31,4 +31,9 @@
     <mat-icon>cloud_upload</mat-icon> &nbsp; Upload Sheet
 </a>
 
+<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'get-all-users')"
+    mat-list-item [routerLink]="['/users']">
+    <mat-icon>person</mat-icon> &nbsp; Manage Users
+</a>
+
 <a mat-list-item href="mailto:support@radialapps.com"> <mat-icon>bug_report</mat-icon> &nbsp; Report Bug</a>
