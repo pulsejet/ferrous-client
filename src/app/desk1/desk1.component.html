@@ -121,10 +121,11 @@
 
   <br>
   <button class="col-12 col-md-2 btn"
-          mat-raised-button color="warn"
-          (click)="approve()"
-          *ngIf="dataService.CheckIfLink(ca.links, 'approve')">
-        Approve
+          mat-raised-button [color]="ca.approved ? 'accent' : 'warn'"
+          (click)="ca.approved ? unapprove() : approve()"
+          *ngIf="dataService.CheckIfLink(ca.links, 'approve')"
+          [disabled]="ca.approved && !dataService.CheckIfLink(ca.links, 'unapprove')">
+        {{ ca.approved ? 'Unapprove' : 'Approve' }}
   </button>
 
   <button class="col-12 col-md-2 btn"

@@ -34,27 +34,32 @@ export class Desk1Component implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
         this.urlLink = this.dataService.DecodeObject(params['link']);
         this.dataService.FireLink<ContingentArrival>(this.urlLink).subscribe(result => {
-          this.ca = result;
-          checkDuplicates(this.ca);
-
-          /** Fill in filler MI no. */
-          this.dataService.getPersonWithFallback(result.fillerMiNo).subscribe(p => {
-            this.filler = p;
-            this.badFiller = this.filler.name.includes('[Unreg');
-          }, () => {
-            this.badFiller = true;
-            this.filler = { name: 'UNKNOWN'} as Person;
-          });
-
-          /** Fill in people for missing ones */
-          for (const caPerson of this.ca.caPeople) {
-            if (!caPerson.person) {
-              this.fillPersonForward(caPerson);
-            }
-          }
-
+          this.fillFromCA(result);
         }, error => console.error(error));
     });
+  }
+
+  /** Fill global object from result */
+  fillFromCA(result: ContingentArrival) {
+    /* Set globals */
+    this.ca = result;
+    checkDuplicates(this.ca);
+
+    /** Fill in filler MI no. */
+    this.dataService.getPersonWithFallback(result.fillerMiNo).subscribe(p => {
+      this.filler = p;
+      this.badFiller = this.filler.name.includes('[Unreg');
+    }, () => {
+      this.badFiller = true;
+      this.filler = { name: 'UNKNOWN'} as Person;
+    });
+
+    /** Fill in people for missing ones */
+    for (const caPerson of this.ca.caPeople) {
+      if (!caPerson.person) {
+        this.fillPersonForward(caPerson);
+      }
+    }
   }
 
   /** Make a call to the forwarding API to fill a person */
@@ -119,15 +124,31 @@ export class Desk1Component implements OnInit {
       return;
     }
 
-    this.dataService.FireLink(this.dataService.GetLink(this.ca.links, 'approve'), this.ca).subscribe(() => {
+    this.dataService.FireLink<ContingentArrival>(
+      this.dataService.GetLink(this.ca.links, 'approve'), this.ca).subscribe(ca => {
       this.snackBar.open('Subcontingent Approved', 'Dismiss', {
         duration: 2000,
       });
-      this.ca.approved = true;
+      this.fillFromCA(ca);
     }, () => {
-      this.snackBar.open('Approving Failed', 'Dismiss', {
+      alert('Approving Failed!');
+    });
+  }
+
+  /** Unapprove the CA */
+  unapprove() {
+    if (!confirm('Are you sure you want to unapprove this subcontingent?')) {
+      return;
+    }
+
+    this.dataService.FireLink<ContingentArrival>(
+      this.dataService.GetLink(this.ca.links, 'unapprove'), this.ca).subscribe(ca => {
+      this.snackBar.open('Subcontingent Unapproved', 'Dismiss', {
         duration: 2000,
       });
+      this.fillFromCA(ca);
+    }, () => {
+      alert('Unapproving Failed!');
     });
   }
 
