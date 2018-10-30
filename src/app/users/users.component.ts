@@ -61,6 +61,12 @@ export class UsersComponent implements OnInit {
     this.identities.splice(i, 1);
   }
 
+  duplicate(id: FerrousIdentity): void {
+    const dup = JSON.parse(JSON.stringify(id)) as FerrousIdentity;
+    dup.username += ' - Copy';
+    this.identities.push(dup);
+  }
+
   submit() {
     const password = prompt('Enter your current password');
     this.dataService.FireLink(

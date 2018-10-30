@@ -1,4 +1,9 @@
-<div *ngIf="identities" class="col-12">
+<!-- Loading spinner -->
+<div *ngIf="!(identities && privileges)">
+  <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
+</div>
+
+<div *ngIf="identities && privileges" class="col-12">
   <div class="col-12 mat-elevation-z1 col-md-5 card" *ngFor="let id of identities">
       <mat-form-field>
         <input matInput name="name" [(ngModel)]="id.username" placeholder="Username">
@@ -24,9 +29,14 @@
         </mat-select>
       </mat-form-field>
 
-      <button class="del" mat-button color="warn" (click)="remove(id);">
-        Remove
-      </button>
+      <div class="actions">
+        <button mat-button color="primary" (click)="duplicate(id);">
+          Duplicate
+        </button>
+        <button mat-button color="warn" (click)="remove(id);">
+          Remove
+        </button>
+      </div>
   </div>
 
   <div class="col-12" class="actions">
