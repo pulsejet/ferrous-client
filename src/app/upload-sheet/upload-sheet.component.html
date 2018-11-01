@@ -4,24 +4,29 @@
 
 <h1> Upload Rooms Sheet </h1>
 
-<h3><a [href]="sampleLink" target="_blank">Download Template</a></h3>
+<ng-container *ngIf="uploadLink && uploadLink.href">
+  <h3><a [href]="sampleLink" target="_blank">Download Template</a></h3>
 
-<div>
-  <app-upload-component (uploaded)="sheetUploaded($event)"
-                        [link]="uploadLink"
-                        (progressChange)="progressChange($event)">
-  </app-upload-component>
-</div>
+  <div>
+    <app-upload-component (uploaded)="sheetUploaded($event)"
+                          [link]="uploadLink"
+                          (progressChange)="progressChange($event)">
+    </app-upload-component>
+  </div>
+</ng-container>
 
 <br />
-<h2> Upload People Sheet </h2>
 
-<div>
-  <app-upload-component (uploaded)="peopleSheetUploaded($event)"
-                        [link]="peopleUploadLink"
-                        (progressChange)="progressChange($event)">
-  </app-upload-component>
-</div>
+<ng-container  *ngIf="peopleUploadLink && peopleUploadLink.href">
+  <h2> Upload People Sheet </h2>
+
+  <div>
+    <app-upload-component (uploaded)="peopleSheetUploaded($event)"
+                          [link]="peopleUploadLink"
+                          (progressChange)="progressChange($event)">
+    </app-upload-component>
+  </div>
+</ng-container>
 
 <div class="result" *ngIf="result">
   <h3> Updates Done </h3>
