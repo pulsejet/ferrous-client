@@ -3,6 +3,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { Title } from '@angular/platform-browser';
 import { DataService } from './data.service';
 import { Router } from '@angular/router';
+import { FerrousIdentity } from './interfaces';
 
 /* TODO: This code comes from the example for the angular   *
  * material side nav. Clean it up and add comments.         */
@@ -39,12 +40,14 @@ export class AppComponent implements OnDestroy {
         this.dataService.RefreshAPISpec().subscribe(api => {
             this.dataService._API_SPEC = api;
 
-            this.dataService.GetCurrentUser().subscribe(() => {
+            this.dataService.GetCurrentUser().subscribe(result => {
                 this.dataService.loggedIn = true;
                 this.initialized = true;
+                this.dataService.identity = result;
             }, () => {
                 this.dataService.loggedIn = false;
                 this.initialized = true;
+                this.dataService.identity = { username: '' } as FerrousIdentity;
             });
         });
     }
@@ -61,6 +64,7 @@ export class AppComponent implements OnDestroy {
                 this.dataService._API_SPEC = api;
             });
 
+            this.dataService.identity = { username: '' } as FerrousIdentity;
         });
     }
 

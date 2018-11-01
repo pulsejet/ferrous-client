@@ -46,6 +46,11 @@ export class LoginComponent implements OnInit {
             this.dataService.loggedIn = true;
           });
         }, 300);
+
+        this.dataService.GetCurrentUser().subscribe(result => {
+          this.dataService.identity = result;
+        });
+
       }, () => {
         this.addFormError('#user_password');
         this.passwordError = 'The password is invalid';

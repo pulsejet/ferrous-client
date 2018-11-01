@@ -122,3 +122,12 @@ export interface CAPerson {
     sex: string;
     links: Link[];
 }
+
+
+export interface FerrousIdentity {
+    username: string;
+    password: string;
+    elevation: number;
+    privileges: number[];
+    locations: string[];
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent, Building, Person } from './interfaces';
+import { RoomAllocation, Room, ContingentArrival, EnumContainer, Link, Contingent, Building, Person, FerrousIdentity } from './interfaces';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';
 import * as uriTemplates from 'uri-templates';
@@ -31,6 +31,9 @@ export class DataService {
         M: 'M',
         F: 'F'
     };
+
+    /** Identity of logged in user */
+    public identity = { username: '' } as FerrousIdentity;
 
     /**
      * Set the static passed data
@@ -335,8 +338,8 @@ export class DataService {
      * Get if a user is logged in
      * TODO: Do this with the API spec
      */
-    GetCurrentUser(): Observable<any> {
-        return this.FireLink(this.GetLink(this.GetAPISpec(), 'getuser'));
+    GetCurrentUser(): Observable<FerrousIdentity> {
+        return this.FireLink<FerrousIdentity>(this.GetLink(this.GetAPISpec(), 'getuser'));
     }
 
     /**

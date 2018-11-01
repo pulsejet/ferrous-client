@@ -25,7 +25,7 @@
 
         <span class="fill-space"></span>
 
-        <button id="logout" mat-button (click)="logout()">Log Out</button>
+        <button id="logout" mat-button (click)="logout()">Log out {{ dataService.identity.username }}</button>
     </mat-toolbar>
 
     <!-- Sidenav -->

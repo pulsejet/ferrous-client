@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Title } from '@angular/platform-browser';
-import { Building } from '../interfaces';
+import { Building, FerrousIdentity } from '../interfaces';
 import { sortNatural } from '../helpers';
-
-interface FerrousIdentity {
-  username: string;
-  password: string;
-  elevation: number;
-  privileges: number[];
-  locations: string[];
-}
 
 @Component({
   selector: 'app-users',
