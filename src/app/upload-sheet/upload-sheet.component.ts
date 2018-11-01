@@ -56,7 +56,7 @@ export class UploadSheetComponent implements OnInit {
 
   /** Returns true if the room was not found */
   isRoomBad(room: Room) {
-    return room.remark === 'NOT FOUND';
+    return ['NOT FOUND', 'NO AUTH'].includes(room.remark);
   }
 
 }
