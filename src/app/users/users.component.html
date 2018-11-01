@@ -3,7 +3,7 @@
   <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
 </div>
 
-<div *ngIf="identities && privileges" class="col-12">
+<div *ngIf="identities && privileges" class="main">
   <div class="col-12 mat-elevation-z1 col-md-5 card" *ngFor="let id of identities">
       <mat-form-field>
         <input matInput name="name" [(ngModel)]="id.username" placeholder="Username">
@@ -29,6 +29,14 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field *ngIf="buildings">
+        <mat-select placeholder="Hostels" [(ngModel)]="id.locations" multiple>
+          <mat-option *ngFor="let lc of buildings" [value]="lc.location">
+            {{ lc.locationFullName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <div class="actions">
         <button mat-button color="primary" (click)="duplicate(id);">
           Duplicate
@@ -40,7 +48,10 @@
   </div>
 
   <div class="col-12" class="actions">
-    <button mat-raised-button color="primary" (click)="add()">Add</button>
-    <button mat-raised-button color="warn" (click)="submit()">Submit</button>
+    <button class="col-12 col-md-1" mat-raised-button color="primary" (click)="add()">Add</button>
+    <button class="col-12 col-md-1" mat-raised-button color="warn" (click)="submit()">Submit</button>
+    <mat-form-field class="col-12 col-md-3">
+      <input matInput name="password" [(ngModel)]="password" placeholder="Current Password" type="password">
+    </mat-form-field>
   </div>
 </div>

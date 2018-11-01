@@ -1,7 +1,13 @@
+.main {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow: hidden;
+}
 .card {
     background-color: white;
+    margin: 10px 0;
     padding: 15px;
-    margin: 15px;
     display: inline-block;
 }
 
@@ -11,4 +17,11 @@
 
 .actions button {
     margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 768px) {
+    .card {
+        margin-right: 20px;
+    }
 }
