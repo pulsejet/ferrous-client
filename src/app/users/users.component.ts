@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Title } from '@angular/platform-browser';
 import { Building } from '../interfaces';
+import { sortNatural } from '../helpers';
 
 interface FerrousIdentity {
   username: string;
@@ -60,6 +61,7 @@ export class UsersComponent implements OnInit {
       this.dataService.GetLink(this.dataService.GetAPISpec(), 'mark_buildings')
     ).subscribe(result => {
       this.buildings = result.data;
+      sortNatural(this.buildings, 'locationFullName');
     });
   }
 
