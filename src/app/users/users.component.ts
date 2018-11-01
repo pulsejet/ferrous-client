@@ -82,6 +82,14 @@ export class UsersComponent implements OnInit {
     this.identities.push(dup);
   }
 
+  toggleAll(id: FerrousIdentity) {
+    if (this.buildings.every(b => id.locations.includes(b.location))) {
+      id.locations = [];
+    } else {
+      id.locations = this.buildings.map(b => b.location);
+    }
+  }
+
   submit() {
     if (this.password === '') {
       alert('Enter your existing password to modify users!');
