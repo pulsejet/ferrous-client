@@ -1,3 +1,8 @@
+<!-- Loading spinner -->
+<div *ngIf="!buildings">
+  <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
+</div>
+
 <!-- Websocket status -->
 <div class="websock-status"
     [class.red]="hubStatus === 0"
