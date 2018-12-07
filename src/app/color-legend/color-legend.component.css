@@ -1,0 +1,21 @@
+.color-legend {
+    font-size: 1.1em;
+    position: fixed;
+    top: 100px;
+    left: 10px;
+    max-width: calc(100vw - 20px);
+    overflow: auto;
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 2px;
+    padding: 5px;
+    display: none;
+}
+
+.hvr-btn:hover + .color-legend {
+    display: block;
+}
+
+.color-legend .box {
+    height: 15px; width: 15px;
+}

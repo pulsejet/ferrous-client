@@ -43,6 +43,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
 import { UploadComponent } from './upload/upload.component';
 import { UploadSheetComponent } from './upload-sheet/upload-sheet.component';
 import { UsersComponent } from './users/users.component';
+import { ColorLegendComponent } from './color-legend/color-legend.component';
 
 @NgModule({
     bootstrap: [
@@ -75,7 +76,8 @@ import { UsersComponent } from './users/users.component';
         StatisticsComponent,
         UploadComponent,
         UploadSheetComponent,
-        UsersComponent
+        UsersComponent,
+        ColorLegendComponent
     ],
     imports: [
         BrowserModule,
