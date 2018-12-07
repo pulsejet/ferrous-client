@@ -1,8 +1,12 @@
-<button mat-icon-button class="hvr-btn" color="primary">
+<button mat-icon-button
+        class="hvr-btn"
+        color="primary"
+        (click)="sticky = !sticky"
+        [class.sticky]="sticky">
   <mat-icon>help</mat-icon>
 </button>
 
-<div class="color-legend">
+<div class="color-legend" [class.sticky]="sticky">
     <table>
         <tbody>
             <tr>

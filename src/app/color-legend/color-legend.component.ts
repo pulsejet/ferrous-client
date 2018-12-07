@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ColorLegendComponent implements OnInit {
 
+  public sticky = false;
+
   constructor() { }
 
   ngOnInit() {

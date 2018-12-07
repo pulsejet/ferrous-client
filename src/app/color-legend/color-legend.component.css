@@ -14,8 +14,16 @@
     z-index: 2;
 }
 
-.hvr-btn:hover + .color-legend {
+.hvr-btn:hover + .color-legend, .color-legend.sticky {
     display: block;
+}
+
+.hvr-btn:hover {
+    color: magenta;
+}
+
+.hvr-btn.sticky {
+    color: red;
 }
 
 .color-legend .box {
