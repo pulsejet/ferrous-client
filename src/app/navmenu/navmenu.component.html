@@ -8,17 +8,17 @@
 
 <a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'contingents')"
     mat-list-item [routerLink]="['/contingent']">
-    <mat-icon>list</mat-icon> &nbsp; Contingents
+    <mat-icon>people</mat-icon> &nbsp; Contingents
 </a>
 
 <a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'people')"
     mat-list-item [routerLink]="['/person']">
-    <mat-icon>list</mat-icon> &nbsp; People
+    <mat-icon>person</mat-icon> &nbsp; People
 </a>
 
 <a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'mark_buildings')"
     mat-list-item (click)="NavigateLayoutSelect()">
-    <mat-icon>assignment</mat-icon> &nbsp; Rooms
+    <mat-icon>business</mat-icon> &nbsp; Rooms
 </a>
 
 <a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'mark_buildings')"
