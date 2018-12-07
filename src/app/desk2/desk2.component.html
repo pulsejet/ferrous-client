@@ -129,11 +129,11 @@
         <div class="card mat-elevation-z2 col-12" *ngIf="ca && ca.roomAllocation && ca.roomAllocation.length > 0">
             <span class="h1-inline mr col-12"
                   [class.terror]="ca.allottedMale > ca.male">
-                &#9794; {{ ca.allottedMale }} / {{ ca.male }}
+                &#9794; {{ ca.allottedMale }} / {{ ca.male + ca.maleOnSpot }}
             </span>
             <span class="h1-inline col-12"
                   [class.terror]="ca.allottedFemale > ca.female">
-                &#9792; {{ ca.allottedFemale }} / {{ ca.female }}
+                &#9792; {{ ca.allottedFemale }} / {{ ca.female + ca.femaleOnSpot }}
             </span>
         </div>
 

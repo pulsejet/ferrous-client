@@ -34,12 +34,13 @@ export class Desk2Component implements OnInit {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.urlLink = this.dataService.DecodeObject(params['link']);
       this.dataService.FireLink<ContingentArrival>(this.urlLink).subscribe(result => {
-        this.ca = result;
-        if (this.ca.maleOnSpot == null && this.ca.femaleOnSpot == null) {
-          this.ca.femaleOnSpot = this.ca.maleOnSpot = 0;
+        if (result.maleOnSpot == null && result.femaleOnSpot == null) {
+          result.femaleOnSpot = result.maleOnSpot = 0;
         } else {
           this.onSpotAlreadyApproved = true;
         }
+
+        this.ca = result;
 
         /** Fill in filler MI no. */
         this.dataService.getPersonWithFallback(result.fillerMiNo).subscribe(p => {
