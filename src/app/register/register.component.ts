@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
   public validationError: string;
   public validationDupes: boolean;
 
-  private minoValidPattern = Validators.required; // Validators.pattern('MI-[A-Za-z]{3}-[0-9]{3}');
+  private minoValidPattern = Validators.pattern('MI-[A-Za-z]{3}-[0-9]{3}');
 
   constructor(
     private _formBuilder: FormBuilder,
