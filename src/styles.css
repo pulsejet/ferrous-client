@@ -192,6 +192,10 @@
 .room.maintainance {
     background-color:magenta;
 }
+.room.reserved {
+    background-color: lightseagreen;
+    color: white;
+}
 
 .room.occupied {background-color:darkred;}
 

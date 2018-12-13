@@ -17,6 +17,7 @@
       <div>Available - {{ getTotalAvailable(s) }}</div>
       <div>Filled - {{ getTotalFilled(s) }}</div>
       <div>Not Ready - {{ getTotalNR(s) }} + {{ getTotalMaint(s) }} = {{ getTotalNR(s) + getTotalMaint(s) }}</div>
+      <div>Reserved - {{ getTotalReserved(s) }}</div>
       <div class="chart">
         <google-chart [data]="totalPie[s]"></google-chart>
       </div>

@@ -125,6 +125,11 @@
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
                     Maintainance
             </button>
+            <button fxFlex="auto" (click)="mark(8);"
+                    mat-raised-button color="accent"
+                    [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">
+                    MI Reserved
+            </button>
             <button fxFlex="auto" (click)="mark(0);"
                     mat-raised-button
                     [disabled]="!hasRoomsSelected() || hasUnmarkableRoomSelected()">

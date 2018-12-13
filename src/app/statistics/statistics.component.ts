@@ -176,33 +176,35 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         ['Available', this.getTotalAvailable(s)],
         ['Filled', this.getTotalFilled(s)],
         ['Not Ready',  this.getTotalNR(s)],
-        ['Maintainance',  this.getTotalMaint(s)]
+        ['Maintainance',  this.getTotalMaint(s)],
+        ['Reserved',  this.getTotalReserved(s)]
       ],
       options: {
         height: 250,
-        colors: ['darkblue', 'orange', 'lightpink', 'magenta']
+        colors: ['darkblue', 'orange', 'lightpink', 'magenta', 'lightseagreen']
       },
     };
   }
 
   makeCapacityChart(s: string) {
     const dataTable = [];
-    dataTable.push(['Building', 'Available', 'Filled', 'Not Ready', 'Maintainance']);
+    dataTable.push(['Building', 'Available', 'Filled', 'Not Ready', 'Maintainance', 'Reserved']);
     for (const building of this.buildings.filter(b => b.sex === s)) {
       dataTable.push([
         building.locationFullName,
         building.capacityEmpty,
         building.capacityFilled,
         building.capacityNotReady,
-        building.capacityMaintainance
+        building.capacityMaintainance,
+        building.capacityReserved
       ]);
     }
-    this.capacityChart[s] = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink', 'magenta']);
+    this.capacityChart[s] = this.getBigBarChart(dataTable, ['darkblue', 'orange', 'lightpink', 'magenta', 'lightseagreen']);
   }
 
   makeRoomsChart(s: string) {
     const dataTable = [];
-    dataTable.push(['Building', 'Available', 'Partial', 'Full', 'Not Ready', 'Maintainance']);
+    dataTable.push(['Building', 'Available', 'Partial', 'Full', 'Not Ready', 'Maintainance', 'Reserved']);
     for (const building of this.buildings.filter(b => b.sex === s)) {
       dataTable.push([
         building.locationFullName,
@@ -210,10 +212,11 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         building.roomsPartial,
         building.roomsFilled,
         building.roomsNotReady,
-        building.roomsMaintainance
+        building.roomsMaintainance,
+        building.roomsReserved
       ]);
     }
-    this.roomsChart[s] = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink', 'magenta']);
+    this.roomsChart[s] = this.getBigBarChart(dataTable, ['darkblue', 'blue', 'orange', 'lightpink', 'magenta', 'lightseagreen']);
   }
 
   getBigBarChart(dataTable: any, colors: any) {
@@ -262,11 +265,12 @@ export class StatisticsComponent implements OnInit, OnDestroy {
         ['Partial', this.getRoomsPartial(s)],
         ['Filled', this.getRoomsFilled(s)],
         ['Not Ready',  this.getRoomsNR(s)],
-        ['Maintainance',  this.getRoomsMaint(s)]
+        ['Maintainance',  this.getRoomsMaint(s)],
+        ['Reserved',  this.getRoomsReserved(s)]
       ],
       options: {
         height: 250,
-        colors: ['darkblue', 'blue', 'orange', 'lightpink', 'magenta']
+        colors: ['darkblue', 'blue', 'orange', 'lightpink', 'magenta', 'lightseagreen']
       },
     };
   }
@@ -295,6 +299,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     return this.getSum(s, b => b.roomsMaintainance);
   }
 
+  getRoomsReserved(s: string): number {
+    return this.getSum(s, b => b.roomsReserved);
+  }
+
   getTotalAvailable(s: string): number {
     return this.getSum(s, b => b.capacityEmpty);
   }
@@ -309,6 +317,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   getTotalMaint(s: string): number {
     return this.getSum(s, b => b.capacityMaintainance);
+  }
+
+  getTotalReserved(s: string): number {
+    return this.getSum(s, b => b.capacityReserved);
   }
 
   getSum(sex: string, field: (b: Building) => number): number {
