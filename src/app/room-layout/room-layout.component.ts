@@ -52,6 +52,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Curent contingent arrival */
     public contingentArrival: ContingentArrival;
 
+    /** Global remark for updation */
+    public globalRemark = '';
+
     public urlLink: Link;
     public links: Link[];
 
@@ -215,7 +218,9 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             const rooms = result as Room[];
             rooms.forEach(room => {
                 const index = this.rooms.findIndex(r => r.roomId === room.roomId);
+                const sticky = this.rooms[index].stickyselect;
                 this.rooms[index] = room;
+                this.rooms[index].selected = sticky;
                 this.assignRoom(this.rooms[index]);
             });
 
@@ -530,6 +535,26 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     hasDirectSexLink(sex: string) {
         return (this.dataService.hostelKeys[sex] !== '' &&
             this.contingentArrival);
+    }
+
+    /** Add remark to all selected rooms */
+    public addGlobalRemark() {
+        for (const room of this.rooms.filter(r => r.selected === true)) {
+            if (room.remark === null || room.remark === '') {
+                room.remark = this.globalRemark;
+            } else {
+                room.remark += '; ' + this.globalRemark;
+            }
+
+            room.stickyselect = true;
+
+            this.dataService.FireLink(
+                this.dataService.GetLinkUpdate(room.links), room
+            ).subscribe(() => {
+                this.snackBar.open(`Room ${room.roomName} updated`, 'Dismiss', {duration: 500});
+            });
+        }
+        this.globalRemark = '';
     }
 
     /** Skip select layout */

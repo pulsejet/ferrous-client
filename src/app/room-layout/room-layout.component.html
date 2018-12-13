@@ -84,7 +84,11 @@
     <br>
 
     <!-- Action buttons -->
-    <div>
+    <div class="container"
+        fxLayout="column"
+        fxLayoutGap="10px"
+        fxLayoutGap.xs="8px">
+
         <div class="container"
              fxLayout
              fxLayout.xs="column"
@@ -139,6 +143,22 @@
                     mat-raised-button color="primary"
                     [disabled]="!dataService.CheckIfLink(links, 'bill')">
                     Bill
+            </button>
+        </div>
+
+        <div class="container"
+             fxLayout
+             fxLayout.xs="column"
+             fxLayoutGap="8px"
+             fxLayoutGap.xs="5px">
+
+            <mat-form-field>
+                <input matInput name="globremark" placeholder="Remark" [(ngModel)]="globalRemark">
+            </mat-form-field>
+
+            <button (click)="addGlobalRemark();"
+                    mat-button color="primary">
+                    Add Remark
             </button>
         </div>
     </div>

@@ -49,6 +49,7 @@ export interface Room {
     roomAllocation: RoomAllocation[];
 
     selected: boolean;
+    stickyselect: boolean;
     partialsel: number;
     partialallot: boolean;
 
