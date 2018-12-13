@@ -47,6 +47,7 @@ export interface Room {
     status: number;
     remark: string;
     roomAllocation: RoomAllocation[];
+    mattresses: number;
 
     selected: boolean;
     stickyselect: boolean;

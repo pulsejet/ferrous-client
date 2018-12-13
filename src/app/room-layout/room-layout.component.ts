@@ -54,6 +54,8 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** Global remark for updation */
     public globalRemark = '';
+    /** Show mattreses instead of capacity */
+    public showMattress = false;
 
     public urlLink: Link;
     public links: Link[];
@@ -344,7 +346,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         const clss: string = this.getRoomClass(room);
 
         /* Show capacity and room number */
-        $(ctrl).html(this.getCapacity(room) + '<br><span>' + room.roomName.toString() + '</span>');
+        $(ctrl).html(this.getRoomText(room));
 
         /* Assign CSS class */
         $(ctrl).attr('class', clss);
@@ -362,6 +364,12 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         ).subscribe();
     }
 
+    /** Get text to show in room */
+    public getRoomText(room: Room): string {
+        const capacity = this.showMattress ? room.mattresses : this.getCapacity(room);
+        return capacity + '<br><span>' + room.roomName.toString() + '</span>';
+    }
+
     /**
      * Get number of free spaces in room
      * @param room Room object
@@ -374,6 +382,12 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         } else {
             return room.capacity;
         }
+    }
+
+    /** Show/hide mattress numbers */
+    toggleMattress() {
+        this.showMattress = !this.showMattress;
+        this.assignRooms();
     }
 
     /** Allot all selected rooms to current Contingent */
