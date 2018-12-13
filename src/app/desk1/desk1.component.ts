@@ -96,6 +96,8 @@ export class Desk1Component implements OnInit {
       if (!result.person) {
         this.fillPersonForward(result);
       }
+    }, () => {
+      alert('Adding failed! Maybe the contingent is already approved!');
     });
   }
 
@@ -104,6 +106,8 @@ export class Desk1Component implements OnInit {
     this.dataService.FireLink(this.dataService.GetLinkDelete(caPerson.links)).subscribe(() => {
       this.updatePeopleCount(caPerson, -1);
       this.ca.caPeople.splice(this.ca.caPeople.indexOf(caPerson), 1);
+    }, () => {
+      alert('Deleting failed! Maybe the contingent is already approved!');
     });
   }
 
