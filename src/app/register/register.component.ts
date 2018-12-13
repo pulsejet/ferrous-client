@@ -136,7 +136,7 @@ export class RegisterComponent implements OnInit {
 
   /** Get placeholder for name */
   getPlaceholder(person: FormPerson) {
-    return `Person #${person.sno} (${person.sex})`;
+    return `Person #${person.sno + 1} (${person.sex})`;
   }
 
   submit() {
