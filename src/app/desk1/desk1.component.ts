@@ -128,6 +128,11 @@ export class Desk1Component implements OnInit {
       return;
     }
 
+    if (Number(Number(this.ca.male) + Number(this.ca.female)) > this.ca.caPeople.length) {
+      alert('You cannot approve more people than present in the list! Please add MI numbers of ones necessary!');
+      return;
+    }
+
     this.dataService.FireLink<ContingentArrival>(
       this.dataService.GetLink(this.ca.links, 'approve'), this.ca).subscribe(ca => {
       this.snackBar.open('Subcontingent Approved', 'Dismiss', {
