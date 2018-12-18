@@ -85,6 +85,11 @@
           on the basis on availability. Submitting this form does NOT mean you have received accommodation.
         </p>
 
+        <p *ngIf="hasInvalidMFCount()">
+          It seems the MI numbers you've filled doesn't match the counts of male and female you've filled in the first step.
+          Please check once again. You may ignore this warning and proceed if you think you've filled everything correctly.
+        </p>
+
         <p *ngIf="!hasSelf()">
           <b>
             It seems your own MI number is not present in the list. You should also include your MI number if you will

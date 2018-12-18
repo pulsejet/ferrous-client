@@ -173,6 +173,12 @@ export class RegisterComponent implements OnInit {
     return (caPerson.flags === '') ? 'ca-valid' : 'ca-error';
   }
 
+  hasInvalidMFCount() {
+    if (!this.validation) { return false; }
+    const c = (s: string) => this.validation.caPeople.filter(p => p.sex.toLowerCase().includes(s)).length;
+    return (c('m') !== this.nmale || c('f') !== this.nfemale);
+  }
+
   hasValidationErrors() {
     for (const p of this.validation.caPeople) {
       if (p.flags !== '') { return true; }
