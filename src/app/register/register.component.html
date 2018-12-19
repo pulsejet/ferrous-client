@@ -37,7 +37,7 @@
 
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Arrival Details (Already Paid)</ng-template>
+        <ng-template matStepLabel>Arrival Details <br> <span style="font-size: 0.9em">Already Paid</span></ng-template>
 
         <mat-form-field class="full-width" *ngFor="let person of details">
           <input matInput [placeholder]="getPlaceholder(person)" [formControlName]="person.ctrl" required upperCase>
