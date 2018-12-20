@@ -287,9 +287,16 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             const ctrl = this.getRoomId(room);
             const index = self.rooms.indexOf(room);
 
-            /* Mark the room selected */
+            /* Mark the room selected on click */
             $(ctrl).on('click', () => {
                 this.handleRoomClick(index);
+            });
+
+            /* Mark the room selected on drag */
+            $(ctrl).on('mouseenter mouseleave', (e: any) => {
+                if (!room.selected && e.originalEvent.buttons === 1) {
+                    this.handleRoomClick(index);
+                }
             });
 
             /* Handle right click */
