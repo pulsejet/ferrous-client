@@ -1,4 +1,4 @@
-﻿import { Component, Inject, ElementRef, ViewChild, OnInit, OnDestroy } from '@angular/core';
+﻿import { Component, Inject, ElementRef, ViewChild, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Room, RoomAllocation, Link, Building, ContingentArrival } from '../interfaces';
 import { Title } from '@angular/platform-browser';
@@ -583,7 +583,18 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
         this.dataService.NavigateHostelKeySex(sex, this.contingentArrival);
     }
 
+    /** Sum an array */
     sum(arr: number[]) {
         return arr.reduce((a, b) => a + b, 0);
+    }
+
+    /** Unselect all on escape keypress */
+    @HostListener('document:keydown.escape', ['$event']) onKeydownHandler() {
+        this.rooms.forEach(m => {
+            if (m.selected) {
+                m.selected = false;
+                this.assignRoom(m);
+            }
+        });
     }
 }
