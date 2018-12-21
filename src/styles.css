@@ -155,10 +155,12 @@
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
+
+    position: relative;
 }
 
-.room {
-    position: relative;
+.room.b {
+    width: calc(100% - 4px);
 }
 
 .room span {
