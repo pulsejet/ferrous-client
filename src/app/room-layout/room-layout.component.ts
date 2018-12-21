@@ -294,7 +294,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
             /* Mark the room selected on drag */
             $(ctrl).on('mouseenter mouseleave', (e: any) => {
-                if (!room.selected && e.originalEvent.buttons === 1) {
+                if (!this.rooms[index].selected && e.originalEvent.buttons === 1) {
                     this.handleRoomClick(index);
                 }
             });
