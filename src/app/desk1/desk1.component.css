@@ -5,4 +5,17 @@
 
 .input {
     margin-right: 10px;
+    width: 180px;
+    max-width: 100%;
+}
+
+.input.big {
+    width: 370px;
+    max-width: 100%;
+}
+
+@media (max-width: 480px) {
+    .input, .input.big {
+        width: 100%;
+    }
 }

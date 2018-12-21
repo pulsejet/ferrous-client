@@ -48,8 +48,13 @@
       </ng-template>
     </div>
 
+    <div class="col-12" style="margin-top: 10px;">
+      <mat-form-field class="input big">
+        <input matInput name="caRemark" [(ngModel)]="ca.remark" placeholder="Remark">
+      </mat-form-field>
+    </div>
+
     <div class="col-12">
-      <br>
       <mat-form-field class="input">
         <input matInput name="caOnSpotM" [(ngModel)]="ca.maleOnSpotDemand" placeholder="On Spot Demand (Male)" type="number">
       </mat-form-field>
