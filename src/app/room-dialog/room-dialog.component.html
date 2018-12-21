@@ -10,13 +10,16 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input fxFlex matInput name="cmatt" [(ngModel)]="room.mattresses" placeholder="Mattresses">
+            <input fxFlex matInput name="cmatt" [(ngModel)]="room.mattresses" placeholder="Mattresses" type="number">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input fxFlex matInput name="ccapacity" [(ngModel)]="room.capacity" placeholder="Capacity" type="number">
         </mat-form-field>
 
         <mat-form-field>
             <input fxFlex matInput name="cremark" [(ngModel)]="room.remark" placeholder="Remark">
         </mat-form-field>
-
     </div>
 </div>
 
