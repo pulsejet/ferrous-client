@@ -128,8 +128,8 @@ export class Desk1Component implements OnInit {
       return;
     }
 
-    if (Number(Number(this.ca.male) + Number(this.ca.female)) > this.ca.caPeople.length) {
-      alert('You cannot approve more people than present in the list! Please add MI numbers of ones necessary!');
+    if (Number(Number(this.ca.male) + Number(this.ca.female)) !== Number(this.ca.caPeople.length)) {
+      alert('Counts of MI numbers do not match with filled. Please correct this before proceeding!');
       return;
     }
 
