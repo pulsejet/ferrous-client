@@ -94,6 +94,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.connectWebsocket = true;
         this.startBuildingHubConnection();
+        this.showMattress = localStorage.getItem('showMattress') !== '0';
     }
 
     /** Load contingent arrival */
@@ -398,6 +399,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     toggleMattress() {
         this.showMattress = !this.showMattress;
         this.assignRooms();
+        localStorage.setItem('showMattress', this.showMattress ? '1' : '0');
     }
 
     /** Allot all selected rooms to current Contingent */
