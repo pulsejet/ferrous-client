@@ -133,6 +133,10 @@ export class Desk1Component implements OnInit {
       return;
     }
 
+    if (this.ca.caPeople.some(m => m.flags !== '') && !confirm('This subcontingent has warnings. Approve?')) {
+      return;
+    }
+
     this.dataService.FireLink<ContingentArrival>(
       this.dataService.GetLink(this.ca.links, 'approve'), this.ca).subscribe(ca => {
       this.snackBar.open('Subcontingent Approved', 'Dismiss', {
