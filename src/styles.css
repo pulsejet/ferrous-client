@@ -157,8 +157,17 @@
     -o-user-select: none;
 }
 
+.room {
+    position: relative;
+}
+
 .room span {
     font-size: 8pt;
+}
+
+.room span.super {
+    position: absolute;
+    top:0; right:1px;
 }
 
 .pseudo {

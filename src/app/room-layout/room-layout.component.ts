@@ -55,7 +55,7 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
     /** Global remark for updation */
     public globalRemark = '';
     /** Show mattreses instead of capacity */
-    public showMattress = false;
+    public showMattress = true;
 
     public urlLink: Link;
     public links: Link[];
@@ -373,8 +373,11 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
 
     /** Get text to show in room */
     public getRoomText(room: Room): string {
-        const capacity = this.showMattress ? room.mattresses : this.getCapacity(room);
-        return capacity + '<br><span>' + room.roomName.toString() + '</span>';
+        let capacity: string = this.getCapacity(room).toString();
+        if (this.showMattress && room.status !== 0) {
+            capacity += `<span class="super">${room.mattresses.toString()}</span>`;
+        }
+        return capacity + `<br><span>${room.roomName}</span>`;
     }
 
     /**
