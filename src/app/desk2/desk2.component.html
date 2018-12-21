@@ -70,6 +70,10 @@
                 <input matInput name="caOnSpotF" [(ngModel)]="ca.femaleOnSpot" placeholder="Female" type="number">
             </mat-form-field>
             <br />
+            <mat-form-field class="input big">
+                <input matInput name="caRemark" [(ngModel)]="ca.remark" placeholder="Remark">
+            </mat-form-field>
+            <br />
 
             <ng-container *ngIf="onSpotAlreadyApproved">
               <div class="already-approved">
