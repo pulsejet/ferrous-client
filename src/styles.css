@@ -159,7 +159,7 @@
     position: relative;
 }
 
-.room.b {
+.room[data-full] {
     width: calc(100% - 4px);
 }
 
