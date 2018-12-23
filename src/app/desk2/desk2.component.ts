@@ -95,4 +95,9 @@ export class Desk2Component implements OnInit {
     });
   }
 
+  /** Are rooms allotted? */
+  allotted(): boolean {
+    return this.ca.zeroAllot || (this.ca.roomAllocation && this.ca.roomAllocation.length > 0);
+  }
+
 }

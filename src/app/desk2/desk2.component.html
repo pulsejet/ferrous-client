@@ -33,10 +33,10 @@
 
           <div class="col-8 col-md-6"><b>Room Allocation</b></div>
           <div class="col-4 col-md-6">
-            <span style="color: green" *ngIf="!ca.roomAllocation || ca.roomAllocation.length == 0">
+            <span style="color: green" *ngIf="!allotted()">
               <b>Pending</b>
             </span>
-            <span style="color: red" *ngIf="ca.roomAllocation && ca.roomAllocation.length > 0">
+            <span style="color: red" *ngIf="allotted()">
               <b>Allocated</b>
             </span>
           </div>
