@@ -44,6 +44,7 @@ import { UploadComponent } from './upload/upload.component';
 import { UploadSheetComponent } from './upload-sheet/upload-sheet.component';
 import { UsersComponent } from './users/users.component';
 import { ColorLegendComponent } from './color-legend/color-legend.component';
+import { Desk2QueueComponent } from './desk2-queue/desk2-queue.component';
 
 @NgModule({
     bootstrap: [
@@ -77,7 +78,8 @@ import { ColorLegendComponent } from './color-legend/color-legend.component';
         UploadComponent,
         UploadSheetComponent,
         UsersComponent,
-        ColorLegendComponent
+        ColorLegendComponent,
+        Desk2QueueComponent
     ],
     imports: [
         BrowserModule,
@@ -108,6 +110,7 @@ import { ColorLegendComponent } from './color-legend/color-legend.component';
 
             { path: 'desk1/:link', component: Desk1Component },
             { path: 'desk2/:link', component: Desk2Component },
+            { path: 'desk2queue', component: Desk2QueueComponent },
 
             { path: 'register', component: RegisterComponent },
             { path: 'statistics', component: StatisticsComponent },

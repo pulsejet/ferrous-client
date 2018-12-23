@@ -46,4 +46,9 @@
     <mat-icon>cloud_download</mat-icon> &nbsp; Export
 </a>
 
+<a *ngIf="dataService.CheckIfLink(dataService.GetAPISpec(), 'desk2queue')"
+    mat-list-item [routerLink]="['/desk2queue']">
+    <mat-icon>list</mat-icon> &nbsp; Desk 2 Queue
+</a>
+
 <a mat-list-item href="mailto:support@radialapps.com"> <mat-icon>bug_report</mat-icon> &nbsp; Report Bug</a>

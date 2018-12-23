@@ -1,0 +1,34 @@
+<!-- Loading spinner -->
+<div *ngIf="!cas">
+  <mat-progress-spinner id="load" mode="indeterminate"> </mat-progress-spinner>
+</div>
+
+<!-- Websocket status -->
+<div class="websock-status"
+    [class.red]="hubStatus === 0"
+    [class.green]="hubStatus === 1"
+    [class.blue]="hubStatus === 2">
+</div>
+
+<div *ngIf="cas">
+  <table class="queue">
+    <thead>
+      <th>Token No</th>
+      <th>CL MI No.</th>
+      <th>Male</th>
+      <th>Female</th>
+      <th>Male On Spot</th>
+      <th>Female On Spot</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ca of cas">
+        <td>{{ ca.contingentArrivalNo }}</td>
+        <td>{{ ca.contingentLeaderNo }}</td>
+        <td>{{ ca.male }}</td>
+        <td>{{ ca.female }}</td>
+        <td>{{ ca.maleOnSpot }}</td>
+        <td>{{ ca.femaleOnSpot }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
