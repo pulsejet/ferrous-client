@@ -11,6 +11,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatStepperModule } from '@angular/material/stepper';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,6 +37,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatSidenavModule,
         MatToolbarModule,
         MatStepperModule,
+        MatCheckboxModule,
     ],
     exports: [FlexLayoutModule,
         BrowserModule,
@@ -54,6 +56,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatSnackBarModule,
         MatToolbarModule,
         MatStepperModule,
+        MatCheckboxModule,
     ],
 })
 export class MyMaterialClass { }

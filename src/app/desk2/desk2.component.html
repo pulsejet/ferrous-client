@@ -75,6 +75,9 @@
             </mat-form-field>
             <br />
 
+            <mat-checkbox [(ngModel)]="ca.zeroAllot">Alloting zero rooms</mat-checkbox>
+            <br />
+
             <ng-container *ngIf="onSpotAlreadyApproved">
               <div class="already-approved">
                 Already Approved

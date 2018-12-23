@@ -107,6 +107,7 @@ export interface ContingentArrival {
     contingentLeaderNoNavigation: Contingent[];
     roomAllocation: RoomAllocation[];
     remark: string;
+    zeroAllot: boolean;
 
     peopleMale: number;
     peopleFemale: number;
