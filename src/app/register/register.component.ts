@@ -15,6 +15,7 @@ interface FormPerson {
 interface FormAPI {
   contingentLeaderNo: string;
   fillerMiNo: string;
+  fillerEmail: string;
   mino: string;
   male: number;
   female: number;
@@ -57,7 +58,8 @@ export class RegisterComponent implements OnInit {
       clno: ['MI-', this.minoValidPattern],
       mino: ['MI-', this.minoValidPattern],
       nmale: [0, Validators.required],
-      nfemale: [0, Validators.required]
+      nfemale: [0, Validators.required],
+      email: ['', Validators.email]
     });
 
     this.secondFormGroup = this._formBuilder.group({});
@@ -157,7 +159,9 @@ export class RegisterComponent implements OnInit {
     const request = {} as FormAPI;
     request.contingentLeaderNo = this.firstFormGroup.get('clno').value;
     request.fillerMiNo = this.firstFormGroup.get('mino').value;
+    request.fillerEmail = this.firstFormGroup.get('email').value;
     request.male = this.firstFormGroup.get('nmale').value;
+    request.female = this.firstFormGroup.get('nfemale').value;
     request.female = this.firstFormGroup.get('nfemale').value;
     request.minos = [];
     request.maleOnSpotDemand = this.thirdFormGroup.get('maleOnSpotDemand').value;
