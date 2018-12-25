@@ -43,6 +43,12 @@
     </div>
 </div>
 
+<ng-template #rremark let-room='room'>
+    <ng-container *ngIf="room.remark && room.remark !== ''">
+    - <span style="color:blue">{{ room.remark }}</span>
+    </ng-container>
+</ng-template>
+
 <!-- Body -->
 <div *ngIf="rooms">
     <!-- Allocated list -->
@@ -53,6 +59,8 @@
                      class="xunk-room-card mat-elevation-z2"
                      [@slideInOut]>
                     <b>{{ room.location }} - {{ room.roomName }}</b> - <b>{{ roomA.contingentLeaderNo }}</b>
+                    <ng-container *ngTemplateOutlet="rremark; context:{room:room}"></ng-container>
+
                     <ng-container *ngIf="roomA.partial > 0">(partial, {{roomA.partial}})</ng-container>
                     <button class="xunk-room-button-icon"
                             mat-icon-button color="warn"
@@ -72,13 +80,15 @@
                  class="xunk-room-card mat-elevation-z1"
                  [@slideInOut]>
                 <ng-container *ngIf="checkPartial(room) || room.partialallot">
-                    <b>{{ room.location }} - {{ room.roomName }}</b> - {{ this.getCapacity(room) }} &nbsp;
+                    <b>{{ room.location }} - {{ room.roomName }}</b> - {{ this.getCapacity(room) }}
+                    <ng-container *ngTemplateOutlet="rremark; context:{room:room}"></ng-container> &nbsp;
                     <button *ngIf="room.partialallot" class="xunk-room-button" mat-button color="accent" (click)="room.partialallot = false;">Partial</button>
                     <input style="border:none;" matInput name="partialsel" [(ngModel)]="room.partialsel" placeholder="Partial">
                 </ng-container>
 
                 <ng-container *ngIf="!checkPartial(room) && !room.partialallot">
                     <b>{{ room.location }} - {{ room.roomName }}</b> - {{ this.getCapacity(room) }}
+                    <ng-container *ngTemplateOutlet="rremark; context:{room:room}"></ng-container>
                     <button class="xunk-room-button" mat-button color="accent" (click)="room.partialallot = true;">Partial</button>
                 </ng-container>
             </div>
