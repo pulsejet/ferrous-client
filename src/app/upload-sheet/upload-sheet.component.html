@@ -48,7 +48,7 @@
         <td>{{ room.roomName }}</td>
         <td>{{ room.lockNo }}</td>
         <td>{{ room.status }}</td>
-        <td>{{ room.remark }}</td>
+        <td><span *ngIf="room.remark">{{ room.remark }}</span></td>
       </tr>
     </tbody>
   </table>

@@ -56,6 +56,7 @@ export class UploadSheetComponent implements OnInit {
 
   /** Returns true if the room was not found */
   isRoomBad(room: Room) {
+    if (!room.remark) { return false; }
     return room.remark.startsWith('$');
   }
 
