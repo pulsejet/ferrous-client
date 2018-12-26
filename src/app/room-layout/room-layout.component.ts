@@ -609,4 +609,15 @@ export class RoomLayoutComponent implements OnInit, OnDestroy {
             }
         });
     }
+
+    public convFull(roomA: RoomAllocation, room: Room) {
+        if (roomA.partial < 0) {
+            room.stickyselect = true;
+            roomA.partial = room.capacity;
+            this.dataService.FireLink(
+                this.dataService.GetLinkUpdate(roomA.links), roomA
+            ).subscribe();
+            roomA.partial = -1;
+        }
+    }
 }

@@ -68,6 +68,12 @@
                             *ngIf="dataService.CheckIfLink(roomA.links, 'delete')">
                             <mat-icon>delete</mat-icon>
                     </button>
+                    <button class="xunk-room-button-icon"
+                            mat-icon-button color="warn"
+                            (click)="convFull(roomA, room);"
+                            *ngIf="dataService.CheckIfLink(roomA.links, 'update')">
+                            <mat-icon>autorenew</mat-icon>
+                    </button>
                 </div>
             </ng-container>
         </ng-container>
