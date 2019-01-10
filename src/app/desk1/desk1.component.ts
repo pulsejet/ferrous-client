@@ -148,12 +148,16 @@ export class Desk1Component implements OnInit {
     });
   }
 
-  /** Unapprove the CA */
+  /** Unapprove the CA
+    * TODO: Counts are wrong and not updated after this call */
   unapprove() {
+    /* Unapproving can be performed only by superusers and is
+     * considered a dangerous operation, so show a warning */
     if (!confirm('Are you sure you want to unapprove this subcontingent?')) {
       return;
     }
 
+    /* Call the API */
     this.dataService.FireLink<ContingentArrival>(
       this.dataService.GetLink(this.ca.links, 'unapprove'), this.ca).subscribe(ca => {
       this.snackBar.open('Subcontingent Unapproved', 'Dismiss', {
